@@ -7,10 +7,12 @@
 
 #ifndef SRC_FILELOADER_H_
 #define SRC_FILELOADER_H_
-
+#include <string>
+using namespace std;
 class FileLoader {
 public:
 	FileLoader();
+	FileLoader(string);
 	virtual ~FileLoader();
 };
 

@@ -16,3 +16,6 @@ FileLoader::~FileLoader() {
 	// TODO Auto-generated destructor stub
 }
 
+FileLoader::FileLoader(string filename){
+
+}

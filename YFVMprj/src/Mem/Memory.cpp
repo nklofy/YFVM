@@ -1,18 +1,18 @@
 /*
- * RtEnv.cpp
+ * Memory.cpp
  *
- *  Created on: Nov 17, 2016
+ *  Created on: Nov 19, 2016
  *      Author: luyunfei
  */
 
-#include "RtEnv.h"
+#include "Memory.h"
 
-Rt_Env::Rt_Env() {
+Memory::Memory() {
 	// TODO Auto-generated constructor stub
 
 }
 
-Rt_Env::~Rt_Env() {
+Memory::~Memory() {
 	// TODO Auto-generated destructor stub
 }
 

@@ -1,18 +1,18 @@
 /*
- * RtFrm.cpp
+ * IRCode.cpp
  *
- *  Created on: Nov 17, 2016
+ *  Created on: Nov 19, 2016
  *      Author: luyunfei
  */
 
-#include "RtFrm.h"
+#include "IRCode.h"
 
-Rt_Frm::Rt_Frm() {
+IRCode::IRCode() {
 	// TODO Auto-generated constructor stub
 
 }
 
-Rt_Frm::~Rt_Frm() {
+IRCode::~IRCode() {
 	// TODO Auto-generated destructor stub
 }
 
