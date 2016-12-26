@@ -42,33 +42,49 @@ int VM::initOptNum(string filename){//map opt to int num
 	cout<<c<<endl;
 	fclose(f);
 */
-	return 1;
+	return 0;
 }
 int VM::initSettings(string filename){
 
-	return 1;
+	return 0;
 }
 
 int VM::attachLoader(FileLoader* loader){
-	return 1;
+	this->loader=loader;
+
+	return 0;
 }
 
 int VM::attachIntpr(Interpreter* intpr){
-	return 1;
+	this->intpr=intpr;
+
+	return 0;
 }
 
-int VM::attachMem(Memory* mem){
-	return 1;
+int VM::attachMem(MemManager* mem){
+	this->mem=mem;
+
+	return 0;
 }
 
 int VM::attachIO(Input* input, Output* output){
-	return 1;
-}
+	this->input=input;
 
-int VM::runLoadFile(){
-	return 1;
+	this->output=output;
+
+	return 0;
+}
+int VM::initStcPool(){
+	this->stcpool=new StaticPool;
+	return 0;
+}
+int VM::runLoadFile(string filename){
+	this->loader->doLoad(filename);
+	this->stcpool
+	return 0;
 }
 
 int VM::runIntprScript(){
-	return 1;
+
+	return 0;
 }

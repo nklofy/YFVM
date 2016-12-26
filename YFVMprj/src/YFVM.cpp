@@ -26,18 +26,18 @@ int main(int argc, char **argv){
 	}
 	cout<<"start YFVM"<<endl;
 	VM machine;
-	FileLoader* loader=new FileLoader(filename);
+	FileLoader* loader=new FileLoader;
 	Interpreter* intpr=new Interpreter;
 	Input* input=new Input;
 	Output* output=new Output;
-	Memory* mem=new Memory;
-	machine.initOptNum("./src/Settings/optnum.txt");//map opt to int num
-	machine.initSettings("./src/Settings/vmconfig.txt");
+	MemManager* mem=new MemManager;
+	machine.initOptNum("Settings/optnum.txt");//map opt to int num
+	machine.initSettings("Settings/vmconfig.txt");
 	machine.attachLoader(loader);
 	machine.attachIntpr(intpr);
 	machine.attachMem(mem);
 	machine.attachIO(input,output);
-	machine.runLoadFile();//function table, class table, script;
+	machine.runLoadFile(filename);//function table, class table, script;
 	machine.runIntprScript();
 
 	delete loader; delete intpr; delete input; delete output; delete mem;

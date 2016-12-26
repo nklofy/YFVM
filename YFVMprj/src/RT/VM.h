@@ -7,6 +7,7 @@
 
 #ifndef SRC_RT_VM_H_
 #define SRC_RT_VM_H_
+
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -18,6 +19,7 @@
 #include "../Mem/Memory.h"
 
 
+using namespace std;
 class VM {
 private:
 	map<string,int> optnum;
@@ -25,7 +27,8 @@ private:
 	Interpreter* intpr;
 	Input* input;
 	Output* output;
-	Memory* mem;
+	MemManager* mem;
+	StaticPool* stcpool;
 
 public:
 	VM();
@@ -35,9 +38,10 @@ public:
 	int initSettings(string);
 	int attachLoader(FileLoader* loader);
 	int attachIntpr(Interpreter* intpr);
-	int attachMem(Memory* mem);
+	int attachMem(MemManager* mem);
 	int attachIO(Input* input, Output* output);
-	int runLoadFile();//function table, class table, script;
+	int initStcPool();
+	int runLoadFile(string);//function table, class table, script;
 	int runIntprScript();
 };
 
