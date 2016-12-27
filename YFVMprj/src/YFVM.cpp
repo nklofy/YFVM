@@ -37,6 +37,7 @@ int main(int argc, char **argv){
 	machine.attachIntpr(intpr);
 	machine.attachMem(mem);
 	machine.attachIO(input,output);
+	machine.initStcPool();
 	machine.runLoadFile(filename);//function table, class table, script;
 	machine.runIntprScript();
 

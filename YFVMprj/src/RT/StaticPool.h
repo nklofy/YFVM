@@ -10,12 +10,15 @@
 #include <list>
 #include "../TypeSys/RcdFunc.h"
 #include "../TypeSys/RcdType.h"
-#include "../TypeSys/RcdVal.h"
+#include "../TypeSys/RcdVar.h"
 using namespace std;
 class StaticPool {
 public:
 	StaticPool();
 	virtual ~StaticPool();
+	int importTypes();
+	int importFuncs();
+	int importScript();
 private:
 
 };

@@ -6,7 +6,7 @@
  */
 
 #include "FileLoader.h"
-
+#include "TokenStream.h"
 FileLoader::FileLoader() {
 	// TODO Auto-generated constructor stub
 
@@ -17,5 +17,10 @@ FileLoader::~FileLoader() {
 }
 
 int FileLoader::doLoad(string filename){
+	auto ts=new TokenStream;
+	if(ts->bindFile(filename)){
+		cerr<<"error read "<<filename<<endl;
+	}
+	doParse();
 	return 0;
 }

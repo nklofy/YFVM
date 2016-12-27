@@ -1,18 +1,18 @@
 /*
- * RcdVal.cpp
+ * RcdVar.cpp
  *
  *  Created on: Nov 17, 2016
  *      Author: luyunfei
  */
 
-#include "RcdVal.h"
+#include "RcdVar.h"
 
-RcdVal::RcdVal() {
+RcdVar::RcdVar() {
 	// TODO Auto-generated constructor stub
 
 }
 
-RcdVal::~RcdVal() {
+RcdVar::~RcdVar() {
 	// TODO Auto-generated destructor stub
 }
 

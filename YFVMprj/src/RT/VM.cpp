@@ -80,7 +80,9 @@ int VM::initStcPool(){
 }
 int VM::runLoadFile(string filename){
 	this->loader->doLoad(filename);
-	this->stcpool
+	this->stcpool->importTypes();
+	this->stcpool->importFuncs();
+	this->stcpool->importScript();
 	return 0;
 }
 
