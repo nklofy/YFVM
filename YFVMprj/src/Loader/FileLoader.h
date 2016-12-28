@@ -22,25 +22,15 @@ public:
 	FileLoader();
 	virtual ~FileLoader();
 	int doLoad(string);
-	int doParse();
-	int parseTypes();
-	int parseFuncs();
-	int parseScript();
-	const list<RcdFunc*>& getFuncs() const {
-		return funcs;
-	}
-
-	const list<IRCode*>& getScript() const {
-		return script;
-	}
-
-	const list<RcdType*>& getTypes() const {
-		return types;
-	}
-
-	const list<RcdVar*>& getVars() const {
-		return vars;
-	}
+	int doParse(TokenStream*);
+	int parsePckg(TokenStream*);
+	int parseTypes(TokenStream*);
+	int parseFuncs(TokenStream*);
+	int parseScript(TokenStream*);
+	const list<RcdFunc*>& getFuncs() const;
+	const list<IRCode*>& getScript() const;
+	const list<RcdType*>& getTypes() const;
+	const list<RcdVar*>& getVars() const;
 
 private:
 	PckgManager pckMan;

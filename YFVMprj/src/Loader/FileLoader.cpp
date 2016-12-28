@@ -19,8 +19,61 @@ FileLoader::~FileLoader() {
 int FileLoader::doLoad(string filename){
 	auto ts=new TokenStream;
 	if(ts->bindFile(filename)){
-		cerr<<"error read "<<filename<<endl;
+		cerr<<"error read "<<filename<<endl;return -1;
 	}
-	doParse();
+	if(doParse(ts)){
+		cerr<<"error parse "<<filename<<endl;return -1;
+	}else{
+		cout<<"finish parse "<<filename<<endl;return -1;
+	}
 	return 0;
+}
+
+int FileLoader::doParse(TokenStream *ts){
+	string& s=ts->getLine();
+	if(s!="89597046")return -1;//check magic number
+	if(parsePckg(ts)){
+		cerr<<"error parse package"<<ts->getFilename()<<endl;return -1;
+	}
+	if(parseTypes(ts)){
+		cerr<<"error parse types"<<ts->getFilename()<<endl;return -1;
+	}
+	if(parseFuncs(ts)){
+		cerr<<"error parse functions"<<ts->getFilename()<<endl;return -1;
+	}
+	if(parseScript(ts)){
+		cerr<<"error parse script"<<ts->getFilename()<<endl;return -1;
+	}
+	return 0;
+}
+
+int FileLoader::parseTypes(TokenStream *ts){
+
+	return 0;
+}
+
+int FileLoader::parseFuncs(TokenStream *ts){
+
+	return 0;
+}
+
+int FileLoader::parseScript(TokenStream *ts){
+
+	return 0;
+}
+
+const list<RcdFunc*>& FileLoader::getFuncs() const {
+	return funcs;
+}
+
+const list<IRCode*>& FileLoader::getScript() const {
+	return script;
+}
+
+const list<RcdType*>& FileLoader::getTypes() const {
+	return types;
+}
+
+const list<RcdVar*>& FileLoader::getVars() const {
+	return vars;
 }

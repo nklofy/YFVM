@@ -14,9 +14,16 @@ public:
 	TokenStream();
 	virtual ~TokenStream();
 	string getToken();
+	string getLine();
 	int bindFile(string);
+	int goBack1();
+	const string& getFilename() const;
+	void setFilename(const string& filename);
+
 private:
+	string filename;
 	string crt_token;
+	string crt_line;
 };
 
 #endif /* SRC_LOADER_TOKENSTREAM_H_ */

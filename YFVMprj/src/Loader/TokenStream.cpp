@@ -16,3 +16,10 @@ TokenStream::~TokenStream() {
 	// TODO Auto-generated destructor stub
 }
 
+const string& TokenStream::getFilename() const {
+	return filename;
+}
+
+void TokenStream::setFilename(const string& filename) {
+	this->filename = filename;
+}
