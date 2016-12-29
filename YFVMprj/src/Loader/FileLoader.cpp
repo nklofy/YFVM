@@ -31,7 +31,9 @@ int FileLoader::doLoad(string filename){
 
 int FileLoader::doParse(TokenStream *ts){
 	string& s=ts->getLine();
-	if(s!="89597046")return -1;//check magic number
+	if(s!="89597046"){		//check magic number
+		cerr<<"error fault file type"<<ts->getFilename()<<endl;return -1;
+	}
 	if(parsePckg(ts)){
 		cerr<<"error parse package"<<ts->getFilename()<<endl;return -1;
 	}
@@ -46,9 +48,12 @@ int FileLoader::doParse(TokenStream *ts){
 	}
 	return 0;
 }
-
+int FileLoader::parsePckg(TokenStream *ts){
+	//filename package imports
+	return 0;
+}
 int FileLoader::parseTypes(TokenStream *ts){
-
+	//class interface
 	return 0;
 }
 
