@@ -49,7 +49,11 @@ int FileLoader::doParse(TokenStream *ts){
 	return 0;
 }
 int FileLoader::parsePckg(TokenStream *ts){
-	//filename package imports
+	string& s=ts->getLine();
+	if(s!=ts->getFilename()){
+		cerr<<"error filename not match "<<ts->getFilename();return -1;
+	}
+	//package imports
 	return 0;
 }
 int FileLoader::parseTypes(TokenStream *ts){
@@ -58,6 +62,7 @@ int FileLoader::parseTypes(TokenStream *ts){
 }
 
 int FileLoader::parseFuncs(TokenStream *ts){
+	string& s=ts->getLine();
 
 	return 0;
 }
