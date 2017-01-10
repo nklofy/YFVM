@@ -19,6 +19,7 @@ public:
 	int goBack1();
 	const string& getFilename() const;
 	void setFilename(const string& filename);
+	bool isEnd=false;
 
 private:
 	string filename;

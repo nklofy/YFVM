@@ -30,7 +30,7 @@ int FileLoader::doLoad(string filename){
 }
 
 int FileLoader::doParse(TokenStream *ts){
-	string& s=ts->getLine();
+	string s=ts->getLine();
 	if(s!="89597046"){		//check magic number
 		cerr<<"error fault file type"<<ts->getFilename()<<endl;return -1;
 	}
@@ -49,21 +49,39 @@ int FileLoader::doParse(TokenStream *ts){
 	return 0;
 }
 int FileLoader::parsePckg(TokenStream *ts){
-	string& s=ts->getLine();
+	string s=ts->getLine();
 	if(s!=ts->getFilename()){
 		cerr<<"error filename not match "<<ts->getFilename();return -1;
 	}
-	//package imports
+	//package and imports
 	return 0;
 }
 int FileLoader::parseTypes(TokenStream *ts){
-	//class interface
+	//class or interface
 	return 0;
 }
 
 int FileLoader::parseFuncs(TokenStream *ts){
-	string& s=ts->getLine();
+	string s=ts->getLine();
+	while(s=="defFunction"){
+		if(ts->isEnd){
+			cerr<<"error parse fucntion "<<ts->getFilename();return -1;
+		}
+		s=ts->getLine();
+		while(s!="end"){
+			//load func body
 
+			s=ts->getLine();
+		}
+		if(ts->isEnd){
+			return 0;
+		}
+		s=ts->getLine();
+		if(s!="defFunction"){
+			ts->goBack1();
+			return 0;
+		}
+	}
 	return 0;
 }
 
