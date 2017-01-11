@@ -16,34 +16,34 @@ IRCode::~IRCode() {
 	// TODO Auto-generated destructor stub
 }
 
-int IRCode::getOpd1() const {
+string IRCode::getOpd1() const {
 	return opd1;
 }
 
-void IRCode::setOpd1(int opd1) {
+void IRCode::setOpd1(string opd1) {
 	this->opd1 = opd1;
 }
 
-int IRCode::getOpd2() const {
+string IRCode::getOpd2() const {
 	return opd2;
 }
 
-void IRCode::setOpd2(int opd2) {
+void IRCode::setOpd2(string opd2) {
 	this->opd2 = opd2;
 }
 
-int IRCode::getOpd3() const {
+string IRCode::getOpd3() const {
 	return opd3;
 }
 
-void IRCode::setOpd3(int opd3) {
+void IRCode::setOpd3(string opd3) {
 	this->opd3 = opd3;
 }
 
-int IRCode::getOpt() const {
+string IRCode::getOpt() const {
 	return opt;
 }
 
-void IRCode::setOpt(int opt) {
+void IRCode::setOpt(string opt) {
 	this->opt = opt;
 }

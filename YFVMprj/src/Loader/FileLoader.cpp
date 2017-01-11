@@ -21,34 +21,28 @@ int FileLoader::doLoad(string filename){
 	if(ts->bindFile(filename)){
 		cerr<<"error read "<<filename<<endl;return -1;
 	}
-	if(doParse(ts)){
-		cerr<<"error parse "<<filename<<endl;return -1;
-	}else{
-		cout<<"finish parse "<<filename<<endl;return -1;
-	}
-	return 0;
-}
-
-int FileLoader::doParse(TokenStream *ts){
 	string s=ts->getLine();
 	if(s!="89597046"){		//check magic number
 		cerr<<"error fault file type"<<ts->getFilename()<<endl;return -1;
 	}
-	if(parsePckg(ts)){
+	if(loadPckg(ts)){
 		cerr<<"error parse package"<<ts->getFilename()<<endl;return -1;
 	}
-	if(parseTypes(ts)){
+	if(loadTypes(ts)){
 		cerr<<"error parse types"<<ts->getFilename()<<endl;return -1;
 	}
-	if(parseFuncs(ts)){
+	if(loadFuncs(ts)){
 		cerr<<"error parse functions"<<ts->getFilename()<<endl;return -1;
 	}
-	if(parseScript(ts)){
+	if(loadScript(ts)){
 		cerr<<"error parse script"<<ts->getFilename()<<endl;return -1;
 	}
+	cout<<"finish parse "<<filename<<endl;
+
 	return 0;
 }
-int FileLoader::parsePckg(TokenStream *ts){
+
+int FileLoader::loadPckg(TokenStream *ts){
 	string s=ts->getLine();
 	if(s!=ts->getFilename()){
 		cerr<<"error filename not match "<<ts->getFilename();return -1;
@@ -56,12 +50,12 @@ int FileLoader::parsePckg(TokenStream *ts){
 	//package and imports
 	return 0;
 }
-int FileLoader::parseTypes(TokenStream *ts){
+int FileLoader::loadTypes(TokenStream *ts){
 	//class or interface
 	return 0;
 }
 
-int FileLoader::parseFuncs(TokenStream *ts){
+int FileLoader::loadFuncs(TokenStream *ts){
 	string s=ts->getLine();
 	while(s=="defFunction"){
 		if(ts->isEnd){
@@ -76,16 +70,14 @@ int FileLoader::parseFuncs(TokenStream *ts){
 		if(ts->isEnd){
 			return 0;
 		}
-		s=ts->getLine();
-		if(s!="defFunction"){
-			ts->goBack1();
+		if(ts->getNback()!="defFunction"){
 			return 0;
 		}
 	}
 	return 0;
 }
 
-int FileLoader::parseScript(TokenStream *ts){
+int FileLoader::loadScript(TokenStream *ts){
 
 	return 0;
 }

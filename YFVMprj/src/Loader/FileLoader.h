@@ -22,11 +22,10 @@ public:
 	FileLoader();
 	virtual ~FileLoader();
 	int doLoad(string);
-	int doParse(TokenStream*);
-	int parsePckg(TokenStream*);
-	int parseTypes(TokenStream*);
-	int parseFuncs(TokenStream*);
-	int parseScript(TokenStream*);
+	int loadPckg(TokenStream*);
+	int loadTypes(TokenStream*);
+	int loadFuncs(TokenStream*);
+	int loadScript(TokenStream*);
 	const list<RcdFunc*>& getFuncs() const;
 	const list<IRCode*>& getScript() const;
 	const list<RcdType*>& getTypes() const;
