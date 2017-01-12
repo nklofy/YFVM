@@ -57,16 +57,25 @@ int FileLoader::loadTypes(TokenStream *ts){
 
 int FileLoader::loadFuncs(TokenStream *ts){
 	string s=ts->getLine();
-	while(s=="defFunction"){
+	string* ss=dcpLine(s);
+	while(ss[0]=="defFunction"){
 		if(ts->isEnd){
 			cerr<<"error parse fucntion "<<ts->getFilename();return -1;
 		}
+		//parse func name and signature
+		RcdFunc* func=new RcdFunc();
+		func->setName(ss[1]);
+		func->setSig(ss[2]);
+		func->setScope(ss[3]);
 		s=ts->getLine();
 		while(s!="end"){
-			//load func body
-
+			//parse func body
+			auto c=new IRCode(s);
+			list<IRCode*>& cds=func->getBody();
+			cds.push_back(c);
 			s=ts->getLine();
 		}
+		this->funcs.push_back(func);
 		if(ts->isEnd){
 			return 0;
 		}
@@ -81,7 +90,11 @@ int FileLoader::loadScript(TokenStream *ts){
 
 	return 0;
 }
-
+string* FileLoader::dcpLine(string s){
+	string* ss=new string[4];
+	//TODO
+	return ss;
+}
 const list<RcdFunc*>& FileLoader::getFuncs() const {
 	return funcs;
 }

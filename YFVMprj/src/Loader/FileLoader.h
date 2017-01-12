@@ -16,7 +16,6 @@
 
 #include "PckgManager.h"
 #include "TokenStream.h"
-#include "IRCode.h"
 #include "../TypeSys/TypeSys.h"
 
 using namespace std;
@@ -33,6 +32,7 @@ public:
 	const list<IRCode*>& getScript() const;
 	const list<RcdType*>& getTypes() const;
 	const list<RcdVar*>& getVars() const;
+	string* dcpLine(string);
 
 private:
 	PckgManager pckMan;
@@ -43,6 +43,7 @@ private:
 	map<int,string> var_tbl;
 	map<int,string> type_tbl;
 	map<int,string> func_tbl;
+
 };
 
 #endif /* SRC_FILELOADER_H_ */

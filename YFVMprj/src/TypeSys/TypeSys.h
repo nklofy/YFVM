@@ -11,6 +11,7 @@
 #include "RcdObj.h"
 #include "RcdType.h"
 #include "RcdVar.h"
+#include "IRCode.h"
 
 class TypeSys {
 public:

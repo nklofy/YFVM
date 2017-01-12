@@ -15,4 +15,12 @@ StaticPool::StaticPool() {
 StaticPool::~StaticPool() {
 	// TODO Auto-generated destructor stub
 }
-
+int StaticPool::importTypes(){
+	return 0;
+}
+int StaticPool::importFuncs(){
+		return 0;
+}
+int StaticPool::importScript(){
+		return 0;
+}

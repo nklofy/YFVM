@@ -23,3 +23,19 @@ const string& TokenStream::getFilename() const {
 void TokenStream::setFilename(const string& filename) {
 	this->filename = filename;
 }
+
+string TokenStream::getNback() {
+	return NULL;
+}
+
+string TokenStream::getLine() {
+	return NULL;
+}
+
+int TokenStream::bindFile(string allocator) {
+	return 0;
+}
+
+int TokenStream::goBack1() {
+	return 0;
+}

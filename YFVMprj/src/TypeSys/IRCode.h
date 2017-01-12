@@ -13,15 +13,17 @@ using namespace std;
 class IRCode {
 public:
 	IRCode();
+	IRCode(string);
 	virtual ~IRCode();
 	string getOpd1() const;
-	void setOpd1(string opd1);
+	//void setOpd1(string opd1);
 	string getOpd2() const;
-	void setOpd2(string opd2);
+	//void setOpd2(string opd2);
 	string getOpd3() const;
-	void setOpd3(string opd3);
+	//void setOpd3(string opd3);
 	string getOpt() const;
-	void setOpt(string opt);
+	//void setOpt(string opt);
+	int setLine(string);
 
 private:
 	string opt;
