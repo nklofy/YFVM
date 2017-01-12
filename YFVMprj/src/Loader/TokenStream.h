@@ -8,6 +8,8 @@
 #ifndef SRC_LOADER_TOKENSTREAM_H_
 #define SRC_LOADER_TOKENSTREAM_H_
 #include <string>
+#include <list>
+
 using namespace std;
 class TokenStream {
 public:

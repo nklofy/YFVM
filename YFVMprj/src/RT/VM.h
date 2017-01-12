@@ -12,11 +12,12 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include "StaticPool.h"
 #include "../Loader/FileLoader.h"
 #include "../Interpreter/Interpreter.h"
 #include "../IO/Input.h"
 #include "../IO/Output.h"
-#include "../Mem/Memory.h"
+#include "../Mem/MemManager.h"
 
 
 using namespace std;

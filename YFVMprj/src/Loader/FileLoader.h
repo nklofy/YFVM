@@ -15,6 +15,9 @@
 #include <map>
 
 #include "PckgManager.h"
+#include "TokenStream.h"
+#include "IRCode.h"
+#include "../TypeSys/TypeSys.h"
 
 using namespace std;
 class FileLoader {
