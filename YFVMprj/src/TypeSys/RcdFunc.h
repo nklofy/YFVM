@@ -23,7 +23,7 @@ public:
 	void setSig(const string& signature);
 	const string& getScope() const;
 	void setScope(const string& scope);
-	const list<IRCode*>& getBody() const;
+	list<IRCode*>& getBody();
 	void setBody(const list<IRCode*>& body);
 
 private:

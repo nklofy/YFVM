@@ -70,9 +70,7 @@ int FileLoader::loadFuncs(TokenStream *ts){
 		s=ts->getLine();
 		while(s!="end"){
 			//parse func body
-			auto c=new IRCode(s);
-			list<IRCode*>& cds=func->getBody();
-			cds.push_back(c);
+			func->getBody().push_back(new IRCode(s));
 			s=ts->getLine();
 		}
 		this->funcs.push_back(func);
@@ -87,12 +85,26 @@ int FileLoader::loadFuncs(TokenStream *ts){
 }
 
 int FileLoader::loadScript(TokenStream *ts){
-
+	string s=ts->getLine();
+		while(s!="end"){
+			//parse func body
+			script.push_back(new IRCode(s));
+			s=ts->getLine();
+		}
+		if(ts->isEnd){
+			cerr<<"error no end flag "<<ts->getFilename()<<endl;return -1;
+		}
 	return 0;
 }
 string* FileLoader::dcpLine(string s){
 	string* ss=new string[4];
-	//TODO
+	int p0=0,p1=s.find(' ');
+	int i=0;
+	while(p1!=string::npos&&i<4){
+		ss[i++]=s.substr(p0,p1-p0);
+		p0=p1;
+		p1=s.find(' ',p0);
+	}
 	return ss;
 }
 const list<RcdFunc*>& FileLoader::getFuncs() const {
