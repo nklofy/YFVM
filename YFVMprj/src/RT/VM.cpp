@@ -81,8 +81,8 @@ int VM::initStcPool(){
 int VM::runLoadFile(string filename){
 	this->loader->doLoad(filename);
 	this->stcpool->importTypes();
-	this->stcpool->importFuncs();
-	this->stcpool->importScript();
+	this->stcpool->importFuncs(this->loader->getFuncs());
+	this->stcpool->importScript(this->loader->getScript());
 	return 0;
 }
 

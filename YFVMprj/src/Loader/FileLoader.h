@@ -28,10 +28,10 @@ public:
 	int loadTypes(TokenStream*);
 	int loadFuncs(TokenStream*);
 	int loadScript(TokenStream*);
-	const list<RcdFunc*>& getFuncs() const;
-	const list<IRCode*>& getScript() const;
-	const list<RcdType*>& getTypes() const;
-	const list<RcdVar*>& getVars() const;
+	list<RcdFunc*>& getFuncs() ;
+	list<IRCode*>& getScript() ;
+	list<RcdType*>& getTypes();
+	list<RcdVar*>& getVars() ;
 	string* dcpLine(string);
 
 private:

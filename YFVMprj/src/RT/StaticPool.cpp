@@ -18,9 +18,9 @@ StaticPool::~StaticPool() {
 int StaticPool::importTypes(){
 	return 0;
 }
-int StaticPool::importFuncs(){
+int StaticPool::importFuncs(list<RcdFunc*>& funcs){
 		return 0;
 }
-int StaticPool::importScript(){
+int StaticPool::importScript(list<IRCode*>& script){
 		return 0;
 }

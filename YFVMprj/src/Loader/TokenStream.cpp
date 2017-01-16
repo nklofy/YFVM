@@ -33,6 +33,13 @@ string TokenStream::getLine() {
 }
 
 int TokenStream::bindFile(string allocator) {
+	ifstream infile;
+	infile.open(filename.c_str(),fstream::in);
+	if(!infile){
+		cerr<<"not open optnum file "<<filename<<endl;
+		return -1;
+	}
+	infile.close();
 	return 0;
 }
 

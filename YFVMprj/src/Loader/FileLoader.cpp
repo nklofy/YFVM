@@ -107,18 +107,18 @@ string* FileLoader::dcpLine(string s){
 	}
 	return ss;
 }
-const list<RcdFunc*>& FileLoader::getFuncs() const {
+list<RcdFunc*>& FileLoader::getFuncs()  {
 	return funcs;
 }
 
-const list<IRCode*>& FileLoader::getScript() const {
+list<IRCode*>& FileLoader::getScript() {
 	return script;
 }
 
-const list<RcdType*>& FileLoader::getTypes() const {
+list<RcdType*>& FileLoader::getTypes() {
 	return types;
 }
 
-const list<RcdVar*>& FileLoader::getVars() const {
+list<RcdVar*>& FileLoader::getVars() {
 	return vars;
 }
