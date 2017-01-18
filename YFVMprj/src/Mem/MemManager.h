@@ -13,7 +13,10 @@ class MemManager {
 public:
 	MemManager();
 	virtual ~MemManager();
-
+	MZdata* getMZdata();
+	MZheap* getMZheap();
+private:
+	Memory* memory;
 };
 
 #endif /* SRC_MEMMANAGER_H_ */

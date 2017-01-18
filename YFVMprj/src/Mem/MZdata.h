@@ -8,10 +8,10 @@
 #ifndef SRC_MEM_MZDATA_H_
 #define SRC_MEM_MZDATA_H_
 
-class MZ_data {
+class MZdata {
 public:
-	MZ_data();
-	virtual ~MZ_data();
+	MZdata();
+	virtual ~MZdata();
 };
 
 #endif /* SRC_MEM_MZDATA_H_ */
