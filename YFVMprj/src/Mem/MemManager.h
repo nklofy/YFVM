@@ -7,11 +7,13 @@
 
 #ifndef SRC_MEMMANAGER_H_
 #define SRC_MEMMANAGER_H_
+#include "Memory.h"
 
 class MemManager {
 public:
 	MemManager();
 	virtual ~MemManager();
+
 };
 
 #endif /* SRC_MEMMANAGER_H_ */

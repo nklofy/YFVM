@@ -40,9 +40,9 @@ private:
 	list<RcdFunc*> funcs;
 	list<RcdVar*> vars;
 	list<IRCode*> script;
-	map<int,string> var_tbl;
-	map<int,string> type_tbl;
-	map<int,string> func_tbl;
+	//map<int,string> var_tbl;
+	//map<int,string> type_tbl;
+	//map<int,string> func_tbl;
 
 };
 

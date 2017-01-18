@@ -19,8 +19,14 @@ int StaticPool::importTypes(){
 	return 0;
 }
 int StaticPool::importFuncs(list<RcdFunc*>& funcs){
-		return 0;
+	for(auto f:funcs){
+
+	}
+	return 0;
 }
 int StaticPool::importScript(list<IRCode*>& script){
-		return 0;
+	for(auto s:script){
+
+	}
+	return 0;
 }
