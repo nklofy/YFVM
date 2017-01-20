@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include "../TypeSys/TypeSys.h"
+#include "../IR/IR.h"
 #include "MemManager.h"
 
 using namespace std;

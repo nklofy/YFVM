@@ -1,18 +1,18 @@
 /*
- * CodeBlock.cpp
+ * IR.cpp
  *
- *  Created on: Nov 19, 2016
+ *  Created on: Jan 20, 2017
  *      Author: luyunfei
  */
 
-#include "CodeBlock.h"
+#include "IR.h"
 
-CodeBlock::CodeBlock() {
+IR::IR() {
 	// TODO Auto-generated constructor stub
 
 }
 
-CodeBlock::~CodeBlock() {
+IR::~IR() {
 	// TODO Auto-generated destructor stub
 }
 

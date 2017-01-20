@@ -13,8 +13,7 @@ class MemManager {
 public:
 	MemManager();
 	virtual ~MemManager();
-	MZdata* getMZdata();
-	MZheap* getMZheap();
+
 private:
 	Memory* memory;
 };
