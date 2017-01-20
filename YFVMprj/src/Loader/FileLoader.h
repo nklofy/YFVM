@@ -16,7 +16,8 @@
 
 #include "PckgManager.h"
 #include "TokenStream.h"
-#include "../TypeSys/TypeSys.h"
+#include "IRCode.h"
+#include "RcdFunc.h"
 
 using namespace std;
 class FileLoader {
@@ -30,15 +31,11 @@ public:
 	int loadScript(TokenStream*);
 	list<RcdFunc*>& getFuncs() ;
 	list<IRCode*>& getScript() ;
-	list<RcdType*>& getTypes();
-	list<RcdVar*>& getVars() ;
 	string* dcpLine(string);
 
 private:
 	PckgManager pckMan;
-	list<RcdType*> types;
 	list<RcdFunc*> funcs;
-	list<RcdVar*> vars;
 	list<IRCode*> script;
 	//map<int,string> var_tbl;
 	//map<int,string> type_tbl;

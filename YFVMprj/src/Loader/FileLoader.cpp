@@ -115,10 +115,3 @@ list<IRCode*>& FileLoader::getScript() {
 	return script;
 }
 
-list<RcdType*>& FileLoader::getTypes() {
-	return types;
-}
-
-list<RcdVar*>& FileLoader::getVars() {
-	return vars;
-}

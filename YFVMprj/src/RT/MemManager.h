@@ -7,7 +7,7 @@
 
 #ifndef SRC_MEMMANAGER_H_
 #define SRC_MEMMANAGER_H_
-#include "Memory.h"
+#include "../Mem/Memory.h"
 
 class MemManager {
 public:

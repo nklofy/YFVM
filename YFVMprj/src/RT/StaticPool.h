@@ -9,10 +9,9 @@
 #define SRC_RT_STATICPOOL_H_
 #include <list>
 #include <map>
-#include "../TypeSys/RcdFunc.h"
-#include "../TypeSys/RcdType.h"
-#include "../TypeSys/RcdVar.h"
-#include "../Mem/MemManager.h"
+#include "../TypeSys/TypeSys.h"
+#include "MemManager.h"
+
 using namespace std;
 class StaticPool {
 public:
@@ -22,9 +21,9 @@ public:
 	int importFuncs(list<RcdFunc*>&);
 	int importScript(list<IRCode*>&);
 private:
-	map<string,int> func_tbl;
-	map<string,int> var_tbl;
-	map<string,int> type_tbl;
+	map<string,int> func_tbl;//table recording functions, map name:signature to index
+	map<string,int> var_tbl;//table recording variables
+	map<string,int> type_tbl;//table of types
 };
 
 #endif /* SRC_RT_STATICPOOL_H_ */
