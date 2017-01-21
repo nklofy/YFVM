@@ -31,7 +31,10 @@ private:
 	string signature;
 	string scope;
 	bool dummy;
-	list<IRCode*> body;
+	list<IRCode*> body;	//code to run
+	list<IRCode*> gtpars;	//generic type pars
+	list<IRCode*> pars;	//pars
+	int rows;
 
 };
 

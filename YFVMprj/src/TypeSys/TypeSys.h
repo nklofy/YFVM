@@ -7,11 +7,12 @@
 
 #ifndef SRC_TYPESYS_TYPESYS_H_
 #define SRC_TYPESYS_TYPESYS_H_
-#include "RcdFunc.h"
-#include "RcdObj.h"
-#include "RcdType.h"
-#include "RcdVar.h"
-#include "IRCode.h"
+
+#include "RFunc.h"
+#include "RVar.h"
+#include "TArray.h"
+#include "TBasic.h"
+#include "TClass.h"
 
 class TypeSys {
 public:

@@ -9,6 +9,7 @@
 #define SRC_RT_STATICPOOL_H_
 #include <list>
 #include <map>
+#include <vector>
 #include "../TypeSys/TypeSys.h"
 #include "../IR/IR.h"
 #include "MemManager.h"
@@ -22,9 +23,12 @@ public:
 	int importFuncs(list<RcdFunc*>&);
 	int importScript(list<IRCode*>&);
 private:
-	map<string,int> func_tbl;//table recording functions, map name:signature to index
+	map<string,map<string,int>*> func_tbl;//table recording functions, map name:signature to index
+	vector<RFunc*> funclist;
 	map<string,int> var_tbl;//table recording variables
+	vector<RVar*> varlist;
 	map<string,int> type_tbl;//table of types
+	vector<TType*> typelist;
 };
 
 #endif /* SRC_RT_STATICPOOL_H_ */
