@@ -10,7 +10,7 @@
 
 #include "TType.h"
 
-class TArray: public TType {
+class TArray {
 public:
 	TArray();
 	virtual ~TArray();

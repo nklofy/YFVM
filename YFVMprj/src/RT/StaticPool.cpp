@@ -21,10 +21,10 @@ int StaticPool::importTypes(){
 int StaticPool::importFuncs(list<RcdFunc*>& funcs){
 	int i=0;
 	for(auto f:funcs){//get all function and load to data zone
-		RFunc *r=new RFunc;
+		TFunc *r=new TFunc;
 		i=this->funclist.size();
 		this->funclist.push_back(r);
-		if(this->func_tbl.find(f->getName())==func_tbl.end()){
+		if(this->func_tbl.find(f->getName())==func_tbl.end()){	//if no overload
 			auto m=this->func_tbl;
 			auto m1=new map<string,int>();
 			m[f->getName()]=m1;
@@ -36,10 +36,12 @@ int StaticPool::importFuncs(list<RcdFunc*>& funcs){
 		}
 		//translate f to r
 		//deal with pars
+		r->setName(f->getName());
 		for(auto cp:f->pars){
-
+			r->partypes.push_back(cp->getOpd1());
+			r->parnames.push_back(cp->getOpd2());
 		}
-		//deal with codes
+		//deal with codes, opt map to int, var name map to address, type and composed type map to index of string in const-pool
 		for(auto cb:f->body){
 
 		}

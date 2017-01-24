@@ -1,18 +1,18 @@
 /*
- * RFunc.cpp
+ * TGnrc.cpp
  *
- *  Created on: Jan 20, 2017
+ *  Created on: Jan 23, 2017
  *      Author: luyunfei
  */
 
-#include "RFunc.h"
+#include "TGnrc.h"
 
-RFunc::RFunc() {
+TGnrc::TGnrc() {
 	// TODO Auto-generated constructor stub
 
 }
 
-RFunc::~RFunc() {
+TGnrc::~TGnrc() {
 	// TODO Auto-generated destructor stub
 }
 

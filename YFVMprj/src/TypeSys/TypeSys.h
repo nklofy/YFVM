@@ -8,7 +8,7 @@
 #ifndef SRC_TYPESYS_TYPESYS_H_
 #define SRC_TYPESYS_TYPESYS_H_
 
-#include "RFunc.h"
+#include "TFunc.h"
 #include "RVar.h"
 #include "TArray.h"
 #include "TBasic.h"

@@ -24,9 +24,9 @@ public:
 	int importScript(list<IRCode*>&);
 private:
 	map<string,map<string,int>*> func_tbl;//table recording functions, map name:signature to index
-	vector<RFunc*> funclist;
+	vector<TFunc*> funclist;
+	vector<long> codes;
 	map<string,int> var_tbl;//table recording variables
-	vector<RVar*> varlist;
 	map<string,int> type_tbl;//table of types
 	vector<TType*> typelist;
 };

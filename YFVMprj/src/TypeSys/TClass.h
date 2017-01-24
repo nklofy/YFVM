@@ -10,7 +10,7 @@
 
 #include "TType.h"
 
-class TClass : public TType {
+class TClass {
 public:
 	TClass();
 	virtual ~TClass();
