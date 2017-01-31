@@ -16,12 +16,11 @@ class TType {
 public:
 	TType();
 	virtual ~TType();
+
+
 private:
-	bool isDummy;
-	bool isGnrc;
-	list<string> G_pars;
-	map<string, TType> G_args;
-
+	int size;
+	virtual TypeK getTypeK();
 };
-
+enum TypeK{tbasic, tclass, tfunc, tgnrc};
 #endif /* SRC_TYPESYS_TTYPE_H_ */

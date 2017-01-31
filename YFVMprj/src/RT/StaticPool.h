@@ -19,6 +19,7 @@ class StaticPool {
 public:
 	StaticPool();
 	virtual ~StaticPool();
+	int init();
 	int importTypes();
 	int importFuncs(list<RcdFunc*>&);
 	int importScript(list<IRCode*>&);

@@ -15,6 +15,29 @@ StaticPool::StaticPool() {
 StaticPool::~StaticPool() {
 	// TODO Auto-generated destructor stub
 }
+int StaticPool::init(){
+	(this->type_tbl)["int"]=this->typelist.size();
+	TType* t1=new TBasic;
+	this->typelist.push_back(t1);
+
+	(this->type_tbl)["double"]=this->typelist.size();
+	TType* t2=new TBasic;
+	this->typelist.push_back(t2);
+
+	(this->type_tbl)["bool"]=this->typelist.size();
+	TType* t3=new TBasic;
+	this->typelist.push_back(t3);
+
+	(this->type_tbl)["char"]=this->typelist.size();
+	TType* t4=new TBasic;
+	this->typelist.push_back(t4);
+
+	(this->type_tbl)["string"]=this->typelist.size();
+	TType* t5=new TBasic;
+	this->typelist.push_back(t5);
+
+	return 0;
+}
 int StaticPool::importTypes(){
 	return 0;
 }

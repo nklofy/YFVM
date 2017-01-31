@@ -10,7 +10,7 @@
 
 #include "TType.h"
 
-class TGnrc {
+class TGnrc : public TType {
 public:
 	TGnrc();
 	virtual ~TGnrc();

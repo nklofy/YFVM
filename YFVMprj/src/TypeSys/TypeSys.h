@@ -8,11 +8,15 @@
 #ifndef SRC_TYPESYS_TYPESYS_H_
 #define SRC_TYPESYS_TYPESYS_H_
 
-#include "TFunc.h"
+
 #include "RVar.h"
+#include "RObj.h"
+
+#include "TType.h"
 #include "TArray.h"
 #include "TBasic.h"
 #include "TClass.h"
+#include "TFunc.h"
 
 class TypeSys {
 public:

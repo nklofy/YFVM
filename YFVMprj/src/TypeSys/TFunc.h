@@ -10,7 +10,9 @@
 #include <list>
 #include <string>
 using namespace std;
-class TFunc {
+#include "TType.h"
+
+class TFunc : public TType {
 public:
 	TFunc();
 	virtual ~TFunc();

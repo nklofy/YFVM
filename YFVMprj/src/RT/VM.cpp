@@ -76,6 +76,7 @@ int VM::attachIO(Input* input, Output* output){
 }
 int VM::initStcPool(){
 	this->stcpool=new StaticPool;
+	this->stcpool->init();
 	return 0;
 }
 int VM::runLoadFile(string filename){
