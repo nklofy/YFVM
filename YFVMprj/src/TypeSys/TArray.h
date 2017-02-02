@@ -14,6 +14,7 @@ class TArray : public TType {
 public:
 	TArray();
 	virtual ~TArray();
+	TypeK getTypeK(){return tarray;}
 };
 
 #endif /* SRC_TYPESYS_TARRAY_H_ */

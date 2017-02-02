@@ -14,10 +14,14 @@ class RObj: public RVar {
 public:
 	RObj();
 	virtual ~RObj();
+	const RValue& getValue() const;
+	void setValue(const RValue& value);
+
 private:
-	long mark;
-	TType* metadata;
+	RValue value;//long if int/bool/char type, double if double type, ptr if obj or array
 
 };
+
+
 
 #endif /* SRC_TYPESYS_ROBJ_H_ */

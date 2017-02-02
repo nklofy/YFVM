@@ -16,6 +16,7 @@ class TFunc : public TType {
 public:
 	TFunc();
 	virtual ~TFunc();
+	TypeK getTypeK(){return tfunc;}
 	string getName();
 	void setName(string);
 	list<string> parnames;

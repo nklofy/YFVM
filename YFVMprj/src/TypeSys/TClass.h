@@ -14,6 +14,7 @@ class TClass : public TType {
 public:
 	TClass();
 	virtual ~TClass();
+	TypeK getTypeK(){return tclass;}
 };
 
 #endif /* SRC_TYPESYS_TCLASS_H_ */

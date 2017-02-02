@@ -16,11 +16,14 @@ class TType {
 public:
 	TType();
 	virtual ~TType();
-
-
+	virtual TypeK getTypeK(){return ttype;}
+	int getSize();
+	int setSize();
 private:
-	int size;
-	virtual TypeK getTypeK();
+	int size;//size of instance of this type
+
 };
-enum TypeK{tbasic, tclass, tfunc, tgnrc};
+enum TypeK{tbasic, tclass, tfunc, tgnrc, tarray, ttype, tdummy};
+
+
 #endif /* SRC_TYPESYS_TTYPE_H_ */
