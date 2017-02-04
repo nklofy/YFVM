@@ -12,6 +12,9 @@ class RArray : public RVar{
 public:
 	RArray();
 	virtual ~RArray();
+private:
+	int size;
+
 };
 
 #endif /* SRC_TYPESYS_RARRAY_H_ */

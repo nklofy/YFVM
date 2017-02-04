@@ -10,15 +10,15 @@
 
 #include "RVar.h"
 
+//object in heap
 class RObj: public RVar {
 public:
 	RObj();
 	virtual ~RObj();
-	const RValue& getValue() const;
-	void setValue(const RValue& value);
+
 
 private:
-	RValue value;//long if int/bool/char type, double if double type, ptr if obj or array
+
 
 };
 

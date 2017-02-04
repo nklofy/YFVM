@@ -10,6 +10,7 @@
 
 #include "TType.h"
 
+//deal with pointer to obj in memory
 class PtrObj {
 public:
 	PtrObj();
