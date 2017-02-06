@@ -17,6 +17,7 @@ public:
 	virtual ~RBasic();
 	const RValue& getValue() const;
 	void setValue(const RValue& value);
+
 private:
 	RValue value;
 };

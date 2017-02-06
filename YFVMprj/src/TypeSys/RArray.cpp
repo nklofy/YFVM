@@ -16,3 +16,10 @@ RArray::~RArray() {
 	// TODO Auto-generated destructor stub
 }
 
+int RArray::getArraySize() const {
+	return array_size;
+}
+
+void RArray::setArraySize(int arraySize) {
+	array_size = arraySize;
+}

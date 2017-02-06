@@ -12,8 +12,11 @@ class RArray : public RVar{
 public:
 	RArray();
 	virtual ~RArray();
+	int getArraySize() const;
+	void setArraySize(int arraySize);
+
 private:
-	int size;
+	int array_size;
 
 };
 

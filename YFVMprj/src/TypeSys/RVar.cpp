@@ -31,3 +31,4 @@ long RVar::getType() const {
 void RVar::setType(long type) {
 	this->type = type;
 }
+

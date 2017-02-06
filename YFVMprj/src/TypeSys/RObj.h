@@ -16,7 +16,6 @@ public:
 	RObj();
 	virtual ~RObj();
 
-
 private:
 
 
