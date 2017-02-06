@@ -13,11 +13,12 @@
 #include <string>
 #include <map>
 #include "StaticPool.h"
-#include "../Loader/FileLoader.h"
-#include "../Interpreter/Interpreter.h"
-#include "../IO/Input.h"
-#include "../IO/Output.h"
-#include "../Mem/MemManager.h"
+#include "Loader/FileLoader.h"
+#include "Interpreter/Interpreter.h"
+#include "IO/Input.h"
+#include "IO/Output.h"
+#include "MemManager.h"
+#include "TypeSys/TypeSys.h"
 
 
 using namespace std;

@@ -47,3 +47,11 @@ list<IRCode*>& RcdFunc::getBody(){
 void RcdFunc::setBody(const list<IRCode*>& body) {
 	this->body = body;
 }
+
+int RcdFunc::getRows() const {
+	return rows;
+}
+
+void RcdFunc::setRows(int rows) {
+	this->rows = rows;
+}

@@ -10,7 +10,9 @@
 
 
 #include "RVar.h"
+#include "RBasic.h"
 #include "RObj.h"
+#include "RArray.h"
 
 #include "TType.h"
 #include "TArray.h"

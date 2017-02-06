@@ -25,6 +25,8 @@ public:
 	void setScope(const string& scope);
 	list<IRCode*>& getBody();
 	void setBody(const list<IRCode*>& body);
+	int getRows() const;
+	void setRows(int rows);
 
 private:
 	string name;
