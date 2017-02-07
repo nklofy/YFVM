@@ -14,9 +14,8 @@
 #include <map>
 #include "StaticPool.h"
 #include "Loader/FileLoader.h"
-#include "Interpreter/Interpreter.h"
-#include "IO/Input.h"
-#include "IO/Output.h"
+#include "Interpreter.h"
+#include "IOManager.h"
 #include "MemManager.h"
 #include "TypeSys/TypeSys.h"
 
@@ -27,8 +26,7 @@ private:
 	map<string,int> optnum;
 	FileLoader* loader;
 	Interpreter* intpr;
-	Input* input;
-	Output* output;
+	IOManager* io;
 	MemManager* mem;
 	StaticPool* stcpool;
 
@@ -41,10 +39,11 @@ public:
 	int attachLoader(FileLoader* loader);
 	int attachIntpr(Interpreter* intpr);
 	int attachMem(MemManager* mem);
-	int attachIO(Input* input, Output* output);
+	int attachIO(IOManager* io);
 	int initStcPool();
 	int runLoadFile(string);//function table, class table, script;
 	int runIntprScript();
+
 };
 
 #endif /* SRC_RT_VM_H_ */
