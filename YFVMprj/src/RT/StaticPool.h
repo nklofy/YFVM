@@ -26,7 +26,7 @@ public:
 private:
 	map<string,map<string,int>*> func_tbl;//table recording functions, map name:signature to index
 	vector<TFunc*> funclist;
-	vector<long> codes;
+	vector<IRCode*>* codes;
 	map<string,int> var_tbl;//table recording variables
 	map<string,int> type_tbl;//table of types
 	vector<TType*> typelist;

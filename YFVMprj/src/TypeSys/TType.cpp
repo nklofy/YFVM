@@ -16,3 +16,18 @@ TType::~TType() {
 	// TODO Auto-generated destructor stub
 }
 
+bool TType::isIsDummy() const {
+	return isDummy;
+}
+
+void TType::setIsDummy(bool isDummy) {
+	this->isDummy = isDummy;
+}
+
+bool TType::isIsGnrc() const {
+	return isGnrc;
+}
+
+void TType::setIsGnrc(bool isGnrc) {
+	this->isGnrc = isGnrc;
+}

@@ -19,9 +19,15 @@ public:
 	virtual TypeK getTypeK(){return ttype;}
 	int getSize();
 	int setSize();
+	bool isIsDummy() const;
+	void setIsDummy(bool isDummy);
+	bool isIsGnrc() const;
+	void setIsGnrc(bool isGnrc);
+
 private:
 	int size;//size of instance of this type
-
+	bool isGnrc;
+	bool isDummy;
 };
 enum TypeK{tbasic, tclass, tfunc, tgnrc, tarray, ttype, tdummy};
 

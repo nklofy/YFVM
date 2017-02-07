@@ -16,3 +16,10 @@ TClass::~TClass() {
 	// TODO Auto-generated destructor stub
 }
 
+const TGnrc*& TClass::getGnrcPars() const {
+	return gnrc_pars;
+}
+
+void TClass::setGnrcPars(const TGnrc*& gnrcPars) {
+	gnrc_pars = gnrcPars;
+}

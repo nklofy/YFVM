@@ -15,6 +15,12 @@ public:
 	TClass();
 	virtual ~TClass();
 	TypeK getTypeK(){return tclass;}
+
+	const TGnrc*& getGnrcPars() const;
+	void setGnrcPars(const TGnrc*& gnrcPars);
+
+private:
+	TGnrc* gnrc_pars;
 };
 
 #endif /* SRC_TYPESYS_TCLASS_H_ */

@@ -13,7 +13,8 @@ StaticPool::StaticPool() {
 }
 
 StaticPool::~StaticPool() {
-	// TODO Auto-generated destructor stub
+	// TODO delete resources
+
 }
 int StaticPool::init(){
 	(this->type_tbl)["int"]=this->typelist.size();
@@ -64,16 +65,13 @@ int StaticPool::importFuncs(list<RcdFunc*>& funcs){
 			r->partypes.push_back(cp->getOpd1());
 			r->parnames.push_back(cp->getOpd2());
 		}
-		//deal with codes, opt map to int, var name map to address, type and composed type map to index of string in const-pool
-		for(auto cb:f->body){
-
-		}
+		//deal with codes
+		//in future, opt map to int, var name map to address, type and composed type map to index of string in const-pool
+		r->r_func=f;
 	}
 	return 0;
 }
 int StaticPool::importScript(list<IRCode*>& script){
-	for(auto s:script){
-
-	}
+	this->codes=&script;
 	return 0;
 }
