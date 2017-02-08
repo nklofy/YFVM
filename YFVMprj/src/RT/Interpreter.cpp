@@ -17,90 +17,75 @@ Interpreter::~Interpreter() {
 }
 
 int Interpreter::doInterpret(StaticPool* pool, MemManager* mem, IOManager* io) {
-	int i=0;
+	this->pool=pool;
+	this->mem=mem;
+	this->io=io;
 	while(true){
-		IRCode* code=(pool->getCodes())[i];
-		switch(code->getOpt()){//in future, use ptr array to deal with distribution
+		this->code=(pool->getCodes())[pc];
+		switch(this->code->getOpt()){//in future, use ptr array to deal with distribution
 		case "mov":
 			doMov();
-
 			break;
 		case "load_i":
 			doLoadi();
-
 			break;
 		case "load_d":
 			doLoadd();
-
 			break;
 		case "load_s":
 			doLoads();
-
 			break;
 		case "load_c":
 			doLoadc();
-
 			break;
 		case "load_b":
 			doLoadb();
-
 			break;
 
 
 			////////////////////////////////////
 		case "GT":
 			doGT();
-
 			break;
 		case "LT":
 			doLT();
-
 			break;
 		case "GE":
 			doGE();
 
-
 			break;
-		case "LE":doLE();
-
-
-
+		case "LE":
+			doLE();
 			break;
-		case "NE":doNE();
-
-
+		case "NE":
+			doNE();
 			break;
-		case "EQ":doEQ();
-
-
+		case "EQ":
+			doEQ();
 			break;
-		case "NOT":doNT();
-
-
+		case "NOT":
+			doNT();
 			break;
-		case "sub_i":doSubi();
-
-
+		case "sub_i":
+			doSubi();
 			break;
-		case "sub_d":doSubd();
-
+		case "sub_d":
+			doSubd();
 			break;
-		case "add_i":doAddi();
-
+		case "add_i":
+			doAddi();
 			break;
-		case "add_d":doAddd();
-
-
+		case "add_d":
+			doAddd();
 			break;
-		case "mul_i":doMuli();
-
-
+		case "mul_i":
+			doMuli();
 			break;
-		case "mul_d":doMuld();
-
-
+		case "mul_d":
+			doMuld();
 			break;
-		case "div_i":doDivi();
+		case "div_i":
+			doDivi();
 
 		break;
 		case "div_d":doDivd();
@@ -243,9 +228,24 @@ int Interpreter::doInterpret(StaticPool* pool, MemManager* mem, IOManager* io) {
 }
 
 void Interpreter::doMov() {
+	string& opd3=code->getOpd3();
+	string& opd2=code->getOpd2();
+	string& opd1=code->getOpd1();
+	//some check
+	long addr3=mem->fine(opd3);
+	long addr2=mem->find(opd2);
+	TType* type=pool->typelist[pool->type_tbl[opd1]];
+	//todo
+	mem->writeValue(type, add2, mem.readValue());
+
 }
 
 void Interpreter::doLoadi() {
+	long addr1=mem->newReg();
+	TType* type=pool->typelist[pool->type_tbl["int"]];
+	long v=code->getOpd2();
+
+	mem->writeValue(type,addr1,v);
 }
 
 void Interpreter::doLoadd() {

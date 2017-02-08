@@ -15,6 +15,14 @@ public:
 	virtual ~Interpreter();
 	int doInterpret(StaticPool*, MemManager*,IOManager*);
 private:
+	int esp=0;//stack
+	int ebp=0;//frame
+	int pc=0;//program counter
+	IRCode* code;
+	StaticPool* pool;
+	MemManager* mem;
+	IOManager* io;
+
 	void doMov();
 	void doLoadi();
 	void doLoadd();
