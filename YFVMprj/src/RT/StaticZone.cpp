@@ -5,18 +5,18 @@
  *      Author: luyunfei
  */
 
-#include "StaticPool.h"
+#include "StaticZone.h"
 
-StaticPool::StaticPool() {
+StaticZone::StaticZone() {
 	// TODO Auto-generated constructor stub
 
 }
 
-StaticPool::~StaticPool() {
+StaticZone::~StaticZone() {
 	// TODO delete resources
 
 }
-int StaticPool::init(){
+int StaticZone::init(){
 	(this->type_tbl)["int"]=this->typelist.size();
 	TType* t1=new TBasic;
 	this->typelist.push_back(t1);
@@ -39,15 +39,15 @@ int StaticPool::init(){
 
 	return 0;
 }
-int StaticPool::importTypes(){
+int StaticZone::importTypes(){
 	return 0;
 }
-int StaticPool::importFuncs(list<RcdFunc*>& funcs){
+int StaticZone::importFuncs(list<RcdFunc*>& funcs){
 	int i=0;
 	for(auto f:funcs){//get all function and load to data zone
 		TFunc *r=new TFunc;
-		i=this->funclist.size();
-		this->funclist.push_back(r);
+		i=this->func_list.size();
+		this->func_list.push_back(r);
 		if(this->func_tbl.find(f->getName())==func_tbl.end()){	//if no overload
 			auto m=this->func_tbl;
 			auto m1=new map<string,int>();
@@ -71,19 +71,19 @@ int StaticPool::importFuncs(list<RcdFunc*>& funcs){
 	}
 	return 0;
 }
-int StaticPool::importScript(vector<IRCode*>& script){
+int StaticZone::importScript(vector<IRCode*>& script){
 	this->codes=&script;
 	return 0;
 }
 
-const vector<IRCode*>*& StaticPool::getCodes() const {
+const vector<IRCode*>*& StaticZone::getCodes() const {
 	return codes;
 }
 
-const map<string, map<string, int> *>& StaticPool::getFuncTbl() const {
+const map<string, map<string, int> *>& StaticZone::getFuncTbl() const {
 	return func_tbl;
 }
 
-const vector<TFunc*>& StaticPool::getFunclist() const {
-	return funclist;
+const vector<TFunc*>& StaticZone::getFunclist() const {
+	return func_list;
 }

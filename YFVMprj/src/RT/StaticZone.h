@@ -5,8 +5,8 @@
  *      Author: luyunfei
  */
 
-#ifndef SRC_RT_STATICPOOL_H_
-#define SRC_RT_STATICPOOL_H_
+#ifndef SRC_RT_STATICZONE_H_
+#define SRC_RT_STATICZONE_H_
 #include <list>
 #include <map>
 #include <vector>
@@ -15,10 +15,10 @@
 #include "MemManager.h"
 
 using namespace std;
-class StaticPool {
+class StaticZone {
 public:
-	StaticPool();
-	virtual ~StaticPool();
+	StaticZone();
+	virtual ~StaticZone();
 	int init();
 	int importTypes();
 	int importFuncs(list<RcdFunc*>&);
@@ -27,13 +27,16 @@ public:
 	const map<string, map<string, int> *>& getFuncTbl() const;
 	const vector<TFunc*>& getFunclist() const;
 
+
 private:
 	map<string,map<string,int>*> func_tbl;//table recording functions, map name:signature to index
-	vector<TFunc*> funclist;
+	vector<TFunc*> func_list;
 	vector<IRCode*>* codes;
 	map<string,int> var_tbl;//table recording variables, used for trans IRcode
 	map<string,int> type_tbl;//table of types, as above
 	vector<TType*> typelist;
+	vector<string> const_pool;
+	map<string,int> cnstpl_index;
 };
 
-#endif /* SRC_RT_STATICPOOL_H_ */
+#endif /* SRC_RT_STATICZONE_H_ */

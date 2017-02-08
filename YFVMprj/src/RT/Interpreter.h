@@ -13,13 +13,13 @@ class Interpreter {
 public:
 	Interpreter();
 	virtual ~Interpreter();
-	int doInterpret(StaticPool*, MemManager*,IOManager*);
+	int doInterpret(StaticZone*, MemManager*,IOManager*);
 private:
 	int esp=0;//stack
 	int ebp=0;//frame
 	int pc=0;//program counter
 	IRCode* code;
-	StaticPool* pool;
+	StaticZone* pool;
 	MemManager* mem;
 	IOManager* io;
 

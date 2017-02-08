@@ -16,7 +16,7 @@ Interpreter::~Interpreter() {
 	// TODO Auto-generated destructor stub
 }
 
-int Interpreter::doInterpret(StaticPool* pool, MemManager* mem, IOManager* io) {
+int Interpreter::doInterpret(StaticZone* pool, MemManager* mem, IOManager* io) {
 	this->pool=pool;
 	this->mem=mem;
 	this->io=io;
