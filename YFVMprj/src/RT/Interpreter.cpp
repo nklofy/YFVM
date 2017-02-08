@@ -16,172 +16,387 @@ Interpreter::~Interpreter() {
 	// TODO Auto-generated destructor stub
 }
 
-int Interpreter::doInterpret(IRCode* code, StaticPool* pool, MemManager* mem, IOManager* io) {
-	switch(code->getOpt()){//in future, use ptr array to deal with distribution
+int Interpreter::doInterpret(StaticPool* pool, MemManager* mem, IOManager* io) {
+	int i=0;
+	while(true){
+		IRCode* code=(pool->getCodes())[i];
+		switch(code->getOpt()){//in future, use ptr array to deal with distribution
+		case "mov":
+			doMov();
 
-	case "mov":
+			break;
+		case "load_i":
+			doLoadi();
 
-		break;
-	case "load_i":
+			break;
+		case "load_d":
+			doLoadd();
 
-		break;
-	case "load_d":
+			break;
+		case "load_s":
+			doLoads();
 
-		break;
-	case "load_s":
+			break;
+		case "load_c":
+			doLoadc();
 
-		break;
-	case "load_c":
+			break;
+		case "load_b":
+			doLoadb();
 
-		break;
-	case "load_b":
-
-		break;
+			break;
 
 
-////////////////////////////////////
-	case "GT":
+			////////////////////////////////////
+		case "GT":
+			doGT();
 
-		break;
-	case "LT":
+			break;
+		case "LT":
+			doLT();
 
-		break;
-	case "GE":
+			break;
+		case "GE":
+			doGE();
 
-		break;
-	case "LE":
 
-		break;
-	case "NE":
+			break;
+		case "LE":doLE();
 
-		break;
-	case "EQ":
 
-		break;
-	case "NOT":
 
-		break;
-	case "sub_i":
+			break;
+		case "NE":doNE();
 
-		break;
-	case "sub_d":
 
-		break;
-	case "add_i":
+			break;
+		case "EQ":doEQ();
 
-		break;
-	case "add_d":
 
-		break;
-	case "mul_i":
+			break;
+		case "NOT":doNT();
 
-		break;
-	case "mul_d":
 
-		break;
-	case "div_d":
+			break;
+		case "sub_i":doSubi();
 
-		break;
-	case "inc_1":
 
-		break;
-	case "dec_1":
+			break;
+		case "sub_d":doSubd();
 
-		break;
+			break;
+		case "add_i":doAddi();
 
-//////////////////////
-	case "if":
+			break;
+		case "add_d":doAddd();
 
-		break;
-	case "while":
 
-		break;
-	case "goto":
+			break;
+		case "mul_i":doMuli();
 
-		break;
-	case "retExp":
 
-		break;
-	case "ret":
+			break;
+		case "mul_d":doMuld();
+
+
+			break;
+		case "div_i":doDivi();
 
 		break;
-	case "defFunction":
+		case "div_d":doDivd();
 
-		break;
-	case "end":
 
-		break;
-	case "getFunc":
+			break;
+		case "inc_1":doInc1();
 
-		break;
-	case "pushTypeArg":
 
-		break;
-	case "pushFuncArg":
+			break;
+		case "dec_1":doDec1();
 
-		break;
-	case "invoke":
 
-		break;
+			break;
 
-		/////////////////////////////
-	case "defClass":
+			//////////////////////
+		case "if":doIf();
 
-		break;
-	case "defInterface":
 
-		break;
-	case "extends":
+			break;
+		case "while":doWhile();
 
-		break;
-	case "impliments":
 
-		break;
-	case "Fields":
+			break;
+		case "goto":doGoto();
 
-		break;
-	case "defField":
 
-		break;
-	case "Methods":
+			break;
+		case "retExp":doRetExp();
 
-		break;
-	case "defMethod":
 
-		break;
-	case "defGnrcPar":
+			break;
+		case "ret":doRet();
 
-		break;
-	case "defFuncPar":
 
-		break;
-	case "newArr":
+			break;
+		case "defFunction":doDefFunc();
 
-		break;
-	case "newObj":
 
-		break;
-	case "defLambdaExp":
+			break;
+		case "end":doEnd();
 
-		break;
-	case "getFuncObj":
 
-		break;
-	case "getMethod":
+			break;
+		case "getFunc":doGetFunc();
 
-		break;
-	case "getArray":
 
-		break;
-	case "getField":
+			break;
+		case "pushTypeArg":doPushTypeArg();
 
-		break;
-	case "getClass":
 
-		break;
+			break;
+		case "pushFuncArg":doPushFuncArg();
 
-	default:
-		break;
+
+			break;
+		case "invoke":doInvoke();
+
+
+			break;
+
+			/////////////////////////////
+		case "defClass":doDefClass();
+
+
+			break;
+		case "defInterface":doDefIntf();
+
+
+			break;
+		case "extends":doExtd();
+
+
+			break;
+		case "impliments":doImpl();
+
+
+			break;
+		case "Fields":doFields();
+
+
+			break;
+		case "defField":doDefFld();
+
+
+			break;
+		case "Methods":doMethods();
+
+
+			break;
+		case "defMethod":doDefMthd();
+
+
+			break;
+		case "defGnrcPar":doDefGnrcPar();
+
+
+			break;
+		case "defFuncPar":doDefFuncPar();
+
+
+			break;
+		case "newArr":doNewArr();
+
+
+			break;
+		case "newObj":doNewObj();
+
+
+			break;
+		case "defLambdaExp":doDefLmbdExp();
+
+
+			break;
+		case "getFuncObj":doGetFuncObj();
+
+
+			break;
+		case "getMethod":doGetMthd();
+
+
+			break;
+		case "getArray":doGetArr();
+
+
+			break;
+		case "getField":doGetFld();
+
+
+			break;
+		case "getClass":doGetClass();
+
+			break;
+
+		default:
+			break;
+		}
 	}
 	return 0;
+}
+
+void Interpreter::doMov() {
+}
+
+void Interpreter::doLoadi() {
+}
+
+void Interpreter::doLoadd() {
+}
+
+void Interpreter::doLoads() {
+}
+
+void Interpreter::doLoadc() {
+}
+
+void Interpreter::doLoadb() {
+}
+
+void Interpreter::doGT() {
+}
+
+void Interpreter::doLT() {
+}
+
+void Interpreter::doLE() {
+}
+
+void Interpreter::doEQ() {
+}
+
+void Interpreter::doNT() {
+}
+
+void Interpreter::doSubi() {
+}
+
+void Interpreter::doSubd() {
+}
+
+void Interpreter::doAddi() {
+}
+
+void Interpreter::doAddd() {
+}
+
+void Interpreter::doMuli() {
+}
+
+void Interpreter::doMuld() {
+}
+
+void Interpreter::doDivi() {
+}
+
+void Interpreter::doDivd() {
+}
+
+void Interpreter::doInc1() {
+}
+
+void Interpreter::doDec1() {
+}
+
+void Interpreter::doIf() {
+}
+
+void Interpreter::doWhile() {
+}
+
+void Interpreter::doGoto() {
+}
+
+void Interpreter::doRetExp() {
+}
+
+void Interpreter::doRet() {
+}
+
+void Interpreter::doDefFunc() {
+}
+
+void Interpreter::doEnd() {
+}
+
+void Interpreter::doGetFunc() {
+}
+
+void Interpreter::doPushTypeArg() {
+}
+
+void Interpreter::doPushFuncArg() {
+}
+
+void Interpreter::doInvoke() {
+}
+
+void Interpreter::doDefClass() {
+}
+
+void Interpreter::doDefIntf() {
+}
+
+void Interpreter::doExtd() {
+}
+
+void Interpreter::doImpl() {
+}
+
+void Interpreter::doFields() {
+}
+
+void Interpreter::doDefFld() {
+}
+
+void Interpreter::doMethods() {
+}
+
+void Interpreter::doDefMthd() {
+}
+
+void Interpreter::doDefGnrcPar() {
+}
+
+void Interpreter::doDefFuncPar() {
+}
+
+void Interpreter::doNewArr() {
+}
+
+void Interpreter::doNewObj() {
+}
+
+void Interpreter::doDefLmbdExp() {
+}
+
+void Interpreter::doGetFuncObj() {
+}
+
+void Interpreter::doGetMthd() {
+}
+
+void Interpreter::doGetArr() {
+}
+
+void Interpreter::doGetFld() {
+}
+
+void Interpreter::doGE() {
+}
+
+void Interpreter::doGE() {
+}
+
+void Interpreter::doNE() {
+}
+
+void Interpreter::doGetClass() {
 }

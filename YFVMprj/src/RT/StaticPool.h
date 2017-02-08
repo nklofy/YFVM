@@ -22,13 +22,17 @@ public:
 	int init();
 	int importTypes();
 	int importFuncs(list<RcdFunc*>&);
-	int importScript(list<IRCode*>&);
+	int importScript(vector<IRCode*>&);
+	const vector<IRCode*>*& getCodes() const;
+	const map<string, map<string, int> *>& getFuncTbl() const;
+	const vector<TFunc*>& getFunclist() const;
+
 private:
 	map<string,map<string,int>*> func_tbl;//table recording functions, map name:signature to index
 	vector<TFunc*> funclist;
 	vector<IRCode*>* codes;
-	map<string,int> var_tbl;//table recording variables
-	map<string,int> type_tbl;//table of types
+	map<string,int> var_tbl;//table recording variables, used for trans IRcode
+	map<string,int> type_tbl;//table of types, as above
 	vector<TType*> typelist;
 };
 

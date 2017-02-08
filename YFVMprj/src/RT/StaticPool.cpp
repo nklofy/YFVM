@@ -71,7 +71,19 @@ int StaticPool::importFuncs(list<RcdFunc*>& funcs){
 	}
 	return 0;
 }
-int StaticPool::importScript(list<IRCode*>& script){
+int StaticPool::importScript(vector<IRCode*>& script){
 	this->codes=&script;
 	return 0;
+}
+
+const vector<IRCode*>*& StaticPool::getCodes() const {
+	return codes;
+}
+
+const map<string, map<string, int> *>& StaticPool::getFuncTbl() const {
+	return func_tbl;
+}
+
+const vector<TFunc*>& StaticPool::getFunclist() const {
+	return funclist;
 }

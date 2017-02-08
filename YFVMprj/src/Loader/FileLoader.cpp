@@ -111,7 +111,7 @@ list<RcdFunc*>& FileLoader::getFuncs()  {
 	return funcs;
 }
 
-list<IRCode*>& FileLoader::getScript() {
+vector<IRCode*>& FileLoader::getScript() {
 	return script;
 }
 

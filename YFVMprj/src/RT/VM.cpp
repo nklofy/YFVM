@@ -85,9 +85,8 @@ int VM::runLoadFile(string filename){
 }
 
 int VM::runIntprScript(){
-	for(auto c:this->stcpool->codes){
-		this->intpr->doInterpret(c,this->stcpool,this->mem, this->io);
-	}
+	this->intpr->doInterpret(this->stcpool,this->mem, this->io);
+
 	return 0;
 }
 

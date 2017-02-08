@@ -13,7 +13,7 @@
 #include <iostream>
 #include <list>
 #include <map>
-
+#include <vector>
 #include "PckgManager.h"
 #include "TokenStream.h"
 #include "IRCode.h"
@@ -30,13 +30,13 @@ public:
 	int loadFuncs(TokenStream*);
 	int loadScript(TokenStream*);
 	list<RcdFunc*>& getFuncs() ;
-	list<IRCode*>& getScript() ;
+	vector<IRCode*>& getScript() ;
 	string* dcpLine(string);
 
 private:
 	PckgManager pckMan;
 	list<RcdFunc*> funcs;
-	list<IRCode*> script;
+	vector<IRCode*> script;
 	//map<int,string> var_tbl;
 	//map<int,string> type_tbl;
 	//map<int,string> func_tbl;
