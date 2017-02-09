@@ -20,6 +20,9 @@
 #include "TClass.h"
 #include "TFunc.h"
 
+typedef long AddrFrmt;
+
+
 class TypeSys {
 public:
 	TypeSys();

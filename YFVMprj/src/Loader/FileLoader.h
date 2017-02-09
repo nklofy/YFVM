@@ -30,13 +30,13 @@ public:
 	int loadFuncs(TokenStream*);
 	int loadScript(TokenStream*);
 	list<RcdFunc*>& getFuncs() ;
-	vector<IRCode*>& getScript() ;
+	list<IRCode*>& getScript() ;
 	string* dcpLine(string);
 
 private:
 	PckgManager pckMan;
 	list<RcdFunc*> funcs;
-	vector<IRCode*> script;
+	list<IRCode*> script;
 	//map<int,string> var_tbl;
 	//map<int,string> type_tbl;
 	//map<int,string> func_tbl;

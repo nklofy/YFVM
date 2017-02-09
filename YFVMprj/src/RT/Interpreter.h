@@ -8,6 +8,9 @@
 #ifndef SRC_INTERPRETER_H_
 #define SRC_INTERPRETER_H_
 #include <vector>
+
+#include "TypeSys/TType.h"
+
 using namespace std;
 class Interpreter {
 public:
@@ -15,11 +18,11 @@ public:
 	virtual ~Interpreter();
 	int doInterpret(StaticZone*, MemManager*,IOManager*);
 private:
-	int esp=0;//stack
-	int ebp=0;//frame
-	int pc=0;//program counter
+	AddrFrmt esp=0;//stack
+	AddrFrmt ebp=0;//frame
+	AddrFrmt pc=0;//program counter
 	IRCode* code;
-	StaticZone* pool;
+	StaticZone* stcz;
 	MemManager* mem;
 	IOManager* io;
 

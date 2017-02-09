@@ -11,6 +11,7 @@
 #include <map>
 #include <string>
 using namespace std;
+#include "TypeSys.h"
 
 class TType {
 public:

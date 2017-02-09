@@ -66,21 +66,29 @@ int StaticZone::importFuncs(list<RcdFunc*>& funcs){
 			r->parnames.push_back(cp->getOpd2());
 		}
 		//deal with codes
-		//in future, opt map to int, var name map to address, type and composed type map to index of string in const-pool
-		r->r_func=f;
+		for(auto c:f->body){
+			long cs[4];
+			string& opt=c->getOpt();
+			string& opd1=c->getOpd1();
+			string& opd2=c->getOpd2();
+			string& opd3=c->getOpd3();
+			cs[0]=this->optnum[opt];
+			r->getBody().push_back(cs);
+
+		}
 	}
 	return 0;
 }
-int StaticZone::importScript(vector<IRCode*>& script){
-	this->codes=&script;
+int StaticZone::importScript(list<IRCode*>& script){
+	this->codes=&script
 	return 0;
 }
 
-const vector<IRCode*>*& StaticZone::getCodes() const {
+const vector<long[4]>& StaticZone::getCodes() const {
 	return codes;
 }
 
-const map<string, map<string, int> *>& StaticZone::getFuncTbl() const {
+const map<string, map<string, long> *>& StaticZone::getFuncTbl() const {
 	return func_tbl;
 }
 

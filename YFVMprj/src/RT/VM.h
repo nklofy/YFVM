@@ -23,7 +23,7 @@
 using namespace std;
 class VM {
 private:
-	map<string,int> optnum;
+
 	FileLoader* loader;
 	Interpreter* intpr;
 	IOManager* io;

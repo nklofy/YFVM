@@ -16,12 +16,12 @@ Interpreter::~Interpreter() {
 	// TODO Auto-generated destructor stub
 }
 
-int Interpreter::doInterpret(StaticZone* pool, MemManager* mem, IOManager* io) {
-	this->pool=pool;
+int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
+	this->stcz=stcz;
 	this->mem=mem;
 	this->io=io;
 	while(true){
-		this->code=(pool->getCodes())[pc];
+		this->code=(stcz->getCodes())[pc];
 		switch(this->code->getOpt()){//in future, use ptr array to deal with distribution
 		case "mov":
 			doMov();
@@ -228,24 +228,26 @@ int Interpreter::doInterpret(StaticZone* pool, MemManager* mem, IOManager* io) {
 }
 
 void Interpreter::doMov() {
-	string& opd3=code->getOpd3();
+/*	string& opd3=code->getOpd3();
+
+	long addr3=mem->find(opd3);
+	long addr2=mem->find(opd2);
+	TType* type=stcz->typelist[stcz->type_tbl[opd1]];
+	//todo
+
 	string& opd2=code->getOpd2();
 	string& opd1=code->getOpd1();
-	//some check
-	long addr3=mem->fine(opd3);
-	long addr2=mem->find(opd2);
-	TType* type=pool->typelist[pool->type_tbl[opd1]];
-	//todo
 	mem->writeValue(type, add2, mem.readValue());
-
+*/
 }
 
 void Interpreter::doLoadi() {
-	long addr1=mem->newReg();
-	TType* type=pool->typelist[pool->type_tbl["int"]];
+/*	long addr1=mem->newReg();
+	TType* type=stcz->typelist[stcz->type_tbl["int"]];
 	long v=code->getOpd2();
 
-	mem->writeValue(type,addr1,v);
+	mem->writeValue(type,addr1,v);*/
+
 }
 
 void Interpreter::doLoadd() {

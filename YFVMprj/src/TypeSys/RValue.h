@@ -19,6 +19,6 @@ private:
 union RRValue{
 	long int_value;
 	double double_value;
-	long ptr_addr;
+	AddrFrmt ptr_addr;
 };
 #endif /* SRC_TYPESYS_RVALUE_H_ */

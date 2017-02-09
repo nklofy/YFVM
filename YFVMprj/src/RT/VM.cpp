@@ -28,11 +28,11 @@ int VM::initOptNum(string filename){//map opt to int num
 	while(!infile.eof()){
 		s.clear();
 		infile>>s;
-		if(this->optnum.count(s)>0){
+		if(this->stcpool->getOptNum().count(s)>0){
 			cerr<<"optnum file dupl opt"<<s<<endl;
 			return -1;
 		}
-		(this->optnum)[s]=c1++;
+		(this->stcpool->getOptNum())[s]=c1++;
 		//cout<<s<<"e"<<endl;
 	}
 	infile.close();
