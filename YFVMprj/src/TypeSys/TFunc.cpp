@@ -24,20 +24,11 @@ const TGnrc*& TFunc::getGnrcPars() const {
 void TFunc::setGnrcPars(const TGnrc*& gnrcPars) {
 	gnrc_pars = gnrcPars;
 }
-/*
-const RcdFunc*& TFunc::getFunc() const {
+
+RcdFunc*& TFunc::getFunc() const {
 	return r_func;
 }
 
-
-void TFunc::setFunc(const RcdFunc*& func) {
+void TFunc::setFunc(RcdFunc*& func) {
 	r_func = func;
-}*/
-
-vector<long[4]>& TFunc::getBody() const {
-	return body;
-}
-
-void TFunc::setBody(vector<long[4]>& body) {
-	this->body = body;
 }

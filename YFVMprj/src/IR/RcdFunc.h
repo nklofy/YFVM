@@ -23,8 +23,8 @@ public:
 	void setSig(const string& signature);
 	const string& getScope() const;
 	void setScope(const string& scope);
-	list<IRCode*>& getBody();
-	void setBody(const list<IRCode*>& body);
+	vector<IRCode*>& getBody();
+	void setBody(const vector<IRCode*>& body);
 	int getRows() const;
 	void setRows(int rows);
 
@@ -33,7 +33,7 @@ private:
 	string signature;
 	string scope;
 	bool dummy;
-	list<IRCode*> body;	//code to run
+	vector<IRCode*> body;	//code to run
 	list<IRCode*> gtpars;	//generic type pars
 	list<IRCode*> pars;	//pars
 	int rows;

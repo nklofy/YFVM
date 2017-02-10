@@ -45,9 +45,10 @@ int StaticZone::importTypes(){
 int StaticZone::importFuncs(list<RcdFunc*>& funcs){
 	int i=0;
 	for(auto f:funcs){//get all function and load to data zone
-		TFunc *r=new TFunc;
+		TFunc *tf=new TFunc;
+		tf->setFunc(f);
 		i=this->func_list.size();
-		this->func_list.push_back(r);
+		this->func_list.push_back(tf);
 		if(this->func_tbl.find(f->getName())==func_tbl.end()){	//if no overload
 			auto m=this->func_tbl;
 			auto m1=new map<string,int>();
@@ -60,31 +61,20 @@ int StaticZone::importFuncs(list<RcdFunc*>& funcs){
 		}
 		//translate f to r
 		//deal with pars
-		r->setName(f->getName());
+		tf->setName(f->getName());
 		for(auto cp:f->pars){
-			r->partypes.push_back(cp->getOpd1());
-			r->parnames.push_back(cp->getOpd2());
-		}
-		//deal with codes
-		for(auto c:f->body){
-			long cs[4];
-			string& opt=c->getOpt();
-			string& opd1=c->getOpd1();
-			string& opd2=c->getOpd2();
-			string& opd3=c->getOpd3();
-			cs[0]=this->optnum[opt];
-			r->getBody().push_back(cs);
-
+			tf->partypes.push_back(cp->getOpd1());
+			tf->parnames.push_back(cp->getOpd2());
 		}
 	}
 	return 0;
 }
-int StaticZone::importScript(list<IRCode*>& script){
-	this->codes=&script
+int StaticZone::importScript(vector<IRCode*>* script){
+	this->codes=script;
 	return 0;
 }
 
-const vector<long[4]>& StaticZone::getCodes() const {
+vector<IRCode*>* StaticZone::getCodes() const {
 	return codes;
 }
 

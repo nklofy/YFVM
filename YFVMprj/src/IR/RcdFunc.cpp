@@ -40,11 +40,11 @@ void RcdFunc::setScope(const string& scope) {
 	this->scope = scope;
 }
 
-list<IRCode*>& RcdFunc::getBody(){
+vector<IRCode*>& RcdFunc::getBody(){
 	return body;
 }
 
-void RcdFunc::setBody(const list<IRCode*>& body) {
+void RcdFunc::setBody(const vector<IRCode*>& body) {
 	this->body = body;
 }
 

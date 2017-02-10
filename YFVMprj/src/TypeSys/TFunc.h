@@ -24,16 +24,15 @@ public:
 	void setName(string);
 	const TGnrc*& getGnrcPars() const;
 	void setGnrcPars(const TGnrc*& gnrcPars);
-	vector<long[4]>& getBody() const;
-	void setBody(vector<long[4]>& body);
+	RcdFunc*& getFunc() const;
+	void setFunc(RcdFunc*& func);
 
 	//const RcdFunc*& getFunc() const;
 	//void setFunc(const RcdFunc*& func);
 
 private:
 	name;
-	vector<long[4]> body;
-	//RcdFunc* r_func;
+	RcdFunc* r_func;
 	TGnrc* gnrc_pars;list<string> parnames;
 	list<string> partypes;
 	map<string,AddrFrmt> sym_inner;//define while loading

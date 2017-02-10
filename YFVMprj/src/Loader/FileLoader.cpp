@@ -86,9 +86,10 @@ int FileLoader::loadFuncs(TokenStream *ts){
 
 int FileLoader::loadScript(TokenStream *ts){
 	string s=ts->getLine();
+	this->script=new list<IRCode*>;
 		while(s!="end"){
 			//parse func body
-			script.push_back(new IRCode(s));
+			script->push_back(new IRCode(s));
 			s=ts->getLine();
 		}
 		if(ts->isEnd){
@@ -111,7 +112,7 @@ list<RcdFunc*>& FileLoader::getFuncs()  {
 	return funcs;
 }
 
-list<IRCode*>& FileLoader::getScript() {
+vector<IRCode*>* FileLoader::getScript() {
 	return script;
 }
 
