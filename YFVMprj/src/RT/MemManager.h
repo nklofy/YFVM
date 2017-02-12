@@ -13,6 +13,11 @@ class MemManager {
 public:
 	MemManager();
 	virtual ~MemManager();
+	void pushStack(TType*,RValue*);
+	RValue& popStack();
+	RValue& peekStack();
+	void allocObj();
+	long freeHObj();
 
 private:
 	Memory* memory;

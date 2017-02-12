@@ -17,7 +17,8 @@ public:
 
 
 private:
-
+	Mem_Stack stack;
+	Mem_Heap heap;
 };
 
 #endif /* SRC_MEM_MEMORY_H_ */

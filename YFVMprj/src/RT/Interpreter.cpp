@@ -1,5 +1,5 @@
 /*
- * Interpreter.cpp
+ * Interpreter.cpp`
  *
  *  Created on: Nov 17, 2016
  *      Author: luyunfei
@@ -242,11 +242,12 @@ void Interpreter::doMov() {
 }
 
 void Interpreter::doLoadi() {
-/*	long addr1=mem->newReg();
 	TType* type=stcz->typelist[stcz->type_tbl["int"]];
-	long v=code->getOpd2();
+	string& opd1=code->getOpd1();
+	long v=stol(code->getOpd2());
+	mem->pushStack(type,v);
+	stcz->writeNameCache(opd1, esp);
 
-	mem->writeValue(type,addr1,v);*/
 
 }
 
