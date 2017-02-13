@@ -7,20 +7,28 @@
 
 #ifndef SRC_MEMMANAGER_H_
 #define SRC_MEMMANAGER_H_
-#include "../Mem/Memory.h"
+#include "Mem/Memory.h"
 
 class MemManager {
 public:
 	MemManager();
 	virtual ~MemManager();
-	void pushStack(TType*,RValue*);
+
+	//stack operation
+	long pushStack(RValueK,RRValue);
 	RValue& popStack();
 	RValue& peekStack();
-	void allocObj();
-	long freeHObj();
-
+	RValue& fetchStack(long);
+	void setTopAddr(long);
+	long getTopAddr();
+	long getSizeStk();
+	//heap operation
+	long allocObj(long);
+	void freeHObj(long);
+	long getSizeHp();
 private:
-	Memory* memory;
+	Mem_Stack stack;
+	Mem_Heap heap;
 };
 
 #endif /* SRC_MEMMANAGER_H_ */

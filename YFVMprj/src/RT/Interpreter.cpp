@@ -228,11 +228,27 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 }
 
 void Interpreter::doMov() {
-/*	string& opd3=code->getOpd3();
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	TType* type1=stcz->typelist[stcz->type_tbl[opd1]];
+	long addr2;
+	long addr3;
+	if(this->global_vars.find(opd2)){
+		addr2=this->global_vars[opd2];
+	}else{
 
-	long addr3=mem->find(opd3);
+	}
+	if(this->global_vars.find(opd3)){
+		addr3=this->global_vars.find(opd3);
+	}else{
+
+	}
+	long addr1=(this->global_vars)[opd1];
+
+	/*	long addr3=mem->find(opd3);
 	long addr2=mem->find(opd2);
-	TType* type=stcz->typelist[stcz->type_tbl[opd1]];
+	;
 	//todo
 
 	string& opd2=code->getOpd2();
@@ -244,11 +260,24 @@ void Interpreter::doMov() {
 void Interpreter::doLoadi() {
 	TType* type=stcz->typelist[stcz->type_tbl["int"]];
 	string& opd1=code->getOpd1();
-	long v=stol(code->getOpd2());
-	mem->pushStack(type,v);
-	stcz->writeNameCache(opd1, esp);
-
-
+	long vi=stol(code->getOpd2());
+	RRValue v;
+	v.int_value=vi;
+	long tos=mem->pushStack(v_int,v);
+	long tpi=mem->fetchStack(ebp);
+	if(this->name_scope==scp_glb){
+		(this->global_vars)[opd1]=tos;
+	}else if(this->name_scope==scp_func){
+		TFunc *f=dynamic_cast<TFunc*>((this->stcz->typelist)[tpi]);
+		if(!f->sym_inner.find(opd1)){
+			f->sym_inner[opd1]=tos-ebp;
+		}
+	}else if(this->name_scope==scp_mthd){
+		TFunc *f=dynamic_cast<TFunc*>((this->stcz->typelist)[tpi]);
+		if(!f->sym_inner.find(opd1)){
+			f->sym_inner[opd1]=tos-ebp;
+		}
+	}
 }
 
 void Interpreter::doLoadd() {

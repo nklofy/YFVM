@@ -29,6 +29,7 @@ public:
 	map<string,int>& getOptNum();
 	int importScript(vector<IRCode*>*);
 	vector<IRCode*>* StaticZone::getCodes() const;
+
 private:
 	map<string,int> optnum;
 	map<string,map<string,long>*> func_tbl;//table recording functions, map name:signature to index

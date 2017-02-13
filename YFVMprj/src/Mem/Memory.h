@@ -8,7 +8,8 @@
 #ifndef SRC_MEM_MEMORY_H_
 #define SRC_MEM_MEMORY_H_
 
-
+#include "MemHeap.h"
+#include "MemStack.h"
 
 class Memory {
 public:
@@ -17,8 +18,7 @@ public:
 
 
 private:
-	Mem_Stack stack;
-	Mem_Heap heap;
+
 };
 
 #endif /* SRC_MEM_MEMORY_H_ */

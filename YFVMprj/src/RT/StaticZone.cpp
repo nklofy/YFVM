@@ -85,3 +85,5 @@ const map<string, map<string, long> *>& StaticZone::getFuncTbl() const {
 const vector<TFunc*>& StaticZone::getFunclist() const {
 	return func_list;
 }
+
+

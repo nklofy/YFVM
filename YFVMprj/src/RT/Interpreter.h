@@ -9,7 +9,7 @@
 #define SRC_INTERPRETER_H_
 #include <vector>
 
-#include "TypeSys/TType.h"
+#include "TypeSys/TypeSys.h"
 
 using namespace std;
 class Interpreter {
@@ -18,13 +18,18 @@ public:
 	virtual ~Interpreter();
 	int doInterpret(StaticZone*, MemManager*,IOManager*);
 private:
-	AddrFrmt esp=0;//stack
-	AddrFrmt ebp=0;//frame
-	AddrFrmt pc=0;//program counter
+	long esp=0;//stack
+	long ebp=0;//frame
+	long pc=0;//program counter
 	IRCode* code;
 	StaticZone* stcz;
 	MemManager* mem;
 	IOManager* io;
+	enum{scp_glb,scp_func,scp_mthd} name_scope;
+	map<string,long> global_vars;
+	map<string,long>* local_vars;
+	TFunc* crt_func;
+	TClass* crt_cls;
 
 	void doMov();
 	void doLoadi();

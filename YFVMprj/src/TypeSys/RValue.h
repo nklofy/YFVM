@@ -13,12 +13,14 @@ public:
 	RValue();
 	virtual ~RValue();
 private:
-	enum{v_int, v_double, v_prt} value_K;
+	RValueK valuek;
+	bool isLeft=false;
 	RRValue value;
 };
+enum RValueK{v_int, v_double, v_prt};
 union RRValue{
 	long int_value;
 	double double_value;
-	AddrFrmt ptr_addr;
+	long ptr_addr;
 };
 #endif /* SRC_TYPESYS_RVALUE_H_ */

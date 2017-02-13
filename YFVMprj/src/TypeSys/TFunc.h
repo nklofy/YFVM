@@ -35,8 +35,8 @@ private:
 	RcdFunc* r_func;
 	TGnrc* gnrc_pars;list<string> parnames;
 	list<string> partypes;
-	map<string,AddrFrmt> sym_inner;//define while loading
-	map<string,AddrFrmt> sym_outer;//decide while executing
+	map<string,long> sym_inner;//define while loading
+	map<string,long> sym_outer;//decide while executing
 };
 
 #endif /* SRC_TYPESYS_TFUNC_H_ */
