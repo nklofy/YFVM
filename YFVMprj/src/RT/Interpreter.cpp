@@ -234,27 +234,35 @@ void Interpreter::doMov() {
 	TType* type1=stcz->typelist[stcz->type_tbl[opd1]];
 	long addr2;
 	long addr3;
-	if(this->global_vars.find(opd2)){
-		addr2=this->global_vars[opd2];
+	if(this->local_vars->find(opd2)){
+		addr2=this->local_vars->find(opd2)+this->ebp;
+	}else if(this->global_vars.find(opd2)){
+		addr2=this->global_vars.find(opd2);
 	}else{
-
+		//reserve for find symbol in class
 	}
-	if(this->global_vars.find(opd3)){
+	if(this->local_vars->find(opd3)){
+		addr3=this->local_vars->find(opd3)+this->ebp;
+	}else if(this->global_vars.find(opd3)){
 		addr3=this->global_vars.find(opd3);
 	}else{
+		//reserve for find symbol in class
+	}
+	RValue& r2=mem->fetchStack(addr2);
+	RValue& r3=mem->fetchStack(addr3);
+	if(opd1=="int"){
+
+	}else if(opd1=="double"){
+
+	}else if(opd1=="char"){
+
+	}else if(opd1=="string"){
+
+	}else if(opd1=="bool"){
+
+	}else{
 
 	}
-	long addr1=(this->global_vars)[opd1];
-
-	/*	long addr3=mem->find(opd3);
-	long addr2=mem->find(opd2);
-	;
-	//todo
-
-	string& opd2=code->getOpd2();
-	string& opd1=code->getOpd1();
-	mem->writeValue(type, add2, mem.readValue());
-*/
 }
 
 void Interpreter::doLoadi() {
