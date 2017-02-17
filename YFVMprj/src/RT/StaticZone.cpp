@@ -78,7 +78,7 @@ vector<IRCode*>* StaticZone::getCodes() const {
 	return codes;
 }
 
-const map<string, map<string, long> *>& StaticZone::getFuncTbl() const {
+const map<string, long>& StaticZone::getFuncTbl() const {
 	return func_tbl;
 }
 

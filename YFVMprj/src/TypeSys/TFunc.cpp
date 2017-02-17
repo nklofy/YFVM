@@ -32,3 +32,11 @@ RcdFunc*& TFunc::getFunc() const {
 void TFunc::setFunc(RcdFunc*& func) {
 	r_func = func;
 }
+
+bool TFunc::isIsMthd() const {
+	return isMthd;
+}
+
+void TFunc::setIsMthd(bool isMthod) {
+	this->isMthd = isMthod;
+}

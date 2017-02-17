@@ -24,7 +24,7 @@ public:
 	int importFuncs(list<RcdFunc*>&);
 	int importScript(list<IRCode*>&);
 	vector<IRCode*>* getCodes() const;
-	const map<string, map<string, long> *>& getFuncTbl() const;
+	const map<string, long>& getFuncTbl() const;
 	const vector<TFunc*>& getFunclist() const;
 	map<string,int>& getOptNum();
 	int importScript(vector<IRCode*>*);
@@ -32,7 +32,7 @@ public:
 
 private:
 	map<string,int> optnum;
-	map<string,map<string,long>*> func_tbl;//table recording functions, map name:signature to index
+	map<string,long> func_tbl;//table recording functions, map name:signature to index
 	vector<TFunc*> func_list;
 	vector<IRCode*>* codes;
 	map<string,long> var_tbl;//table recording variables, used for trans IRcode

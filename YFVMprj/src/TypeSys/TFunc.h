@@ -26,12 +26,18 @@ public:
 	void setGnrcPars(const TGnrc*& gnrcPars);
 	RcdFunc*& getFunc() const;
 	void setFunc(RcdFunc*& func);
+	bool isIsMthd() const;
+	void setIsMthd(bool isMthod);
 
 	//const RcdFunc*& getFunc() const;
 	//void setFunc(const RcdFunc*& func);
 
 private:
-	name;
+	string name;
+	bool isMthd;
+	bool isOverload;
+	TFunc* next;
+	TFunc* head;
 	RcdFunc* r_func;
 	TGnrc* gnrc_pars;list<string> parnames;
 	list<string> partypes;

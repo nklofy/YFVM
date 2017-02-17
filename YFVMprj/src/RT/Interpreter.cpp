@@ -234,16 +234,28 @@ void Interpreter::doMov() {
 	TType* type1=stcz->typelist[stcz->type_tbl[opd1]];
 	long addr2;
 	long addr3;
-	if(this->local_vars->find(opd2)){
-		addr2=this->local_vars->find(opd2)+this->ebp;
-	}else if(this->global_vars.find(opd2)){
+	if(ebp==0){
+		addr2=this->global_vars.find(opd2);
+		addr3=this->global_vars.find(opd3);
+	}else{
+		//get addr2 from opd2
+		if(this->local_vars->find(opd2)){
+			addr2=this->local_vars->find(opd2)+this->ebp;
+		}
+		//get addr3 from opd3
+	}
+
+/*	else if(this->global_vars.find(opd2)){
 		addr2=this->global_vars.find(opd2);
 	}else{
 		//reserve for find symbol in class
 	}
 	if(this->local_vars->find(opd3)){
 		addr3=this->local_vars->find(opd3)+this->ebp;
+	}else if(){
+
 	}else if(this->global_vars.find(opd3)){
+	}
 		addr3=this->global_vars.find(opd3);
 	}else{
 		//reserve for find symbol in class
@@ -262,7 +274,7 @@ void Interpreter::doMov() {
 
 	}else{
 
-	}
+	}*/
 }
 
 void Interpreter::doLoadi() {

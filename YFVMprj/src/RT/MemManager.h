@@ -27,7 +27,7 @@ public:
 	void freeHObj(long);
 	long getSizeHp();
 private:
-	Mem_Stack stack;
+	Mem_Stack stack;//ebp: link for searching; -1: return adress; -2: last frame's ebp; -3: args; 1: pars
 	Mem_Heap heap;
 };
 
