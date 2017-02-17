@@ -241,15 +241,31 @@ void Interpreter::doMov() {
 		//get addr2 from opd2
 		if(this->local_vars->find(opd2)){
 			addr2=this->local_vars->find(opd2)+this->ebp;
+		}else if(this->global_vars.find(opd2)){
+			addr2=this->global_vars.find(opd2);
+		}else{
+			cerr<<"not find symbol name "<<opd2<<endl;
 		}
 		//get addr3 from opd3
+		if(this->local_vars->find(opd3)){
+			addr3=this->local_vars->find(opd3)+this->ebp;
+		}else if(this->global_vars.find(opd3)){
+			addr3=this->global_vars.find(opd3);
+		}else{
+			cerr<<"not find symbol name "<<opd3<<endl;
+		}
 	}
+	RValue& r2=mem->fetchStack(addr2);
+	RValue& r3=mem->fetchStack(addr3);
+	//deal with left value
+	if(r2.isLeft){
 
-/*	else if(this->global_vars.find(opd2)){
-		addr2=this->global_vars.find(opd2);
 	}else{
-		//reserve for find symbol in class
+
 	}
+	//deal with type auto conversion
+
+/*
 	if(this->local_vars->find(opd3)){
 		addr3=this->local_vars->find(opd3)+this->ebp;
 	}else if(){
