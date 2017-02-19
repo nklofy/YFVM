@@ -231,7 +231,7 @@ void Interpreter::doMov() {
 	string& opd1=code->getOpd1();
 	string& opd2=code->getOpd2();
 	string& opd3=code->getOpd3();
-	TType* type1=stcz->typelist[stcz->type_tbl[opd1]];
+	AbstType* type1=stcz->typelist[stcz->type_tbl[opd1]];
 	long addr2;
 	long addr3;
 	if(ebp==0){
@@ -255,16 +255,48 @@ void Interpreter::doMov() {
 			cerr<<"not find symbol name "<<opd3<<endl;
 		}
 	}
-	RValue& r2=mem->fetchStack(addr2);
-	RValue& r3=mem->fetchStack(addr3);
-	//deal with left value
-	if(r2.isLeft){
-
-	}else{
-
+	RcdValue& r2=mem->fetchStack(addr2);
+	RcdValue& r3=mem->fetchStack(addr3);
+	//deal with type auto conversion and l/r value
+	if(r3.valuek==vk_double&&opd1!="double"){	//mov int a b
+		long mv=(long)r3.value.double_value;
+		if(r2.isLeft){
+			long addr2=r2.value.ptr_value;
+			InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
+			p->value.value.int_value=mv;
+		}else{
+			r2.value.int_value=mv;
+		}
+	}else if(opd1=="double"&&r3.valuek!=vk_double){	//mov double a b
+		double mv=(double)r3.value.int_value;
+		if(r2.isLeft){
+			long addr2=r2.value.ptr_value;
+			InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
+			p->value.value.double_value=mv;
+		}else{
+			r2.value.double_value=mv;
+		}
+	}/*else if(r3.valuek==vk_ptr){	//mov A a b
+		long mv=r3.value.ptr_value;
+		if(r2.isLeft){
+			long addr2=r2.value.ptr_value;
+			InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
+			p->value.value.ptr_value=mv;
+		}else{
+			r2.value.ptr_value=r3.value.ptr_value;
+		}
+	}*/	else{
+		if(r2.isLeft){
+			long addr2=r2.value.ptr_value;
+			InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
+			p->value.value=r3.value;
+		}else{
+			r2.value=r3.value;
+		}
 	}
-	//deal with type auto conversion
 
+
+	//
 /*
 	if(this->local_vars->find(opd3)){
 		addr3=this->local_vars->find(opd3)+this->ebp;
@@ -278,38 +310,26 @@ void Interpreter::doMov() {
 	}
 	RValue& r2=mem->fetchStack(addr2);
 	RValue& r3=mem->fetchStack(addr3);
-	if(opd1=="int"){
-
-	}else if(opd1=="double"){
-
-	}else if(opd1=="char"){
-
-	}else if(opd1=="string"){
-
-	}else if(opd1=="bool"){
-
-	}else{
-
-	}*/
+	*/
 }
 
 void Interpreter::doLoadi() {
-	TType* type=stcz->typelist[stcz->type_tbl["int"]];
+	AbstType* type=stcz->typelist[stcz->type_tbl["int"]];
 	string& opd1=code->getOpd1();
 	long vi=stol(code->getOpd2());
 	RRValue v;
 	v.int_value=vi;
-	long tos=mem->pushStack(v_int,v);
+	long tos=mem->pushStack(vk_int,v);
 	long tpi=mem->fetchStack(ebp);
 	if(this->name_scope==scp_glb){
 		(this->global_vars)[opd1]=tos;
 	}else if(this->name_scope==scp_func){
-		TFunc *f=dynamic_cast<TFunc*>((this->stcz->typelist)[tpi]);
+		AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->typelist)[tpi]);
 		if(!f->sym_inner.find(opd1)){
 			f->sym_inner[opd1]=tos-ebp;
 		}
 	}else if(this->name_scope==scp_mthd){
-		TFunc *f=dynamic_cast<TFunc*>((this->stcz->typelist)[tpi]);
+		AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->typelist)[tpi]);
 		if(!f->sym_inner.find(opd1)){
 			f->sym_inner[opd1]=tos-ebp;
 		}

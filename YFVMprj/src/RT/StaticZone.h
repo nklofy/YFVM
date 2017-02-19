@@ -25,7 +25,7 @@ public:
 	int importScript(list<IRCode*>&);
 	vector<IRCode*>* getCodes() const;
 	const map<string, long>& getFuncTbl() const;
-	const vector<TFunc*>& getFunclist() const;
+	const vector<AbstFunc*>& getFunclist() const;
 	map<string,int>& getOptNum();
 	int importScript(vector<IRCode*>*);
 	vector<IRCode*>* StaticZone::getCodes() const;
@@ -33,11 +33,11 @@ public:
 private:
 	map<string,int> optnum;
 	map<string,long> func_tbl;//table recording functions, map name:signature to index
-	vector<TFunc*> func_list;
+	vector<AbstFunc*> func_list;
 	vector<IRCode*>* codes;
 	map<string,long> var_tbl;//table recording variables, used for trans IRcode
 	map<string,long> type_tbl;//table of types, as above
-	vector<TType*> typelist;
+	vector<AbstType*> typelist;
 	vector<string> cnst_pool;
 	map<string,long> cnstpl_index;
 };

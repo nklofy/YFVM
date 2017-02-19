@@ -9,16 +9,16 @@
 #define SRC_TYPESYS_TYPESYS_H_
 
 
-#include "RVar.h"
-#include "RBasic.h"
-#include "RObj.h"
-#include "RArray.h"
-
-#include "TType.h"
-#include "TArray.h"
-#include "TBasic.h"
-#include "TClass.h"
-#include "TFunc.h"
+#include "AbstArray.h"
+#include "AbstBasic.h"
+#include "AbstClass.h"
+#include "AbstFunc.h"
+#include "AbstType.h"
+#include "InstArray.h"
+#include "InstBasic.h"
+#include "InstObj.h"
+#include "InstVar.h"
+#include "RcdValue.h"
 
 typedef long AddrFrmt;
 

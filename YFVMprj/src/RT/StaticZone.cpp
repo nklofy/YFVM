@@ -18,23 +18,23 @@ StaticZone::~StaticZone() {
 }
 int StaticZone::init(){
 	(this->type_tbl)["int"]=this->typelist.size();
-	TType* t1=new TBasic;
+	AbstType* t1=new AbstBasic;
 	this->typelist.push_back(t1);
 
 	(this->type_tbl)["double"]=this->typelist.size();
-	TType* t2=new TBasic;
+	AbstType* t2=new AbstBasic;
 	this->typelist.push_back(t2);
 
 	(this->type_tbl)["bool"]=this->typelist.size();
-	TType* t3=new TBasic;
+	AbstType* t3=new AbstBasic;
 	this->typelist.push_back(t3);
 
 	(this->type_tbl)["char"]=this->typelist.size();
-	TType* t4=new TBasic;
+	AbstType* t4=new AbstBasic;
 	this->typelist.push_back(t4);
 
 	(this->type_tbl)["string"]=this->typelist.size();
-	TType* t5=new TBasic;
+	AbstType* t5=new AbstBasic;
 	this->typelist.push_back(t5);
 
 	return 0;
@@ -45,7 +45,7 @@ int StaticZone::importTypes(){
 int StaticZone::importFuncs(list<RcdFunc*>& funcs){
 	int i=0;
 	for(auto f:funcs){//get all function and load to data zone
-		TFunc *tf=new TFunc;
+		AbstFunc *tf=new AbstFunc;
 		tf->setFunc(f);
 		i=this->func_list.size();
 		this->func_list.push_back(tf);
@@ -82,7 +82,7 @@ const map<string, long>& StaticZone::getFuncTbl() const {
 	return func_tbl;
 }
 
-const vector<TFunc*>& StaticZone::getFunclist() const {
+const vector<AbstFunc*>& StaticZone::getFunclist() const {
 	return func_list;
 }
 

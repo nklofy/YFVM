@@ -15,14 +15,16 @@ public:
 	virtual ~MemManager();
 
 	//stack operation
-	long pushStack(RValueK,RRValue);
-	RValue& popStack();
-	RValue& peekStack();
-	RValue& fetchStack(long);
+	long pushStack(ValueK,RRValue);
+	RcdValue& popStack();
+	RcdValue& peekStack();
+	RcdValue& fetchStack(long);
 	void setTopAddr(long);
 	long getTopAddr();
 	long getSizeStk();
 	//heap operation
+
+	InstVar* fetchObj(long);
 	long allocObj(long);
 	void freeHObj(long);
 	long getSizeHp();
