@@ -12,11 +12,11 @@ class InstArray : public InstVar{
 public:
 	InstArray();
 	virtual ~InstArray();
-	int getArraySize() const;
-	void setArraySize(int arraySize);
+	long getArraySize() const;
+	void setArraySize(long arraySize);
 
 private:
-	int array_size;
+	long array_size;
 
 };
 

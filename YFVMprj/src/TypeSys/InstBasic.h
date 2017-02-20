@@ -8,15 +8,15 @@
 #ifndef SRC_TYPESYS_INSTBASIC_H_
 #define SRC_TYPESYS_INSTBASIC_H_
 
+#include "DatValue.h"
 #include "InstVar.h"
-
 //basic type object, int double ...
 class InstBasic: public InstVar {
 public:
 	InstBasic();
 	virtual ~InstBasic();
 
-	RcdValue value;
+	DatValue value;
 };
 
 #endif /* SRC_TYPESYS_INSTBASIC_H_ */

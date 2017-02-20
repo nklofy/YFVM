@@ -5,13 +5,13 @@
  *      Author: luyunfei
  */
 
-#ifndef SRC_TYPESYS_RCDVALUE_H_
-#define SRC_TYPESYS_RCDVALUE_H_
+#ifndef SRC_TYPESYS_DATVALUE_H_
+#define SRC_TYPESYS_DATVALUE_H_
 
-class RcdValue {
+class DatValue {
 public:
-	RcdValue();
-	virtual ~RcdValue();
+	DatValue();
+	virtual ~DatValue();
 	ValueK valuek;
 	bool isLeft=false;
 	RRValue value;
@@ -23,4 +23,4 @@ union RRValue{
 	double double_value;
 	long ptr_value;
 };
-#endif /* SRC_TYPESYS_RCDVALUE_H_ */
+#endif /* SRC_TYPESYS_DATVALUE_H_ */

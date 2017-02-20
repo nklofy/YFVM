@@ -16,17 +16,20 @@ public:
 
 	//stack operation
 	long pushStack(ValueK,RRValue);
-	RcdValue& popStack();
-	RcdValue& peekStack();
-	RcdValue& fetchStack(long);
+	DatValue& popStack();
+	DatValue& peekStack();
+	DatValue& fetchStack(long);
 	void setTopAddr(long);
 	long getTopAddr();
 	long getSizeStk();
 	//heap operation
 
 	InstVar* fetchObj(long);
-	long allocObj(long);
+	long mallocObj(long);
+	long callocObj(long,long);
+	long reallocObj(long,long);
 	void freeHObj(long);
+	void initObj();
 	long getSizeHp();
 private:
 	Mem_Stack stack;//ebp: link for searching; -1: return adress; -2: last frame's ebp; -3: args; 1: pars

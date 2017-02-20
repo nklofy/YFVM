@@ -29,6 +29,12 @@ public:
 	map<string,int>& getOptNum();
 	int importScript(vector<IRCode*>*);
 	vector<IRCode*>* StaticZone::getCodes() const;
+	map<string, long>& getCnstPlMap();
+	vector<string>& getCnstplList();
+	const vector<AbstFunc*>& getFuncList() const;
+	const map<string, int>& getOptnum() const;
+	const map<string, long>& getTypeTbl() const;
+	const vector<AbstType*>& getTypelist() const;
 
 private:
 	map<string,int> optnum;
@@ -38,8 +44,8 @@ private:
 	map<string,long> var_tbl;//table recording variables, used for trans IRcode
 	map<string,long> type_tbl;//table of types, as above
 	vector<AbstType*> typelist;
-	vector<string> cnst_pool;
-	map<string,long> cnstpl_index;
+	vector<string> cnstpl_list;
+	map<string,long> cnstpl_map;
 };
 
 #endif /* SRC_RT_STATICZONE_H_ */

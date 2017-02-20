@@ -86,4 +86,18 @@ const vector<AbstFunc*>& StaticZone::getFunclist() const {
 	return func_list;
 }
 
+const vector<AbstFunc*>& StaticZone::getFuncList() const {
+	return func_list;
+}
 
+const map<string, int>& StaticZone::getOptnum() const {
+	return optnum;
+}
+
+const map<string, long>& StaticZone::getTypeTbl() const {
+	return type_tbl;
+}
+
+const vector<AbstType*>& StaticZone::getTypelist() const {
+	return typelist;
+}

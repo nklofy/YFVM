@@ -18,15 +18,15 @@ public:
 	AbstType();
 	virtual ~AbstType();
 	virtual TypeK getTypeK(){return ttype;}
-	int getSize();
-	int setSize();
+	long getSize();
+	long setSize();
 	bool isIsDummy() const;
 	void setIsDummy(bool isDummy);
 	bool isIsGnrc() const;
 	void setIsGnrc(bool isGnrc);
 
 private:
-	int size;//size of instance of this type
+	long size;//size of instance of this type
 	bool isGnrc;
 	bool isDummy;
 };

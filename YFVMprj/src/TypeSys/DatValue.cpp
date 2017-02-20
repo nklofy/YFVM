@@ -1,17 +1,18 @@
 /*
- * RObj.cpp
+ * RValue.cpp
  *
- *  Created on: Feb 1, 2017
+ *  Created on: Feb 7, 2017
  *      Author: luyunfei
  */
 
-#include "RObj.h"
+#include "DatValue.h"
 
-RObj::RObj() {
+DatValue::DatValue() {
 	// TODO Auto-generated constructor stub
 
 }
 
-RObj::~RObj() {
+DatValue::~DatValue() {
 	// TODO Auto-generated destructor stub
 }
+
