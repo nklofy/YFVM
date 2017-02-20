@@ -13,6 +13,8 @@ GE
 LE
 NE
 EQ
+AND
+OR
 NOT
 retExp
 ret

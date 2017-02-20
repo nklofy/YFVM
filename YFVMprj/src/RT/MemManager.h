@@ -22,14 +22,18 @@ public:
 	void setTopAddr(long);
 	long getTopAddr();
 	long getSizeStk();
-	//heap operation
 
+	//heap operation
 	InstVar* fetchObj(long);
 	long mallocObj(long);
 	long callocObj(long,long);
 	long reallocObj(long,long);
-	void freeHObj(long);
-	void initObj();
+	int freeHObj(long);
+	long allocStr(long);
+	int cpyStr(long,string&);
+	int cpyMem(long,long);
+	int cpyValue(long,DatValue&);
+	int initObj(long);
 	long getSizeHp();
 private:
 	Mem_Stack stack;//ebp: link for searching; -1: return adress; -2: last frame's ebp; -3: args; 1: pars

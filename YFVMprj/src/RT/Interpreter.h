@@ -43,6 +43,8 @@ private:
 	void doLE();
 	void doNE();
 	void doEQ();
+	void doAND();
+	void doOR();
 	void doNT();
 	void doSubi();
 	void doSubd();

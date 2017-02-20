@@ -63,6 +63,12 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 		case "EQ":
 			doEQ();
 			break;
+		case "AND":
+			doAND();
+			break;
+		case "OR":
+			doOR();
+			break;
 		case "NOT":
 			doNT();
 			break;
@@ -276,27 +282,25 @@ void Interpreter::doMov() {
 		}else{
 			r2.value.double_value=mv;
 		}
-	}else if(opd1=="string"){
+	}else if(opd1=="string"&&r3.valuek!=vk_ptr){
+		string tgs;
 		if(r3.valuek==vk_int){
-			string tgs=to_string(r3.value.int_value);
-			if(r2.isLeft){
-
-			}else{
-				if(stcz->getCnstPlMap().find(tgs)){
-
-				}else{
-
-				}
-			}
+			tgs=to_string(r3.value.int_value);
 		}else if(r3.valuek==vk_double){
-			string tgs=to_string(r3.value.double_value);
-			if(r2.isLeft){
-
-			}else{
-
-			}
+			tgs=to_string(r3.value.double_value);
 		}
-	}else{
+		//new string obj
+		//set r2's ptr
+		long addr=mem->allocStr(tgs.size());
+		mem->cpyStr(addr,tgs);
+		if(r2.isLeft){
+			long addr2=r2.value.ptr_value;
+			InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
+			p->value.value.ptr_value=addr;
+		}else{
+			r2.value.ptr_value=addr;
+		}
+	}else{	//ptr assign to ptr
 		if(r2.isLeft){
 			long addr2=r2.value.ptr_value;
 			InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
@@ -343,25 +347,14 @@ void Interpreter::doLoadd() {
 }
 
 void Interpreter::doLoads() {
+	string& opd2=code->getOpd2();
 	string& opd1=code->getOpd1();
-	AbstClass* t=dynamic_cast<AbstClass*>(stcz->getTypelist()[stcz->getTypeTbl()["string"]]);
-
-
-	string& opd1=code->getOpd1();
-	string& tgs=opd1.substr(1,opd1.length()-1);
-	long vi;
-	auto cmp=&(stcz->getCnstPlMap());
-	auto cls=&(stcz->getCnstplList());
-	if(cmp->find(tgs)){
-		vi=(*cmp)[tgs];
-	}else{
-		cls->push_back(tgs);
-		vi=cls->size()-1;
-		cmp[tgs]=vi;
-	}
+	long addr=mem->allocStr(opd2.size());
+	mem->cpyStr(addr,opd2);
 	RRValue v;
-	v.ptr_value=vi;
+	v.ptr_value=addr;
 	long tos=mem->pushStack(vk_ptr,v);
+
 	if(ebp==0){
 		(this->global_vars)[opd1]=tos;
 	}else{
@@ -371,7 +364,6 @@ void Interpreter::doLoads() {
 			f->sym_inner[opd1]=tos-ebp;
 		}
 	}
-
 }
 
 void Interpreter::doLoadc() {
@@ -409,81 +401,113 @@ void Interpreter::doLoadb() {
 }
 
 void Interpreter::doGT() {
+
 }
 
 void Interpreter::doLT() {
+
+}
+
+void Interpreter::doGE() {
+
 }
 
 void Interpreter::doLE() {
+
 }
 
 void Interpreter::doEQ() {
+
+}
+
+void Interpreter::doNE() {
 }
 
 void Interpreter::doNT() {
+
 }
 
 void Interpreter::doSubi() {
+
 }
 
 void Interpreter::doSubd() {
+
 }
 
 void Interpreter::doAddi() {
+
 }
 
 void Interpreter::doAddd() {
+
 }
 
 void Interpreter::doMuli() {
+
 }
 
 void Interpreter::doMuld() {
+
 }
 
 void Interpreter::doDivi() {
+
 }
 
 void Interpreter::doDivd() {
+
 }
 
 void Interpreter::doInc1() {
+
 }
 
 void Interpreter::doDec1() {
+
 }
 
 void Interpreter::doIf() {
+
 }
 
 void Interpreter::doWhile() {
+
 }
 
 void Interpreter::doGoto() {
+
 }
 
 void Interpreter::doRetExp() {
 }
 
 void Interpreter::doRet() {
+
 }
 
 void Interpreter::doDefFunc() {
+
 }
 
 void Interpreter::doEnd() {
+
 }
 
 void Interpreter::doGetFunc() {
+
 }
 
 void Interpreter::doPushTypeArg() {
+
 }
 
 void Interpreter::doPushFuncArg() {
+
 }
 
 void Interpreter::doInvoke() {
+
 }
 
 void Interpreter::doDefClass() {
@@ -535,15 +559,6 @@ void Interpreter::doGetArr() {
 }
 
 void Interpreter::doGetFld() {
-}
-
-void Interpreter::doGE() {
-}
-
-void Interpreter::doGE() {
-}
-
-void Interpreter::doNE() {
 }
 
 void Interpreter::doGetClass() {
