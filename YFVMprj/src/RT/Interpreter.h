@@ -38,9 +38,9 @@ private:
 	void doLoadc();
 	void doLoadb();
 	int doCmp();
-	int cmp2Addr(long,long);
+	int cmp2Value(DatValue&,DatValue&);
 	long getSbAddr(string&);
-	void addVarStack(ValueK&,RRValue&,string&);
+	void addVarStack(ValueK, RRValue&, string&);
 	void doGT();
 	void doLT();
 	void doGE();
@@ -50,6 +50,9 @@ private:
 	void doAND();
 	void doOR();
 	void doNT();
+	inline DatValue& getPtrValue(long);
+	long getIVDatV(DatValue&);
+	double getDVDatV(DatValue&);
 	void doSubi();
 	void doSubd();
 	void doAddi();

@@ -410,22 +410,23 @@ int Interpreter::doCmp(){
 	if(v2.isLeft&&v3.isLeft){
 		long p2=v2.value.ptr_value;
 		long p3=v3.value.ptr_value;
-		return cmp2Addr(p2,p3);
+		DatValue& v4=mem->fetchObj(p2);
+		DatValue& v5=mem->fetchObj(p3);
+		return cmp2Value(v4,v5);
 	}else if(v2.isLeft){
 		long p2=v2.value.ptr_value;
-		return cmp2Addr(p2,a3);
+		DatValue& v4=mem->fetchObj(p2);
+		return cmp2Value(v4,v3);
 	}else if(v3.isLeft){
 		long p3=v3.value.ptr_value;
-		return cmp2Addr(a2,p3);
+		DatValue& v5=mem->fetchObj(p3);
+		return cmp2Value(v2,v5);
 	}else{
-		return cmp2Addr(a2,a3);
+		return cmp2Value(v2,v3);
 	}
-
 }
 
-int Interpreter::cmp2Addr(long a2, long a3) {//0 EQ, 1 larger, -1 less
-	DatValue& v2=mem->fetchStack(a2);
-	DatValue& v3=mem->fetchStack(a3);
+int Interpreter::cmp2Value(DatValue& v2, DatValue& v3) {//0 EQ, 1 larger, -1 less
 
 	if(v2.valuek==vk_int&&v3.valuek==vk_int){
 		int r2=v2.value.int_value,r3=v3.value.int_value;
@@ -451,7 +452,7 @@ int Interpreter::cmp2Addr(long a2, long a3) {//0 EQ, 1 larger, -1 less
 		else if(r2==r3) return 0;
 		else return 1;
 	}else{
-		//leaving for operator overload
+		//leave to operator overload
 	}
 	return 0;
 }
@@ -472,7 +473,7 @@ long Interpreter::getSbAddr(string& name) {
 
 }
 
-void Interpreter::addVarStack(ValueK& k,RRValue& v,string& name){
+void Interpreter::addVarStack(ValueK k,RRValue& v,string& name){
 	long tos=mem->pushStack(k,v);
 	if(ebp==0){
 		(this->global_vars)[name]=tos;
@@ -488,72 +489,325 @@ void Interpreter::addVarStack(ValueK& k,RRValue& v,string& name){
 void Interpreter::doGT() {
 	string& opd1=code->getOpd1();
 	int b=doCmp();
-	if(b==1){
-		/*
 	RRValue v;
-	v.int_value=vi;
-	*/
+	if(b==1){
+		v.int_value=1;
+		addVarStack(vk_int,v,opd1);
+	}else{
+		v.int_value=0;
+		addVarStack(vk_int,v,opd1);
 	}
 }
 
 void Interpreter::doLT() {
-
+	string& opd1=code->getOpd1();
+	int b=doCmp();
+	RRValue v;
+	if(b==-1){
+		v.int_value=1;
+		addVarStack(vk_int,v,opd1);
+	}else{
+		v.int_value=0;
+		addVarStack(vk_int,v,opd1);
+	}
 }
 
 void Interpreter::doGE() {
-
+	string& opd1=code->getOpd1();
+	int b=doCmp();
+	RRValue v;
+	if(b==-1){
+		v.int_value=0;
+		addVarStack(vk_int,v,opd1);
+	}else{
+		v.int_value=1;
+		addVarStack(vk_int,v,opd1);
+	}
 }
 
 void Interpreter::doLE() {
-
+	string& opd1=code->getOpd1();
+	int b=doCmp();
+	RRValue v;
+	if(b==1){
+		v.int_value=0;
+		addVarStack(vk_int,v,opd1);
+	}else{
+		v.int_value=1;
+		addVarStack(vk_int,v,opd1);
+	}
 }
 
 void Interpreter::doEQ() {
-
+	string& opd1=code->getOpd1();
+	int b=doCmp();
+	RRValue v;
+	if(b==0){
+		v.int_value=1;
+		addVarStack(vk_int,v,opd1);
+	}else{
+		v.int_value=0;
+		addVarStack(vk_int,v,opd1);
+	}
 }
 
 void Interpreter::doNE() {
+
+	string& opd1=code->getOpd1();
+	int b=doCmp();
+	RRValue v;
+	if(b==0){
+		v.int_value=0;
+		addVarStack(vk_int,v,opd1);
+	}else{
+		v.int_value=1;
+		addVarStack(vk_int,v,opd1);
+	}
 }
 
 void Interpreter::doAND() {
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	long a2=getSbAddr(opd2);
+	long a3=getSbAddr(opd3);
+	DatValue& v2=mem->fetchStack(a2);
+	DatValue& v3=mem->fetchStack(a3);
+	long i1=0,i2=0,i3=0;
+	if(v2.isLeft&&v3.isLeft){
+		long p2=v2.value.ptr_value;
+		long p3=v3.value.ptr_value;
+		i2=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
+		i3=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
+	}else if(v2.isLeft){
+		long p2=v2.value.ptr_value;
+		i2=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
+		i3=v3.value.int_value;
+	}else if(v3.isLeft){
+		long p3=v3.value.ptr_value;
+		long i3=((InstBasic*)(mem->fetchObj(p3)))->value.value.int_value;
+		i2=v2.value.int_value;
+	}else{
+		long i2=v2.value.int_value;
+		long i3=v2.value.int_value;
+	}
+	if(i2==1&&i3==1) i1=1;
+	RRValue v;
+	v.int_value=i1;
+	this->addVarStack(vk_int,v,opd1);
 }
 
 void Interpreter::doOR() {
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	long a2=getSbAddr(opd2);
+	long a3=getSbAddr(opd3);
+	DatValue& v2=mem->fetchStack(a2);
+	DatValue& v3=mem->fetchStack(a3);
+	long i1=0,i2=0,i3=0;
+	if(v2.isLeft&&v3.isLeft){
+		long p2=v2.value.ptr_value;
+		long p3=v3.value.ptr_value;
+		i2=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
+		i3=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
+	}else if(v2.isLeft){
+		long p2=v2.value.ptr_value;
+		i2=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
+		i3=v3.value.int_value;
+	}else if(v3.isLeft){
+		long p3=v3.value.ptr_value;
+		long i3=((InstBasic*)(mem->fetchObj(p3)))->value.value.int_value;
+		i2=v2.value.int_value;
+	}else{
+		long i2=v2.value.int_value;
+		long i3=v2.value.int_value;
+	}
+	if(i2==1||i3==1) i1=1;
+	RRValue v;
+	v.int_value=i1;
+	this->addVarStack(vk_int,v,opd1);
 }
 void Interpreter::doNT() {
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	long a2=getSbAddr(opd2);
+	DatValue& v2=mem->fetchStack(a2);
+	long i1=0,i2=0;
+	if(v2.isLeft){
+		long p2=v2.value.ptr_value;
+		i2=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
+	}else{
+		long i2=v2.value.int_value;
+	}
+	if(i2==1) i1=1;
+	RRValue v;
+	v.int_value=i1;
+	this->addVarStack(vk_int,v,opd1);
+}
+
+DatValue& Interpreter::getPtrValue(long addr){
+	return ((InstBasic*)(mem->fetchObj(addr)))->value;
+}
+
+long Interpreter::getIVDatV(DatValue& v){
+	switch(v.valuek){
+	case vk_int:
+		return v.value.int_value;
+		break;
+	case vk_double:
+		return v.value.double_value;
+		break;
+	case vk_ptr:
+		return getIVDatV(getPtrValue(v.value.ptr_value));
+		break;
+	default:
+		break;
+	}
+	return 0;
+}
+
+double Interpreter::getDVDatV(DatValue& v){
+	switch(v.valuek){
+	case vk_int:
+		return v.value.int_value;
+		break;
+	case vk_double:
+		return v.value.double_value;
+		break;
+	case vk_ptr:
+		return getDVDatV(getPtrValue(v.value.ptr_value));
+		break;
+	default:
+		break;
+	}
+	return 0;
 
 }
 
 void Interpreter::doSubi() {
-
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	long a2=getSbAddr(opd2);
+	long a3=getSbAddr(opd3);
+	DatValue& v2=mem->fetchStack(a2);
+	DatValue& v3=mem->fetchStack(a3);
+	long i2=getIVDatV(v2);
+	long i3=getIVDatV(v3);
+	RRValue v;
+	v.int_value=i2-i3;
+	this->addVarStack(vk_int,v,opd1);
 }
 
 void Interpreter::doSubd() {
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	long a2=getSbAddr(opd2);
+	long a3=getSbAddr(opd3);
+	DatValue& v2=mem->fetchStack(a2);
+	DatValue& v3=mem->fetchStack(a3);
+	double i2=getDVDatV(v2);
+	double i3=getDVDatV(v3);
+	RRValue v;
+	v.int_value=i2-i3;
+	this->addVarStack(vk_double,v,opd1);
 
 }
 
 void Interpreter::doAddi() {
-
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	long a2=getSbAddr(opd2);
+	long a3=getSbAddr(opd3);
+	DatValue& v2=mem->fetchStack(a2);
+	DatValue& v3=mem->fetchStack(a3);
+	long i2=getIVDatV(v2);
+	long i3=getIVDatV(v3);
+	RRValue v;
+	v.int_value=i2+i3;
+	this->addVarStack(vk_int,v,opd1);
 }
 
 void Interpreter::doAddd() {
-
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	long a2=getSbAddr(opd2);
+	long a3=getSbAddr(opd3);
+	DatValue& v2=mem->fetchStack(a2);
+	DatValue& v3=mem->fetchStack(a3);
+	double i2=getDVDatV(v2);
+	double i3=getDVDatV(v3);
+	RRValue v;
+	v.int_value=i2+i3;
+	this->addVarStack(vk_double,v,opd1);
 }
 
 void Interpreter::doMuli() {
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	long a2=getSbAddr(opd2);
+	long a3=getSbAddr(opd3);
+	DatValue& v2=mem->fetchStack(a2);
+	DatValue& v3=mem->fetchStack(a3);
+	long i2=getIVDatV(v2);
+	long i3=getIVDatV(v3);
+	RRValue v;
+	v.int_value=i2*i3;
+	this->addVarStack(vk_int,v,opd1);
 
 }
 
 void Interpreter::doMuld() {
-
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	long a2=getSbAddr(opd2);
+	long a3=getSbAddr(opd3);
+	DatValue& v2=mem->fetchStack(a2);
+	DatValue& v3=mem->fetchStack(a3);
+	double i2=getDVDatV(v2);
+	double i3=getDVDatV(v3);
+	RRValue v;
+	v.int_value=i2*i3;
+	this->addVarStack(vk_double,v,opd1);
 }
 
 void Interpreter::doDivi() {
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	long a2=getSbAddr(opd2);
+	long a3=getSbAddr(opd3);
+	DatValue& v2=mem->fetchStack(a2);
+	DatValue& v3=mem->fetchStack(a3);
+	long i2=getIVDatV(v2);
+	long i3=getIVDatV(v3);
+	if(i3==0) cerr<<"error divide by 0: "<<opd2<<" / "<<opd3<<endl;
+	RRValue v;
+	v.int_value=i2/i3;
+	this->addVarStack(vk_int,v,opd1);
 
 }
 
 void Interpreter::doDivd() {
-
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	long a2=getSbAddr(opd2);
+	long a3=getSbAddr(opd3);
+	DatValue& v2=mem->fetchStack(a2);
+	DatValue& v3=mem->fetchStack(a3);
+	double i2=getDVDatV(v2);
+	double i3=getDVDatV(v3);
+	if(i3==0) cerr<<"error divide by 0: "<<opd2<<" / "<<opd3<<endl;
+	RRValue v;
+	v.int_value=i2/i3;
+	this->addVarStack(vk_double,v,opd1);
 }
 
 void Interpreter::doInc1() {
