@@ -37,6 +37,10 @@ private:
 	void doLoads();
 	void doLoadc();
 	void doLoadb();
+	int doCmp();
+	int cmp2Addr(long,long);
+	long getSbAddr(string&);
+	void addVarStack(ValueK&,RRValue&,string&);
 	void doGT();
 	void doLT();
 	void doGE();
