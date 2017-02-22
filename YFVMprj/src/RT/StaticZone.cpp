@@ -46,22 +46,27 @@ int StaticZone::importFuncs(list<RcdFunc*>& funcs){
 	int i=0;
 	for(auto f:funcs){//get all function and load to data zone
 		AbstFunc *tf=new AbstFunc;
-		tf->setFunc(f);
+		tf->setBody(&(f->getBody()));
+		//tf->setFunc(f);
+		tf->setName(f->getName());
+		tf->setSig(f->getSig());
 		i=this->func_list.size();
 		this->func_list.push_back(tf);
 		if(this->func_tbl.find(f->getName())==func_tbl.end()){	//if no overload
-			auto m=this->func_tbl;
-			auto m1=new map<string,int>();
-			m[f->getName()]=m1;
-			(&m1)[f->getSig()]=i;
-
+			//auto m=this->func_tbl;
+			//auto m1=new map<string,int>();
+			//m[f->getName()]=m1;
+			//(&m1)[f->getSig()]=i;
+			this->func_tbl[f->getName()]=i;
 		}else{
-			auto m=this->func_tbl.find(f->getName());
-			(&m)[f->getSig()]=i;
+			long id=this->func_tbl[f->getName()];
+			AbstFunc* f1=this->func_list[id];
+			tf->hasNext=true;
+			tf->addNext(f1);
+			this->func_tbl[f->getName()]=i;
 		}
 		//translate f to r
 		//deal with pars
-		tf->setName(f->getName());
 		for(auto cp:f->pars){
 			tf->partypes.push_back(cp->getOpd1());
 			tf->parnames.push_back(cp->getOpd2());

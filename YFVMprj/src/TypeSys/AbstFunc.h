@@ -22,23 +22,34 @@ public:
 	TypeK getTypeK(){return tfunc;}
 	string getName();
 	void setName(string);
-	const AbstGnrc*& getGnrcPars() const;
-	void setGnrcPars(const AbstGnrc*& gnrcPars);
-	RcdFunc*& getFunc() const;
-	void setFunc(RcdFunc*& func);
 
-	bool isMthd;
-	bool isOverload;
-	//const RcdFunc*& getFunc() const;
-	//void setFunc(const RcdFunc*& func);
+	const string& getSig();
+
+	void setSig(const string& sig);
+
+	vector<IRCode*>* getBody();
+	void setBody(vector<IRCode*>*);
+	bool isMthd=false;
+	bool isOverload=false;
+	void addNext(AbstFunc*);
+	AbstFunc* getNext();
+
+	long getEntry();
+	void setEntry(long);
+
+	bool hasNext=false;
+
 
 private:
+	long entry;
 	string name;
-
+	string sig;
 	AbstFunc* next;
 	AbstFunc* head;
-	RcdFunc* r_func;
-	AbstGnrc* gnrc_pars;list<string> parnames;
+	vector<IRCode*>* body;
+	//RcdFunc* r_func;
+	//AbstGnrc* gnrc_pars;
+	list<string> parnames;
 	list<string> partypes;
 	map<string,long> sym_inner;//define while loading
 	map<string,long> sym_outer;//decide while executing

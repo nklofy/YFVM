@@ -69,6 +69,7 @@ private:
 	void doRetExp();
 	void doRet();
 	void doDefFunc();
+	void loadFunc(AbstFunc*);
 	void doEnd();
 	void doGetFunc();
 	void doPushTypeArg();

@@ -13,6 +13,7 @@ using namespace std;
 class IRCode {
 public:
 	IRCode();
+	IRCode(IRCode&);
 	IRCode(string);
 	virtual ~IRCode();
 	string getOpd1() const;

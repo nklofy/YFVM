@@ -40,7 +40,7 @@ private:
 	map<string,int> optnum;
 	map<string,long> func_tbl;//table recording functions, map name:signature to index
 	vector<AbstFunc*> func_list;
-	vector<IRCode*>* codes;
+	vector<IRCode*>* codes;//script codes
 	map<string,long> var_tbl;//table recording variables, used for trans IRcode
 	map<string,long> type_tbl;//table of types, as above
 	vector<AbstType*> typelist;

@@ -21,7 +21,7 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 	this->mem=mem;
 	this->io=io;
 	while(true){
-		this->code=(stcz->getCodes())[pc];
+		this->code=(stcz->getCodes())[pc++];
 		switch(this->code->getOpt()){//in future, use ptr array to deal with distribution
 		case "mov":
 			doMov();
@@ -872,7 +872,34 @@ void Interpreter::doRet() {
 }
 
 void Interpreter::doDefFunc() {
-	//lambda expression
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	AbstFunc *tf=new AbstFunc;
+	tf->setName(opd1);
+	tf->setSig(opd2);
+	long i=stcz->func_list.size();
+	stcz->func_list.push_back(tf);
+	stcz->func_tbl[opd1]=i;
+	loadFunc(tf);
+}
+
+void Interpreter::loadFunc(AbstFunc* f){
+	f->setEntry(stcz->getCodes()->size());
+	bool gono=true;
+	while(true){
+		this->code=(stcz->getCodes())[pc++];
+		switch(this->code->getOpt()){
+		case "end":
+			gono=false;
+			break;
+		default:
+			f->setBody(new vector<IRCode*>);
+			auto c=new IRCode(*(this->code));
+			f->getBody()->push_back(c);
+			break;
+		}
+	}
 }
 
 void Interpreter::doEnd() {
@@ -888,12 +915,14 @@ void Interpreter::doGetFunc() {
 	long i=ftb[opd1];
 	AbstFunc* f=flt[i];
 	if(f->isOverload){
-		//
+		while(f->hasNext&&f->getSig()!=opd2){
+			f=f->getNext();
+		}
 	}else{
-		//
-	}
-	//new frame
 
+	}
+	//push stack, new frame
+	this->pc=f->getEntry();
 }
 
 void Interpreter::doPushTypeArg() {
