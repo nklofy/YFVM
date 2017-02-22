@@ -26,16 +26,15 @@ public:
 	void setGnrcPars(const AbstGnrc*& gnrcPars);
 	RcdFunc*& getFunc() const;
 	void setFunc(RcdFunc*& func);
-	bool isIsMthd() const;
-	void setIsMthd(bool isMthod);
 
+	bool isMthd;
+	bool isOverload;
 	//const RcdFunc*& getFunc() const;
 	//void setFunc(const RcdFunc*& func);
 
 private:
 	string name;
-	bool isMthd;
-	bool isOverload;
+
 	AbstFunc* next;
 	AbstFunc* head;
 	RcdFunc* r_func;

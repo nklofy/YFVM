@@ -13,7 +13,7 @@ public:
 	DatValue();
 	virtual ~DatValue();
 	ValueK valuek;
-	bool isLeft=false;
+	//bool isLeft=false;
 	RRValue value;
 
 };

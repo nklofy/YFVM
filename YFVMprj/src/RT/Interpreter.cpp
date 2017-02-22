@@ -42,7 +42,6 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 			doLoadb();
 			break;
 
-
 			////////////////////////////////////
 		case "GT":
 			doGT();
@@ -92,138 +91,106 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 			break;
 		case "div_i":
 			doDivi();
-
-		break;
-		case "div_d":doDivd();
-
-
 			break;
-		case "inc_1":doInc1();
-
-
+		case "div_d":
+			doDivd();
 			break;
-		case "dec_1":doDec1();
-
-
+		case "inc_1":
+			doInc1();
+			break;
+		case "dec_1":
+			doDec1();
 			break;
 
 			//////////////////////
-		case "if":doIf();
-
-
+		case "if":
+			doIf();
 			break;
-		case "while":doWhile();
-
-
+		case "while":
+			doWhile();
 			break;
-		case "goto":doGoto();
-
-
+		case "goto":
+			doGoto();
 			break;
-		case "retExp":doRetExp();
-
-
+		case "retExp":
+			doRetExp();
 			break;
-		case "ret":doRet();
-
-
+		case "ret":
+			doRet();
 			break;
-		case "defFunction":doDefFunc();
-
-
+		case "defFunction":
+			doDefFunc();
 			break;
-		case "end":doEnd();
-
-
+		case "end":
+			doEnd();
 			break;
-		case "getFunc":doGetFunc();
-
-
+		case "getFunc":
+			doGetFunc();
 			break;
-		case "pushTypeArg":doPushTypeArg();
-
-
+		case "pushTypeArg":
+			doPushTypeArg();
 			break;
-		case "pushFuncArg":doPushFuncArg();
-
-
+		case "pushFuncArg":
+			doPushFuncArg();
 			break;
-		case "invoke":doInvoke();
-
-
+		case "invoke":
+			doInvoke();
 			break;
 
 			/////////////////////////////
-		case "defClass":doDefClass();
-
-
+		case "defClass":
+			doDefClass();
 			break;
-		case "defInterface":doDefIntf();
-
-
+		case "defInterface":
+			doDefIntf();
 			break;
-		case "extends":doExtd();
-
-
+		case "extends":
+			doExtd();
 			break;
-		case "impliments":doImpl();
-
-
+		case "impliments":
+			doImpl();
 			break;
-		case "Fields":doFields();
-
-
+		case "Fields":
+			doFields();
 			break;
-		case "defField":doDefFld();
-
-
+		case "defField":
+			doDefFld();
 			break;
-		case "Methods":doMethods();
-
-
+		case "Methods":
+			doMethods();
 			break;
-		case "defMethod":doDefMthd();
-
-
+		case "defMethod":
+			doDefMthd();
 			break;
-		case "defGnrcPar":doDefGnrcPar();
-
-
+		case "defGnrcPar":
+			doDefGnrcPar();
 			break;
-		case "defFuncPar":doDefFuncPar();
-
-
+		case "defFuncPar":
+			doDefFuncPar();
 			break;
-		case "newArr":doNewArr();
-
-
+		case "newArr":
+			doNewArr();
 			break;
-		case "newObj":doNewObj();
-
-
+		case "newObj":
+			doNewObj();
 			break;
-		case "defLambdaExp":doDefLmbdExp();
-
-
+		case "defLambdaExp":
+			doDefLmbdExp();
 			break;
-		case "getFuncObj":doGetFuncObj();
-
-
+		case "getFuncObj":
+			doGetFuncObj();
 			break;
-		case "getMethod":doGetMthd();
-
-
+		case "getMethod":
+			doGetMthd();
 			break;
-		case "getArray":doGetArr();
-
-
+		case "getArray":
+			doGetArr();
 			break;
-		case "getField":doGetFld();
-
-
+		case "getField":
+			doGetFld();
 			break;
-		case "getClass":doGetClass();
-
+		case "getClass":
+			doGetClass();
 			break;
 
 		default:
@@ -266,7 +233,7 @@ void Interpreter::doMov() {
 	//deal with type auto conversion and l/r value
 	if(r3.valuek==vk_double&&opd1!="double"){	//mov int a b
 		long mv=(long)r3.value.double_value;
-		if(r2.isLeft){
+		if(r2.valuek==vk_ptr){
 			long addr2=r2.value.ptr_value;
 			InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
 			p->value.value.int_value=mv;
@@ -275,7 +242,7 @@ void Interpreter::doMov() {
 		}
 	}else if(opd1=="double"&&r3.valuek!=vk_double){	//mov double a b
 		double mv=(double)r3.value.int_value;
-		if(r2.isLeft){
+		if(r2.valuek==vk_ptr){
 			long addr2=r2.value.ptr_value;
 			InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
 			p->value.value.double_value=mv;
@@ -293,7 +260,7 @@ void Interpreter::doMov() {
 		//set r2's ptr
 		long addr=mem->allocStr(tgs.size());
 		mem->cpyStr(addr,tgs);
-		if(r2.isLeft){
+		if(r2.valuek==vk_ptr){
 			long addr2=r2.value.ptr_value;
 			InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
 			p->value.value.ptr_value=addr;
@@ -301,7 +268,7 @@ void Interpreter::doMov() {
 			r2.value.ptr_value=addr;
 		}
 	}else{	//ptr assign to ptr
-		if(r2.isLeft){
+		if(r2.valuek==vk_ptr){
 			long addr2=r2.value.ptr_value;
 			InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
 			p->value.value=r3.value;
@@ -407,17 +374,17 @@ int Interpreter::doCmp(){
 	long a3=getSbAddr(opd3);
 	DatValue& v2=mem->fetchStack(a2);
 	DatValue& v3=mem->fetchStack(a3);
-	if(v2.isLeft&&v3.isLeft){
+	if(v2.valuek==vk_ptr&&v3.valuek==vk_ptr){
 		long p2=v2.value.ptr_value;
 		long p3=v3.value.ptr_value;
 		DatValue& v4=mem->fetchObj(p2);
 		DatValue& v5=mem->fetchObj(p3);
 		return cmp2Value(v4,v5);
-	}else if(v2.isLeft){
+	}else if(v2.valuek==vk_ptr){
 		long p2=v2.value.ptr_value;
 		DatValue& v4=mem->fetchObj(p2);
 		return cmp2Value(v4,v3);
-	}else if(v3.isLeft){
+	}else if(v3.valuek==vk_ptr){
 		long p3=v3.value.ptr_value;
 		DatValue& v5=mem->fetchObj(p3);
 		return cmp2Value(v2,v5);
@@ -475,6 +442,7 @@ long Interpreter::getSbAddr(string& name) {
 
 void Interpreter::addVarStack(ValueK k,RRValue& v,string& name){
 	long tos=mem->pushStack(k,v);
+	this->esp++;
 	if(ebp==0){
 		(this->global_vars)[name]=tos;
 	}else{
@@ -574,16 +542,16 @@ void Interpreter::doAND() {
 	DatValue& v2=mem->fetchStack(a2);
 	DatValue& v3=mem->fetchStack(a3);
 	long i1=0,i2=0,i3=0;
-	if(v2.isLeft&&v3.isLeft){
+	if(v2.valuek==vk_ptr&&v3.valuek==vk_ptr){
 		long p2=v2.value.ptr_value;
 		long p3=v3.value.ptr_value;
 		i2=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
 		i3=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
-	}else if(v2.isLeft){
+	}else if(v2.valuek==vk_ptr){
 		long p2=v2.value.ptr_value;
 		i2=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
 		i3=v3.value.int_value;
-	}else if(v3.isLeft){
+	}else if(v3.valuek==vk_ptr){
 		long p3=v3.value.ptr_value;
 		long i3=((InstBasic*)(mem->fetchObj(p3)))->value.value.int_value;
 		i2=v2.value.int_value;
@@ -606,16 +574,16 @@ void Interpreter::doOR() {
 	DatValue& v2=mem->fetchStack(a2);
 	DatValue& v3=mem->fetchStack(a3);
 	long i1=0,i2=0,i3=0;
-	if(v2.isLeft&&v3.isLeft){
+	if(v2.valuek==vk_ptr&&v3.valuek==vk_ptr){
 		long p2=v2.value.ptr_value;
 		long p3=v3.value.ptr_value;
 		i2=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
 		i3=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
-	}else if(v2.isLeft){
+	}else if(v2.valuek==vk_ptr){
 		long p2=v2.value.ptr_value;
 		i2=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
 		i3=v3.value.int_value;
-	}else if(v3.isLeft){
+	}else if(v3.valuek==vk_ptr){
 		long p3=v3.value.ptr_value;
 		long i3=((InstBasic*)(mem->fetchObj(p3)))->value.value.int_value;
 		i2=v2.value.int_value;
@@ -634,7 +602,7 @@ void Interpreter::doNT() {
 	long a2=getSbAddr(opd2);
 	DatValue& v2=mem->fetchStack(a2);
 	long i1=0,i2=0;
-	if(v2.isLeft){
+	if(v2.valuek==vk_ptr){
 		long p2=v2.value.ptr_value;
 		i2=((InstBasic*)(mem->fetchObj(p2)))->value.value.int_value;
 	}else{
@@ -811,34 +779,100 @@ void Interpreter::doDivd() {
 }
 
 void Interpreter::doInc1() {
-
+	string& opd1=code->getOpd1();
+	long a1=getSbAddr(opd1);
+	DatValue& v1=mem->fetchStack(a1);
+	double i1=getDVDatV(v1);
+	DatValue& v=mem->fetchStack(a1);
+	if(v.valuek==vk_ptr){
+		DatValue& v2=this->getPtrValue(v.value.ptr_value);
+		++v2.value.int_value;
+	}else{
+		++v.value.int_value;
+	}
 }
 
 void Interpreter::doDec1() {
-
+	string& opd1=code->getOpd1();
+	long a1=getSbAddr(opd1);
+	DatValue& v1=mem->fetchStack(a1);
+	double i1=getDVDatV(v1);
+	DatValue& v=mem->fetchStack(a1);
+	if(v.valuek==vk_ptr){
+		DatValue& v2=this->getPtrValue(v.value.ptr_value);
+		--v2.value.int_value;
+	}else{
+		--v.value.int_value;
+	}
 }
 
 void Interpreter::doIf() {
-
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	long a2=stol(opd2);
+	long a3=stol(opd3);
+	long p;
+	DatValue& v=mem->fetchStack(getSbAddr(opd1));
+	if(v.valuek==vk_ptr){
+		p=this->getPtrValue(v.value.ptr_value);
+	}else{
+		p=v.value.int_value;
+	}
+	if(p==0){
+		this->pc=a3;
+	}else if(p==1){
+		this->pc=a2;
+	}
 }
 
-void Interpreter::doWhile() {
-
+void Interpreter::doWhile() {	//actually, the same as if stmt. but keeping while info
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	long a2=stol(opd2);
+	long a3=stol(opd3);
+	long p;
+	DatValue& v=mem->fetchStack(getSbAddr(opd1));
+	if(v.valuek==vk_ptr){
+		p=this->getPtrValue(v.value.ptr_value);
+	}else{
+		p=v.value.int_value;
+	}
+	if(p==0){
+		this->pc=a3;
+	}else if(p==1){
+		this->pc=a2;
+	}
 }
 
 void Interpreter::doGoto() {
-
+	string& opd1=code->getOpd1();
+	long a1=stol(opd1);
+	long p;
+	this->pc=a1;
 }
 
 void Interpreter::doRetExp() {
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	DatValue& oldv=mem->fetchStack(stol(opd2));
+	ValueK k=oldv.valuek;
+	RRValue v=oldv.value;
+	doRet();
+	this->addVarStack(k,v,opd2);
 }
 
 void Interpreter::doRet() {
-
+	//return last frame
+	this->esp=this->ebp-3;
+	this->pc=mem->fetchStack(ebp-1).value.int_value;//return address
+	this->ebp=mem->fetchStack(ebp-2).value.int_value;
+	this->mem->setTopStack(esp);
 }
 
 void Interpreter::doDefFunc() {
-
+	//lambda expression
 }
 
 void Interpreter::doEnd() {
@@ -846,6 +880,19 @@ void Interpreter::doEnd() {
 }
 
 void Interpreter::doGetFunc() {
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	string& opd3=code->getOpd3();
+	auto ftb=stcz->getFuncTbl();
+	auto flt=stcz->getFuncList();
+	long i=ftb[opd1];
+	AbstFunc* f=flt[i];
+	if(f->isOverload){
+		//
+	}else{
+		//
+	}
+	//new frame
 
 }
 
