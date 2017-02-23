@@ -19,6 +19,7 @@ public:
 	DatValue& popStack();
 	DatValue& peekStack();
 	DatValue& fetchStack(long);
+	int modifyStack(DatValue&);
 	void setTopStack(long);
 	long getSizeStk();
 
@@ -31,12 +32,12 @@ public:
 	long allocStr(long);
 	int cpyStr(long,string&);
 	int cpyMem(long,long);
-	int cpyValue(long,DatValue&);
+	int modifyObj(long,DatValue&);
 	int initObj(long);
 	long getSizeHp();
 private:
-	Mem_Stack stack;//ebp: link for searching; -1: return adress; -2: last frame's ebp; 1: pars
-	Mem_Heap heap;
+	MemStack stack;//ebp: link for searching; -1: return adress; -2: last frame's ebp; 1: pars
+	MemHeap heap;
 };
 
 #endif /* SRC_MEMMANAGER_H_ */

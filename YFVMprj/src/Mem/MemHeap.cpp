@@ -7,12 +7,12 @@
 
 #include "MemHeap.h"
 
-Mem_Heap::Mem_Heap() {
+MemHeap::MemHeap() {
 	// TODO Auto-generated constructor stub
 
 }
 
-Mem_Heap::~Mem_Heap() {
+MemHeap::~MemHeap() {
 	// TODO Auto-generated destructor stub
 }
 

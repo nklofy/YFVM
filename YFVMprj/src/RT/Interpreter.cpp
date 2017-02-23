@@ -217,7 +217,7 @@ void Interpreter::doMov() {
 		}else if(this->global_vars.find(opd2)){
 			addr2=this->global_vars[opd2];
 		}else{
-			cerr<<"not find symbol name "<<opd2<<endl;
+			cerr<<"not find symbol name "<<opd2<<endl;return;
 		}
 		//get addr3 from opd3
 		if(this->local_vars->find(opd3)){
@@ -225,7 +225,7 @@ void Interpreter::doMov() {
 		}else if(this->global_vars.find(opd3)){
 			addr3=this->global_vars[opd3];
 		}else{
-			cerr<<"not find symbol name "<<opd3<<endl;
+			cerr<<"not find symbol name "<<opd3<<endl;return;
 		}
 	}
 	DatValue& r2=mem->fetchStack(addr2);
@@ -439,7 +439,7 @@ long Interpreter::getSbAddr(string& name) {
 	}else if(this->global_vars.find(name)){
 		addr=this->global_vars[name];
 	}else{
-		cerr<<"not find symbol name "<<name<<endl;
+		cerr<<"not find symbol name "<<name<<endl;return;
 	}
 
 }
@@ -759,7 +759,7 @@ void Interpreter::doDivi() {
 	DatValue& v3=mem->fetchStack(a3);
 	long i2=getIVDatV(v2);
 	long i3=getIVDatV(v3);
-	if(i3==0) cerr<<"error divide by 0: "<<opd2<<" / "<<opd3<<endl;
+	if(i3==0) {cerr<<"error divide by 0: "<<opd2<<" / "<<opd3<<endl;return;}
 	RRValue v;
 	v.int_value=i2/i3;
 	this->addVarStack(vk_int,v,opd1);
@@ -776,7 +776,7 @@ void Interpreter::doDivd() {
 	DatValue& v3=mem->fetchStack(a3);
 	double i2=getDVDatV(v2);
 	double i3=getDVDatV(v3);
-	if(i3==0) cerr<<"error divide by 0: "<<opd2<<" / "<<opd3<<endl;
+	if(i3==0) {cerr<<"error divide by 0: "<<opd2<<" / "<<opd3<<endl;return;}
 	RRValue v;
 	v.int_value=i2/i3;
 	this->addVarStack(vk_double,v,opd1);

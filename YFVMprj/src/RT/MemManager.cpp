@@ -15,4 +15,4 @@ MemManager::MemManager() {
 MemManager::~MemManager() {
 	// TODO Auto-generated destructor stub
 }
-
+int MemManager::

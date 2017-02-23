@@ -8,10 +8,10 @@
 #ifndef SRC_MEM_MEMHEAP_H_
 #define SRC_MEM_MEMHEAP_H_
 
-class Mem_Heap {
+class MemHeap {
 public:
-	Mem_Heap();
-	virtual ~Mem_Heap();
+	MemHeap();
+	virtual ~MemHeap();
 };
 
 #endif /* SRC_MEM_MEMHEAP_H_ */
