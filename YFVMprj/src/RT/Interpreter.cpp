@@ -866,7 +866,7 @@ void Interpreter::doRetExp() {
 	this->esp=this->ebp-3;
 	this->pc=mem->fetchStack(ebp-1).value.int_value;//return address
 	this->ebp=mem->fetchStack(ebp-2).value.int_value;
-	this->mem->setTopStack(esp);
+	this->mem->setStackTop(esp);
 	this->mem->pushStack(k,v);
 	this->esp++;
 }
@@ -876,7 +876,7 @@ void Interpreter::doRet() {
 	this->esp=this->ebp-3;
 	this->pc=mem->fetchStack(ebp-1).value.int_value;//return address
 	this->ebp=mem->fetchStack(ebp-2).value.int_value;
-	this->mem->setTopStack(esp);
+	this->mem->setStackTop(esp);
 	RRValue v;
 	v.int_value=0;
 	this->mem->pushStack(vk_int,v);

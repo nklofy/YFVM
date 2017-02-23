@@ -19,9 +19,9 @@ public:
 	DatValue& popStack();
 	DatValue& peekStack();
 	DatValue& fetchStack(long);
-	int modifyStack(DatValue&);
-	void setTopStack(long);
-	long getSizeStk();
+	int modifyStack(long, DatValue&);
+	int setStackTop(long);
+	long getStackTop();
 
 	//heap operation
 	InstVar* fetchObj(long);
@@ -36,7 +36,7 @@ public:
 	int initObj(long);
 	long getSizeHp();
 private:
-	MemStack stack;//ebp: link for searching; -1: return adress; -2: last frame's ebp; 1: pars
+	MemStack<DatValue> stack;//ebp: link for searching; -1: return adress; -2: last frame's ebp; 1: pars
 	MemHeap heap;
 };
 
