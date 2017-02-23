@@ -71,6 +71,8 @@ private:
 	void doDefFunc();
 	void loadFunc(AbstFunc*);
 	void doEnd();
+	void doDefGnrcPar();
+	void doDefFuncPar();
 	void doGetFunc();
 	void doPushTypeArg();
 	void doPushFuncArg();
@@ -83,8 +85,6 @@ private:
 	void doDefFld();
 	void doMethods();
 	void doDefMthd();
-	void doDefGnrcPar();
-	void doDefFuncPar();
 	void doNewArr();
 	void doNewObj();
 	void doDefLmbdExp();

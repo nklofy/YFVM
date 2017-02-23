@@ -284,7 +284,7 @@ void Interpreter::doLoadi() {
 	RRValue v;
 	v.int_value=vi;
 	long tos=mem->pushStack(vk_int,v);
-
+	this->esp++;
 	if(ebp==0){
 		(this->global_vars)[opd1]=tos;
 	}else{
@@ -302,6 +302,7 @@ void Interpreter::doLoadd() {
 	RRValue v;
 	v.double_value=vd;
 	long tos=mem->pushStack(vk_double,v);
+	this->esp++;
 	if(ebp==0){
 		(this->global_vars)[opd1]=tos;
 	}else{
@@ -321,6 +322,7 @@ void Interpreter::doLoads() {
 	RRValue v;
 	v.ptr_value=addr;
 	long tos=mem->pushStack(vk_ptr,v);
+	this->esp++;
 
 	if(ebp==0){
 		(this->global_vars)[opd1]=tos;
@@ -339,6 +341,7 @@ void Interpreter::doLoadc() {
 	RRValue v;
 	v.int_value=vi;
 	long tos=mem->pushStack(vk_int,v);
+	this->esp++;
 	if(ebp==0){
 		(this->global_vars)[opd1]=tos;
 	}else{
@@ -356,6 +359,7 @@ void Interpreter::doLoadb() {
 	RRValue v;
 	v.int_value=vi;
 	long tos=mem->pushStack(vk_int,v);
+	this->esp++;
 	if(ebp==0){
 		(this->global_vars)[opd1]=tos;
 	}else{
@@ -856,11 +860,15 @@ void Interpreter::doGoto() {
 void Interpreter::doRetExp() {
 	string& opd1=code->getOpd1();
 	string& opd2=code->getOpd2();
-	DatValue& oldv=mem->fetchStack(stol(opd2));
+	DatValue& oldv=mem->fetchStack(this->getSbAddr(opd2));
 	ValueK k=oldv.valuek;
 	RRValue v=oldv.value;
-	doRet();
-	this->addVarStack(k,v,opd2);
+	this->esp=this->ebp-3;
+	this->pc=mem->fetchStack(ebp-1).value.int_value;//return address
+	this->ebp=mem->fetchStack(ebp-2).value.int_value;
+	this->mem->setTopStack(esp);
+	this->mem->pushStack(k,v);
+	this->esp++;
 }
 
 void Interpreter::doRet() {
@@ -869,6 +877,10 @@ void Interpreter::doRet() {
 	this->pc=mem->fetchStack(ebp-1).value.int_value;//return address
 	this->ebp=mem->fetchStack(ebp-2).value.int_value;
 	this->mem->setTopStack(esp);
+	RRValue v;
+	v.int_value=0;
+	this->mem->pushStack(vk_int,v);
+	this->esp++;
 }
 
 void Interpreter::doDefFunc() {
@@ -903,8 +915,14 @@ void Interpreter::loadFunc(AbstFunc* f){
 }
 
 void Interpreter::doEnd() {
-
 }
+
+void Interpreter::doDefGnrcPar() {
+}
+
+void Interpreter::doDefFuncPar() {
+}
+
 
 void Interpreter::doGetFunc() {
 	string& opd1=code->getOpd1();
@@ -918,10 +936,19 @@ void Interpreter::doGetFunc() {
 		while(f->hasNext&&f->getSig()!=opd2){
 			f=f->getNext();
 		}
+		//report err when not found
+
 	}else{
 
 	}
 	//push stack, new frame
+	RRValue r1;
+	r1.int_value=this->ebp;
+	mem->pushStack(vk_int,r1);
+	this->esp++;
+	r1.int_value=this->pc;
+	mem->pushStack(vk_int,r1);
+	this->esp++;
 	this->pc=f->getEntry();
 }
 
@@ -930,11 +957,25 @@ void Interpreter::doPushTypeArg() {
 }
 
 void Interpreter::doPushFuncArg() {
-
+	string& opd1=this->code->opd1;
+	DatValue& v=mem->fetchStack(this->getSbAddr(opd1));
+	this->addVarStack(v.valuek,v.value,opd1);
 }
 
 void Interpreter::doInvoke() {
+	string& opd1=code->getOpd1();
+	string& opd2=code->getOpd2();
+	DatValue& v=mem->peekStack();
 
+	if(ebp==0){
+		(this->global_vars)[opd2]=this->esp;
+	}else{
+		long tpi=mem->fetchStack(ebp);  //link for symbol table
+		AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->typelist)[tpi]);
+		if(!f->sym_inner.find(opd2)){
+			f->sym_inner[opd2]=this->esp-ebp;
+		}
+	}
 }
 
 void Interpreter::doDefClass() {
@@ -959,12 +1000,6 @@ void Interpreter::doMethods() {
 }
 
 void Interpreter::doDefMthd() {
-}
-
-void Interpreter::doDefGnrcPar() {
-}
-
-void Interpreter::doDefFuncPar() {
 }
 
 void Interpreter::doNewArr() {
