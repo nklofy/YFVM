@@ -8,10 +8,10 @@
 #ifndef SRC_TYPESYS_DATVALUE_H_
 #define SRC_TYPESYS_DATVALUE_H_
 
-class DatValue {
-public:
-	DatValue();
-	virtual ~DatValue();
+struct DatValue {
+//public:
+	//DatValue();
+	//virtual ~DatValue();
 	ValueK valuek;
 	//bool isLeft=false;
 	RRValue value;

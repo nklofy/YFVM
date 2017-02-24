@@ -4,7 +4,7 @@
  *  Created on: Feb 7, 2017
  *      Author: luyunfei
  */
-
+/*
 #include "DatValue.h"
 
 DatValue::DatValue() {
@@ -14,5 +14,5 @@ DatValue::DatValue() {
 
 DatValue::~DatValue() {
 	// TODO Auto-generated destructor stub
-}
+}*/
 

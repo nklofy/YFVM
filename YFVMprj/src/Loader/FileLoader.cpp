@@ -13,7 +13,12 @@ FileLoader::FileLoader() {
 }
 
 FileLoader::~FileLoader() {
-	// TODO Auto-generated destructor stub
+	for(auto f:this->funcs){
+		delete f;
+	}
+	for(auto c:this->script){
+		delete c;
+	}
 }
 
 int FileLoader::doLoad(string filename){
@@ -86,10 +91,10 @@ int FileLoader::loadFuncs(TokenStream *ts){
 
 int FileLoader::loadScript(TokenStream *ts){
 	string s=ts->getLine();
-	this->script=new list<IRCode*>;
+	//this->script=new list<IRCode*>;
 		while(s!="end"){
 			//parse func body
-			script->push_back(new IRCode(s));
+			script.push_back(new IRCode(s));
 			s=ts->getLine();
 		}
 		if(ts->isEnd){
@@ -112,7 +117,7 @@ list<RcdFunc*>& FileLoader::getFuncs()  {
 	return funcs;
 }
 
-vector<IRCode*>* FileLoader::getScript() {
+vector<IRCode*>& FileLoader::getScript() {
 	return script;
 }
 

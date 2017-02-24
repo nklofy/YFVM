@@ -71,8 +71,8 @@ int VM::attachIO(IOManager* io){
 	this->io=io;
 	return 0;
 }
-int VM::initStcPool(){
-	this->stcpool=new StaticZone;
+int VM::initStaticZone(StaticZone* z){
+	this->stcpool=z;
 	this->stcpool->init();
 	return 0;
 }

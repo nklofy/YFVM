@@ -13,6 +13,7 @@
 class AbstBasic : public AbstType {
 public:
 	AbstBasic();
+	AbstBasic(TBasicK);
 	virtual ~AbstBasic();
 	TypeK getTypeK(){return tbasic;}
 	TBasicK getTBasicK();

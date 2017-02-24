@@ -40,7 +40,7 @@ public:
 	int attachIntpr(Interpreter* intpr);
 	int attachMem(MemManager* mem);
 	int attachIO(IOManager* io);
-	int initStcPool();
+	int initStaticZone(StaticZone* stcz);
 	int runLoadFile(string);//function table, class table, script;
 	int runIntprScript();
 

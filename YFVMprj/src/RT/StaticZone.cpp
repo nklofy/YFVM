@@ -8,15 +8,23 @@
 #include "StaticZone.h"
 
 StaticZone::StaticZone() {
-	// TODO Auto-generated constructor stub
-
+	this->init();
 }
+
 
 StaticZone::~StaticZone() {
-	// TODO delete resources
-
+	for(auto f:func_list){
+		delete f;
+	}
+	for(auto t:typelist){
+		delete t;
+	}
 }
 int StaticZone::init(){
+	//optnum=new map<string,int>();
+	//func_tbl=new map<string,long>();
+	//func_list=new vector<AbstFunc*>();
+	//typelist=new vector<AbstType*>();
 	(this->type_tbl)["int"]=this->typelist.size();
 	AbstType* t1=new AbstBasic;
 	this->typelist.push_back(t1);
@@ -74,12 +82,12 @@ int StaticZone::importFuncs(list<RcdFunc*>& funcs){
 	}
 	return 0;
 }
-int StaticZone::importScript(vector<IRCode*>* script){
-	this->codes=script;
+int StaticZone::importScript(vector<IRCode*>& script){
+	this->codes=&script;
 	return 0;
 }
 
-vector<IRCode*>* StaticZone::getCodes() const {
+vector<IRCode*>* StaticZone::getScript() const {
 	return codes;
 }
 

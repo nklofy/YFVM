@@ -22,13 +22,13 @@ public:
 	int init();
 	int importTypes();
 	int importFuncs(list<RcdFunc*>&);
-	int importScript(list<IRCode*>&);
-	vector<IRCode*>* getCodes() const;
+	int importScript(vector<IRCode*>&);
+	vector<IRCode*>* getScript() const;
 	const map<string, long>& getFuncTbl() const;
 	const vector<AbstFunc*>& getFunclist() const;
 	map<string,int>& getOptNum();
 	int importScript(vector<IRCode*>*);
-	vector<IRCode*>* StaticZone::getCodes() const;
+	vector<IRCode*>* StaticZone::getScript() const;
 	map<string, long>& getCnstPlMap();
 	vector<string>& getCnstplList();
 	const vector<AbstFunc*>& getFuncList() const;

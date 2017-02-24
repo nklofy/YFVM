@@ -20,8 +20,9 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 	this->stcz=stcz;
 	this->mem=mem;
 	this->io=io;
+	this->codes=stcz->getScript();
 	while(true){
-		this->code=(stcz->getCodes())[pc++];
+		this->code=(this->codes)[pc++];
 		switch(this->code->getOpt()){//in future, use ptr array to deal with distribution
 		case "mov":
 			doMov();
@@ -869,6 +870,14 @@ void Interpreter::doRetExp() {
 	this->mem->setStackTop(esp);
 	this->mem->pushStack(k,v);
 	this->esp++;
+	if(ebp==0){
+		(this->global_vars)[opd2]=this->esp;
+		this->codes=this->stcz->getScript();
+	}else{
+		long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
+		AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->typelist)[tpi]);
+		this->codes=f->getBody();
+	}
 }
 
 void Interpreter::doRet() {
@@ -881,6 +890,14 @@ void Interpreter::doRet() {
 	v.int_value=0;
 	this->mem->pushStack(vk_int,v);
 	this->esp++;
+	if(ebp==0){
+		//(this->global_vars)[opd2]=this->esp;
+		this->codes=this->stcz->getScript();
+	}else{
+		long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
+		AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->typelist)[tpi]);
+		this->codes=f->getBody();
+	}
 }
 
 void Interpreter::doDefFunc() {
@@ -897,10 +914,10 @@ void Interpreter::doDefFunc() {
 }
 
 void Interpreter::loadFunc(AbstFunc* f){
-	f->setEntry(stcz->getCodes()->size());
+	f->setEntry(stcz->getScript()->size());
 	bool gono=true;
 	while(true){
-		this->code=(stcz->getCodes())[pc++];
+		this->code=(stcz->getScript())[pc++];
 		switch(this->code->getOpt()){
 		case "end":
 			gono=false;
@@ -921,6 +938,8 @@ void Interpreter::doDefGnrcPar() {
 }
 
 void Interpreter::doDefFuncPar() {
+	string& opd1=this->code->getOpd1();
+	this->local_vars[opd1]=esp++;
 }
 
 
@@ -959,7 +978,8 @@ void Interpreter::doPushTypeArg() {
 void Interpreter::doPushFuncArg() {
 	string& opd1=this->code->opd1;
 	DatValue& v=mem->fetchStack(this->getSbAddr(opd1));
-	this->addVarStack(v.valuek,v.value,opd1);
+	this->mem->pushStack(v.valuek,v.value);
+	//addVarStack(v.valuek,v.value,opd1);
 }
 
 void Interpreter::doInvoke() {
@@ -969,13 +989,16 @@ void Interpreter::doInvoke() {
 
 	if(ebp==0){
 		(this->global_vars)[opd2]=this->esp;
+		this->codes=this->stcz->getScript();
 	}else{
-		long tpi=mem->fetchStack(ebp);  //link for symbol table
+		long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
 		AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->typelist)[tpi]);
+		this->codes=f->getBody();
 		if(!f->sym_inner.find(opd2)){
 			f->sym_inner[opd2]=this->esp-ebp;
 		}
 	}
+	this->esp=this->ebp+1;
 }
 
 void Interpreter::doDefClass() {
