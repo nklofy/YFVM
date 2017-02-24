@@ -7,7 +7,9 @@
 
 #ifndef SRC_CODES_IRCODE_H_
 #define SRC_CODES_IRCODE_H_
+
 #include <string>
+
 using namespace std;
 
 class IRCode {
@@ -16,13 +18,13 @@ public:
 	IRCode(IRCode&);
 	IRCode(string);
 	virtual ~IRCode();
-	string getOpd1() const;
+	string& getOpd1();
 	//void setOpd1(string opd1);
-	string getOpd2() const;
+	string& getOpd2();
 	//void setOpd2(string opd2);
-	string getOpd3() const;
+	string& getOpd3();
 	//void setOpd3(string opd3);
-	string getOpt() const;
+	string& getOpt();
 	//void setOpt(string opt);
 	int setLine(string);
 

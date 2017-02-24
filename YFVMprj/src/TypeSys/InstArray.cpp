@@ -15,11 +15,11 @@ InstArray::InstArray() {
 InstArray::~InstArray() {
 	// TODO Auto-generated destructor stub
 }
-
+/*
 int InstArray::getArraySize() const {
 	return array_size;
 }
 
 void InstArray::setArraySize(int arraySize) {
 	array_size = arraySize;
-}
+}*/

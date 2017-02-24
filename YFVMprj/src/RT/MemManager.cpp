@@ -15,7 +15,7 @@ MemManager::MemManager() {
 MemManager::~MemManager() {
 	// TODO Auto-generated destructor stub
 }
-int MemManager::
+
 
 long MemManager::pushStack(ValueK v, RRValue r) {
 	DatValue* d=this->stack.push();
@@ -48,4 +48,37 @@ int MemManager::setStackTop(long top) {
 
 long MemManager::getStackTop() {
 	return stack.getTop();
+}
+
+long MemManager::allocStr(long longInt) {
+}
+
+InstVar* MemManager::fetchObj(long longInt) {
+}
+
+long MemManager::mallocObj(long longInt) {
+}
+
+long MemManager::callocObj(long longInt, long longInt1) {
+}
+
+long MemManager::reallocObj(long longInt, long longInt1) {
+}
+
+int MemManager::freeHObj(long longInt) {
+}
+
+int MemManager::cpyStr(long longInt, string& allocator) {
+}
+
+int MemManager::cpyMem(long longInt, long longInt1) {
+}
+
+int MemManager::modifyObj(long longInt, DatValue&) {
+}
+
+int MemManager::initObj(long longInt) {
+}
+
+long MemManager::getSizeHp() {
 }

@@ -75,9 +75,9 @@ int StaticZone::importFuncs(list<RcdFunc*>& funcs){
 		}
 		//translate f to r
 		//deal with pars
-		for(auto cp:f->pars){
-			tf->partypes.push_back(cp->getOpd1());
-			tf->parnames.push_back(cp->getOpd2());
+		for(auto cp:f->getPars()){
+			tf->getParTypes().push_back(cp->getOpd1());
+			tf->getParNames().push_back(cp->getOpd2());
 		}
 	}
 	return 0;
@@ -87,30 +87,30 @@ int StaticZone::importScript(vector<IRCode*>& script){
 	return 0;
 }
 
-vector<IRCode*>* StaticZone::getScript() const {
+vector<IRCode*>* StaticZone::getScript() {
 	return codes;
 }
 
-const map<string, long>& StaticZone::getFuncTbl() const {
+map<string, long>& StaticZone::getFuncTbl() {
 	return func_tbl;
 }
 
-const vector<AbstFunc*>& StaticZone::getFunclist() const {
+vector<AbstFunc*>& StaticZone::getFuncLst() {
 	return func_list;
 }
 
-const vector<AbstFunc*>& StaticZone::getFuncList() const {
+vector<AbstFunc*>& StaticZone::getFuncList() {
 	return func_list;
 }
 
-const map<string, int>& StaticZone::getOptnum() const {
+map<string, int>& StaticZone::getOptNum() {
 	return optnum;
 }
 
-const map<string, long>& StaticZone::getTypeTbl() const {
+map<string, long>& StaticZone::getTypeTbl() {
 	return type_tbl;
 }
 
-const vector<AbstType*>& StaticZone::getTypelist() const {
+vector<AbstType*>& StaticZone::getTypeLst() {
 	return typelist;
 }

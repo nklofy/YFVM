@@ -9,6 +9,7 @@
 #define SRC_RCDFUNC_H_
 #include <string>
 #include <list>
+#include <vector>
 #include "IRCode.h"
 
 using namespace std;
@@ -27,7 +28,7 @@ public:
 	void setBody(const vector<IRCode*>& body);
 	int getRows() const;
 	void setRows(int rows);
-
+	list<IRCode*>& getPars();
 private:
 	string name;
 	string signature;

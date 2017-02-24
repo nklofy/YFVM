@@ -7,7 +7,8 @@
 
 #ifndef SRC_MEMMANAGER_H_
 #define SRC_MEMMANAGER_H_
-#include "Mem/Memory.h"
+#include "../Mem/Memory.h"
+#include "../TypeSys/TypeSys.h"
 
 class MemManager {
 public:
@@ -36,7 +37,7 @@ public:
 	int initObj(long);
 	long getSizeHp();
 private:
-	MemStack<DatValue> stack;//ebp: link for searching; -1: return adress; -2: last frame's ebp; 1: pars
+	MemStack stack;//ebp: link for searching; -1: return adress; -2: last frame's ebp; 1: pars
 	MemHeap heap;
 };
 

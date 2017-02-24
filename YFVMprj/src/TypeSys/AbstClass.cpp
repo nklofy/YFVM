@@ -15,11 +15,3 @@ AbstClass::AbstClass() {
 AbstClass::~AbstClass() {
 	// TODO Auto-generated destructor stub
 }
-
-const AbstGnrc*& AbstClass::getGnrcPars() const {
-	return gnrc_pars;
-}
-
-void AbstClass::setGnrcPars(const AbstGnrc*& gnrcPars) {
-	gnrc_pars = gnrcPars;
-}

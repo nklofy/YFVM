@@ -7,12 +7,14 @@
 
 #ifndef SRC_TYPESYS_INSTARRAY_H_
 #define SRC_TYPESYS_INSTARRAY_H_
+
 #include "InstVar.h"
-class InstArray : public InstVar{
+
+class InstArray : public InstVar {
 public:
 	InstArray();
 	virtual ~InstArray();
-	long getArraySize() const;
+	long getArraySize();
 	void setArraySize(long arraySize);
 
 private:

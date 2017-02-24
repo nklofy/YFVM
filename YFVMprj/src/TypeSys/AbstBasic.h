@@ -10,6 +10,13 @@
 
 #include "AbstType.h"
 
+enum TBasicK{
+	tint,
+	tdouble,
+	tbool,
+	tchar,
+	tstring
+};
 class AbstBasic : public AbstType {
 public:
 	AbstBasic();
@@ -21,12 +28,5 @@ public:
 private:
 
 };
-enum{
-	tint,
-	tdouble,
-	tbool,
-	tchar,
-	tstring
-}TBasicK;
 
 #endif /* SRC_TYPESYS_ABSTBASIC_H_ */

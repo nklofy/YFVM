@@ -12,12 +12,12 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include "Loader/FileLoader.h"
+#include "../Loader/FileLoader.h"
 #include "Interpreter.h"
 #include "IOManager.h"
 #include "MemManager.h"
 #include "StaticZone.h"
-#include "TypeSys/TypeSys.h"
+#include "../TypeSys/TypeSys.h"
 
 
 using namespace std;

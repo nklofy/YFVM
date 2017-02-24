@@ -7,28 +7,30 @@
 
 #ifndef SRC_MEM_MEMSTACK_H_
 #define SRC_MEM_MEMSTACK_H_
+#include <string>
 #include <string.h>
-#include "TypeSys/TypeSys.h"
+#include <iostream>
+#include "../TypeSys/TypeSys.h"
 
 using namespace std;
 typedef char T_element;
 
-template <typename T> class MemStack {
+class MemStack {
 public:
-	static int width=sizeof(T)/sizeof(T_element);
-	static int cwidth=sizeof(T_element);
-	static int org_height=1024;
-	static double ext_ratio=2;
-	static long max_long=0XFFFFFFFFFFFFFFFF;
+	static int width;
+	static int cwidth;
+	static int org_height;
+	static double ext_ratio;
+	static long max_long;
 
 	MemStack();
 	virtual ~MemStack();
 
-	T& fetch(long);
-	T& peak();
-	T* push();
-	T& pop();
-	int modify(long,T&);
+	DatValue& fetch(long);
+	DatValue& peak();
+	DatValue* push();
+	DatValue& pop();
+	int modify(long,DatValue&);
 	int setTop(long);
 	long getTop();
 

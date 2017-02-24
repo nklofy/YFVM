@@ -8,10 +8,15 @@
 #ifndef SRC_INTERPRETER_H_
 #define SRC_INTERPRETER_H_
 #include <vector>
-
-#include "TypeSys/TypeSys.h"
+#include <stdio.h>
+#include <iostream>
+#include "../TypeSys/TypeSys.h"
+#include "StaticZone.h"
+#include "MemManager.h"
+#include "IOManager.h"
 
 using namespace std;
+
 class Interpreter {
 public:
 	Interpreter();
@@ -27,7 +32,7 @@ private:
 	MemManager* mem;
 	IOManager* io;
 	enum{scp_glb,scp_func,scp_mthd} name_scope;
-	map<string,long> global_vars=new map<string,long>();
+	map<string,long> global_vars;
 	map<string,long>* local_vars;//point to function's local vars
 	AbstFunc* crt_func;//point to function type each time pushing a frame in stack
 	AbstClass* crt_cls;//point to class method belonging if crt function is method

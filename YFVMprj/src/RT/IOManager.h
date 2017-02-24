@@ -7,8 +7,9 @@
 
 #ifndef SRC_IO_IOMANAGER_H_
 #define SRC_IO_IOMANAGER_H_
-#include "IO/Input.h"
-#include "IO/Output.h"
+
+#include "../IO/Input.h"
+#include "../IO/Output.h"
 class IOManager {
 public:
 	IOManager();

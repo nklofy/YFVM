@@ -19,20 +19,23 @@ IRCode::~IRCode() {
 	// TODO Auto-generated destructor stub
 }
 
-string IRCode::getOpd1() const {
+string& IRCode::getOpd1() {
 	return opd1;
 }
 
-string IRCode::getOpd2() const {
+string& IRCode::getOpd2()  {
 	return opd2;
 }
 
-string IRCode::getOpd3() const {
+string& IRCode::getOpd3()  {
 	return opd3;
 }
 
-string IRCode::getOpt() const {
+string& IRCode::getOpt()  {
 	return opt;
+}
+
+IRCode::IRCode(IRCode&) {
 }
 
 int IRCode::setLine(string s){

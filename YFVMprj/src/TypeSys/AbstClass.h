@@ -14,6 +14,13 @@
 
 using namespace std;
 
+class ClsField{
+	friend class AbstClass;
+};
+class ClsMethod{
+	friend class AbstClass;
+};
+
 class AbstClass : public AbstType {
 public:
 	AbstClass();
@@ -21,19 +28,12 @@ public:
 	TypeK getTypeK(){return tclass;}
 	map<string,ClsField*> getFields();
 	map<string,ClsMethod*> getMethods();
-	const AbstGnrc*& getGnrcPars() const;
-	void setGnrcPars(const AbstGnrc*& gnrcPars);
+	//const AbstGnrc* getGnrcPars() const;
+	//void setGnrcPars(const AbstGnrc* gnrcPars);
 
 private:
-	AbstGnrc* gnrc_pars;
+	//AbstGnrc* gnrc_pars;
 	map<string,ClsField*> fields;
 	map<string,ClsMethod*> methods;
-};
-class ClsField{
-	friend class AbstClass;
-};
-class ClsMethod{
-	friend class AbstClass;
-
 };
 #endif /* SRC_TYPESYS_ABSTCLASS_H_ */

@@ -8,6 +8,8 @@
 #ifndef SRC_TYPESYS_INSTGNRC_H_
 #define SRC_TYPESYS_INSTGNRC_H_
 
+#include "InstVar.h"
+
 class InstGnrc: public InstVar {
 public:
 	InstGnrc();

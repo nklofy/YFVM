@@ -24,7 +24,7 @@ int VM::initOptNum(string filename){//map opt to int num
 		return -1;
 	}
 	string s;
-	int c1=1;
+	int c1=0;
 	while(!infile.eof()){
 		s.clear();
 		infile>>s;

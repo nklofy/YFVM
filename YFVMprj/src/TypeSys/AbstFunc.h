@@ -11,9 +11,10 @@
 #include <string>
 #include <set>
 #include <map>
+#include <vector>
 using namespace std;
-#include "TypeSys.h"
-#include "IR/IR.h"
+#include "AbstType.h"
+#include "../IR/IR.h"
 
 class AbstFunc : public AbstType {
 public:
@@ -36,6 +37,8 @@ public:
 
 	long getEntry();
 	void setEntry(long);
+	list<string>& getParNames();
+	list<string>& getParTypes();
 
 	bool hasNext=false;
 

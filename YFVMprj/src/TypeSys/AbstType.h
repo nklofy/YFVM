@@ -11,7 +11,9 @@
 #include <map>
 #include <string>
 using namespace std;
-#include "TypeSys.h"
+//#include "TypeSys.h"
+
+enum TypeK{tbasic, tclass, tfunc, tgnrc, tarray, ttype, tdummy};
 
 class AbstType {
 public:
@@ -30,7 +32,5 @@ private:
 	bool isGnrc;
 	bool isDummy;
 };
-enum TypeK{tbasic, tclass, tfunc, tgnrc, tarray, ttype, tdummy};
-
 
 #endif /* SRC_TYPESYS_ABSTTYPE_H_ */

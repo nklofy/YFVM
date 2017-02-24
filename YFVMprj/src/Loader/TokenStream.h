@@ -9,7 +9,8 @@
 #define SRC_LOADER_TOKENSTREAM_H_
 #include <string>
 #include <list>
-
+#include <iostream>
+#include <fstream>
 using namespace std;
 class TokenStream {
 public:

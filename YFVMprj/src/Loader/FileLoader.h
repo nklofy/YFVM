@@ -16,8 +16,7 @@
 #include <vector>
 #include "PckgManager.h"
 #include "TokenStream.h"
-#include "IRCode.h"
-#include "RcdFunc.h"
+#include "../IR/IR.h"
 
 using namespace std;
 class FileLoader {

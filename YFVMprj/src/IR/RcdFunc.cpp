@@ -55,3 +55,6 @@ int RcdFunc::getRows() const {
 void RcdFunc::setRows(int rows) {
 	this->rows = rows;
 }
+list<IRCode*>& RcdFunc::getPars(){
+	return this->pars;
+}

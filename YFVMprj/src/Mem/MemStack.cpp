@@ -7,31 +7,37 @@
 
 #include "MemStack.h"
 
-template<typename T> MemStack<T>::MemStack() : bottom(0),top(0),capacity(1024) {
-	real_bottom=new T[capacity*width];
+int MemStack::width=sizeof(DatValue)/sizeof(T_element);
+int MemStack::cwidth=sizeof(T_element);
+int MemStack::org_height=1024;
+double MemStack::ext_ratio=2;
+long MemStack::max_long=0XFFFFFFFFFFFFFFFF;
+
+MemStack::MemStack() : bottom(0),top(0),capacity(1024) {
+	real_bottom=new T_element[capacity*width];
 	real_top=real_bottom+capacity*width;
 }
 
-template<typename T> MemStack<T>::~MemStack() {
+MemStack::~MemStack() {
 	delete[] real_bottom;
 }
 
-template<typename T> int MemStack<T>::setTop(long nt) {
+int MemStack::setTop(long nt) {
 	this->top=nt;
 	return 0;
 }
 
-template<typename T> T& MemStack<T>::fetch(long index) {
-	T* p=(T*)(this->real_bottom+index*width);
+DatValue& MemStack::fetch(long index) {
+	DatValue* p=(DatValue*)(this->real_bottom+index*width);
 	return (*p);
 }
 
-template<typename T> T& MemStack<T>::peak() {
-	T* p=(T*)(this->real_bottom+width*top);
+DatValue& MemStack::peak() {
+	DatValue* p=(DatValue*)(this->real_bottom+width*top);
 	return (*p);
 }
 
-template<typename T> T* MemStack<T>::push() {
+DatValue* MemStack::push() {
 	if(this->top>=this->capacity-1){
 		if(!this->extend()){
 			cerr<<"not enough space for stack extending"<<endl;return NULL;
@@ -39,20 +45,20 @@ template<typename T> T* MemStack<T>::push() {
 	}
 	this->top++;
 	T_element* p=this->real_bottom+width*top;
-	T* pv=new(p) T;
+	DatValue* pv=new(p) DatValue;
 	return pv;
 }
 
-template<typename T> T& MemStack<T>::pop() {
-	T* p=(T*)(this->real_bottom+width*top);
+DatValue& MemStack::pop() {
+	DatValue* p=(DatValue*)(this->real_bottom+width*top);
 	this->top--;
 	return (*p);
 }
 
-template<typename T> int MemStack<T>::modify(long addr,T& e){
+int MemStack::modify(long addr,DatValue& e){
 	return -1;
 }
-template<typename T> int MemStack<T>::extend() {
+int MemStack::extend() {
 	double newc=ext_ratio*(double)capacity*(double)width;	//new capacity
 	if(newc*sizeof(T_element)>=this->max_long){
 		cerr<<"error too large stack"<<endl;
@@ -66,12 +72,11 @@ template<typename T> int MemStack<T>::extend() {
 	return 0;
 }
 
-template<typename T>
-inline long MemStack<T>::getTop() {
+long MemStack::getTop() {
 	return top;
 }
 
-template<typename T> int MemStack<T>::shrink() {
+int MemStack::shrink() {
 	double newc=(double)capacity*(double)width/ext_ratio;	//new capacity
 	this->capacity=newc;
 	T_element* newp=new T_element[capacity*width];	//new bottom

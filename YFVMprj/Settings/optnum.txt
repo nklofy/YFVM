@@ -16,9 +16,6 @@ EQ
 AND
 OR
 NOT
-retExp
-ret
-end
 sub_i
 sub_d
 add_i
@@ -29,7 +26,10 @@ div_i
 div_d
 inc_1
 dec_1
+retExp
+			ret
 defFunction
+			end
 getFunc
 pushTypeArg
 pushFuncArg

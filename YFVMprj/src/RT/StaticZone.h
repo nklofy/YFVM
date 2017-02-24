@@ -23,18 +23,16 @@ public:
 	int importTypes();
 	int importFuncs(list<RcdFunc*>&);
 	int importScript(vector<IRCode*>&);
-	vector<IRCode*>* getScript() const;
-	const map<string, long>& getFuncTbl() const;
-	const vector<AbstFunc*>& getFunclist() const;
+	vector<IRCode*>* getScript();
+	map<string, long>& getFuncTbl();
+	vector<AbstFunc*>& getFuncLst();
 	map<string,int>& getOptNum();
 	int importScript(vector<IRCode*>*);
-	vector<IRCode*>* StaticZone::getScript() const;
 	map<string, long>& getCnstPlMap();
 	vector<string>& getCnstplList();
-	const vector<AbstFunc*>& getFuncList() const;
-	const map<string, int>& getOptnum() const;
-	const map<string, long>& getTypeTbl() const;
-	const vector<AbstType*>& getTypelist() const;
+	vector<AbstFunc*>& getFuncList();
+	map<string, long>& getTypeTbl();
+	vector<AbstType*>& getTypeLst();
 
 private:
 	map<string,int> optnum;
