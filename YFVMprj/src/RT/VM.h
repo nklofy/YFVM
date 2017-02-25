@@ -28,7 +28,7 @@ private:
 	Interpreter* intpr;
 	IOManager* io;
 	MemManager* mem;
-	StaticZone* stcpool;
+	StaticZone* stcz;
 
 public:
 	VM();

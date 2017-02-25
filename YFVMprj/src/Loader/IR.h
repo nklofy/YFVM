@@ -5,8 +5,9 @@
  *      Author: luyunfei
  */
 
-#ifndef SRC_IR_IR_H_
-#define SRC_IR_IR_H_
+#ifndef SRC_LOADER_IR_H_
+#define SRC_LOADER_IR_H_
+
 #include "IRCode.h"
 #include "RcdFunc.h"
 
@@ -16,4 +17,4 @@ public:
 	virtual ~IR();
 };
 
-#endif /* SRC_IR_IR_H_ */
+#endif /* SRC_LOADER_IR_H_ */

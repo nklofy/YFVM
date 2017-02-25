@@ -5,7 +5,7 @@
  *      Author: luyunfei
  */
 
-#include "RcdFunc.h"
+#include "../Loader/RcdFunc.h"
 
 RcdFunc::RcdFunc() {
 	// TODO Auto-generated constructor stub

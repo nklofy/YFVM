@@ -26,6 +26,7 @@ private:
 	long esp=0;//stack
 	long ebp=0;//frame
 	long pc=0;//program counter
+	long next_ebp;
 	vector<IRCode*>* codes;
 	IRCode* code;
 	StaticZone* stcz;
@@ -44,6 +45,7 @@ private:
 	void doLoadc();
 	void doLoadb();
 	int doCmp();
+	void movNew(string&, string&);
 	int cmp2Value(DatValue&,DatValue&);
 	long getSbAddr(string&);
 	void addVarStack(ValueK, RRValue&, string&);

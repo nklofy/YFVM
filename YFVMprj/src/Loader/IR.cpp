@@ -5,7 +5,7 @@
  *      Author: luyunfei
  */
 
-#include "IR.h"
+#include "../Loader/IR.h"
 
 IR::IR() {
 	// TODO Auto-generated constructor stub

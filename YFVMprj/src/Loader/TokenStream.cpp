@@ -13,33 +13,49 @@ TokenStream::TokenStream() {
 }
 
 TokenStream::~TokenStream() {
-	// TODO Auto-generated destructor stub
+	infile.close();
 }
 
-const string& TokenStream::getFilename() const {
+string& TokenStream::getFilename() {
 	return filename;
 }
 
-void TokenStream::setFilename(const string& filename) {
+void TokenStream::setFilename(string& filename) {
 	this->filename = filename;
 }
 
-string TokenStream::getNback() {
-	return NULL;
+string& TokenStream::getNback() {
+	if(goback){
+		return pre_line;
+	}
+	goback=true;
+	pre_line.clear();
+	getline(infile,pre_line);
+	return pre_line;
 }
 
-string TokenStream::getLine() {
-	return NULL;
+string& TokenStream::getLine() {
+	if(goback){
+		goback=false;
+		return pre_line;
+	}else{
+		crt_line.clear();
+		getline(infile,crt_line);
+		return crt_line;
+	}
 }
 
-int TokenStream::bindFile(string allocator) {
-	ifstream infile;
+int TokenStream::bindFile(string filename) {
+	int p2=filename.rfind(".yfc");
+	int p1=filename.rfind("/");
+
+	this->filename=filename.substr(p1+1,p2-p1-1);
 	infile.open(filename.c_str(),fstream::in);
 	if(!infile){
-		cerr<<"not open optnum file "<<filename<<endl;
+		cerr<<"not open file "<<filename<<endl;
 		return -1;
 	}
-	infile.close();
+	//infile.close();
 	return 0;
 }
 

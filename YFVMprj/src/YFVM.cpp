@@ -28,13 +28,13 @@ int main(int argc, char **argv){
 	IOManager* io=new IOManager;
 	MemManager* mem=new MemManager;
 	StaticZone* stcz=new StaticZone;
-	machine.initOptNum("Settings/optnum.txt");//map opt to int num
 	machine.initSettings("Settings/vmconfig.txt");
 	machine.attachLoader(loader);
 	machine.attachIntpr(intpr);
 	machine.attachMem(mem);
 	machine.attachIO(io);
 	machine.initStaticZone(stcz);
+	machine.initOptNum("Settings/optnum.txt");//map opt to int num
 	machine.runLoadFile(filename);//function table, class table, script;
 	machine.runIntprScript();
 	cout<<"finish YFVM"<<endl;

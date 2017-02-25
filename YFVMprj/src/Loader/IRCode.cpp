@@ -5,14 +5,22 @@
  *      Author: luyunfei
  */
 
-#include "IRCode.h"
+#include "../Loader/IRCode.h"
 
 IRCode::IRCode() {
 	// TODO Auto-generated constructor stub
 
 }
 IRCode::IRCode(string s) {
-	// TODO
+	int p1=s.find(" ");
+	opt=s.substr(0,p1);
+	int p2=s.find(" ",p1+1);
+	opd1=s.substr(p1+1,p2-p1-1);
+	int p3=s.find(" ",p2+1);
+	opd2=s.substr(p2+1,p3-p2-1);
+	opd3=s.substr(p3+1,s.length()-p3);
+
+
 
 }
 IRCode::~IRCode() {

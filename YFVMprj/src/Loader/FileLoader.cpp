@@ -23,8 +23,9 @@ FileLoader::~FileLoader() {
 
 int FileLoader::doLoad(string filename){
 	auto ts=new TokenStream();
-	if(ts->bindFile(filename)){
-		cerr<<"error read "<<filename<<endl;return -1;
+	//sysdir+filename
+	if(ts->bindFile("testcode/test1.yfc")){
+		cerr<<"error read "<<filename<<endl;//return -1;
 	}
 	string s=ts->getLine();
 	if(s!="89597046"){		//check magic number
@@ -72,12 +73,13 @@ int FileLoader::loadFuncs(TokenStream *ts){
 		func->setName(ss[1]);
 		func->setSig(ss[2]);
 		func->setScope(ss[3]);
-		s=ts->getLine();
+		//s=ts->getLine();
 		while(s!="end"){
 			//parse func body
 			func->getBody().push_back(new IRCode(s));
 			s=ts->getLine();
 		}
+
 		this->funcs.push_back(func);
 		if(ts->isEnd){
 			return 0;

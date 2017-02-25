@@ -16,7 +16,7 @@ public:
 	virtual ~MemManager();
 
 	//stack operation
-	long pushStack(ValueK,RRValue);
+	void pushStack(ValueK,RRValue);
 	DatValue& popStack();
 	DatValue& peekStack();
 	DatValue& fetchStack(long);

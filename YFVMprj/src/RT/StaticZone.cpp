@@ -59,6 +59,7 @@ int StaticZone::importFuncs(list<RcdFunc*>& funcs){
 		tf->setName(f->getName());
 		tf->setSig(f->getSig());
 		i=this->func_list.size();
+		tf->setIndex(i);
 		this->func_list.push_back(tf);
 		if(this->func_tbl.find(f->getName())==func_tbl.end()){	//if no overload
 			//auto m=this->func_tbl;

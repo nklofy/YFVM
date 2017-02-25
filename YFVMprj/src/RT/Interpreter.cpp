@@ -264,10 +264,17 @@ void Interpreter::doMov() {
 	//AbstType* type1=(stcz->getTypeLst())[stcz->getTypeTbl()[opd1]];
 	long addr2;
 	long addr3;
+
 	if(ebp==0){
+		if(global_vars.find(opd2)==global_vars.end()){
+				movNew(opd1,opd2);
+		}
 		addr2=global_vars[opd2];
 		addr3=global_vars[opd3];
 	}else{
+		if(local_vars->find(opd2)==local_vars->end()){
+				movNew(opd1,opd2);
+		}
 		//get addr2 from opd2
 		if(local_vars->find(opd2)!=local_vars->end()){
 			addr2=(*(((this->local_vars))))[opd2]+this->ebp;
@@ -336,20 +343,33 @@ void Interpreter::doMov() {
 	}
 }
 
+void Interpreter::movNew(string& opd1, string& opd2){
+	RRValue v;
+	if(opd1=="double"){
+		addVarStack(vk_double,v,opd2);
+	}else if(opd1=="int"||opd1=="bool"||opd1=="char"){
+		addVarStack(vk_int,v,opd2);
+	}else if(opd1=="string"){
+		addVarStack(vk_ptr,v,opd2);
+	}else{
+		addVarStack(vk_ptr,v,opd2);
+	}
+}
+
 void Interpreter::doLoadi() {
 	string& opd1=code->getOpd1();
 	long vi=stol(code->getOpd2());
 	RRValue v;
 	v.int_value=vi;
-	long tos=mem->pushStack(vk_int,v);
+	mem->pushStack(vk_int,v);
 	this->esp++;
 	if(ebp==0){
-		(this->global_vars)[opd1]=tos;
+		(this->global_vars)[opd1]=esp;
 	}else{
 		//long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
 		///AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
 		//if(this->local_vars->find(opd1)==local_vars->end()){
-			(*local_vars)[opd1]=tos-ebp;
+			(*local_vars)[opd1]=esp-ebp;
 		//}
 	}
 }
@@ -359,15 +379,15 @@ void Interpreter::doLoadd() {
 	double vd=stod(code->getOpd2());
 	RRValue v;
 	v.double_value=vd;
-	long tos=mem->pushStack(vk_double,v);
+	mem->pushStack(vk_double,v);
 	this->esp++;
 	if(ebp==0){
-		(this->global_vars)[opd1]=tos;
+		(this->global_vars)[opd1]=esp;
 	}else{
 		//long tpi=mem->fetchStack(ebp).value.int_value;
 		//AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
 		//if((this->local_vars)->find(opd1)==local_vars->end()){
-			(*this->local_vars)[opd1]=tos-ebp;
+			(*this->local_vars)[opd1]=esp-ebp;
 		//}
 	}
 }
@@ -379,16 +399,16 @@ void Interpreter::doLoads() {
 	mem->cpyStr(addr,opd2);
 	RRValue v;
 	v.ptr_value=addr;
-	long tos=mem->pushStack(vk_ptr,v);
+	mem->pushStack(vk_ptr,v);
 	this->esp++;
 
 	if(ebp==0){
-		(this->global_vars)[opd1]=tos;
+		(this->global_vars)[opd1]=esp;
 	}else{
 		//long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
 		//AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
 		//if(local_vars->find(opd1)==local_vars->end()){
-			(*local_vars)[opd1]=tos-ebp;
+			(*local_vars)[opd1]=esp-ebp;
 		//}
 	}
 }
@@ -398,15 +418,15 @@ void Interpreter::doLoadc() {
 	long vi=(code->getOpd2()).at(0);
 	RRValue v;
 	v.int_value=vi;
-	long tos=mem->pushStack(vk_int,v);
+	mem->pushStack(vk_int,v);
 	this->esp++;
 	if(ebp==0){
-		(this->global_vars)[opd1]=tos;
+		(this->global_vars)[opd1]=esp;
 	}else{
 		//long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
 		//AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
 		//if(local_vars->find(opd1)==local_vars->end()){
-			(*local_vars)[opd1]=tos-ebp;
+			(*local_vars)[opd1]=esp-ebp;
 		//}
 	}
 }
@@ -416,15 +436,15 @@ void Interpreter::doLoadb() {
 	long vi=code->getOpd2()=="true"?1:0;
 	RRValue v;
 	v.int_value=vi;
-	long tos=mem->pushStack(vk_int,v);
+	mem->pushStack(vk_int,v);
 	this->esp++;
 	if(ebp==0){
-		(this->global_vars)[opd1]=tos;
+		(this->global_vars)[opd1]=esp;
 	}else{
 		//long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
 		//AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
 		//if(local_vars->find(opd1)==local_vars->end()){
-			(*local_vars)[opd1]=tos-ebp;
+			(*local_vars)[opd1]=esp-ebp;
 		//}
 	}
 }
@@ -504,15 +524,15 @@ long Interpreter::getSbAddr(string& name) {
 }
 
 void Interpreter::addVarStack(ValueK k,RRValue& v,string& name){
-	long tos=mem->pushStack(k,v);
+	mem->pushStack(k,v);
 	this->esp++;
 	if(ebp==0){
-		(this->global_vars)[name]=tos;
+		(this->global_vars)[name]=esp;
 	}else{
 		//long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
 		//AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
 		if(((this->local_vars))->find(name)==local_vars->end()){
-			(*local_vars)[name]=tos-ebp;
+			(*local_vars)[name]=esp-ebp;
 		}
 	}
 }
@@ -931,10 +951,12 @@ void Interpreter::doRetExp() {
 	if(ebp==0){
 		(this->global_vars)[opd2]=this->esp;
 		this->codes=this->stcz->getScript();
+		this->local_vars=NULL;
 	}else{
 		long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
-		AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
+		AbstFunc *f=this->stcz->getFuncLst()[tpi];
 		this->codes=f->getBody();
+		this->local_vars=&(f->getSymInner());
 	}
 }
 
@@ -951,10 +973,12 @@ void Interpreter::doRet() {
 	if(ebp==0){
 		//(this->global_vars)[opd2]=this->esp;
 		this->codes=this->stcz->getScript();
+		this->local_vars=NULL;
 	}else{
 		long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
-		AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
+		AbstFunc *f=this->stcz->getFuncLst()[tpi];
 		this->codes=f->getBody();
+		this->local_vars=&(f->getSymInner());
 	}
 }
 
@@ -995,8 +1019,8 @@ void Interpreter::doDefGnrcPar() {
 }
 
 void Interpreter::doDefFuncPar() {
-	string& opd1=this->code->getOpd1();
-	(*local_vars)[opd1]=esp++;
+	string& opd2=this->code->getOpd2();
+	(*local_vars)[opd2]=esp++;
 }
 
 
@@ -1018,14 +1042,22 @@ void Interpreter::doGetFunc() {
 
 	}
 	//push stack, new frame
+
 	RRValue r1;
 	r1.int_value=this->ebp;
 	mem->pushStack(vk_int,r1);
 	this->esp++;
-	r1.int_value=this->pc;
-	mem->pushStack(vk_int,r1);
+	RRValue r2;
+	r2.int_value=this->pc;
+	mem->pushStack(vk_int,r2);
 	this->esp++;
-	this->pc=f->getEntry();
+	RRValue r3;
+	r3.int_value=f->getIndex();
+	mem->pushStack(vk_int,r3);
+	this->esp++;
+	this->next_ebp=esp;
+	//this->pc=1;
+	//this->codes=f->getBody();
 }
 
 void Interpreter::doPushTypeArg() {
@@ -1036,6 +1068,7 @@ void Interpreter::doPushFuncArg() {
 	string& opd1=this->code->getOpd1();
 	DatValue& v=mem->fetchStack(this->getSbAddr(opd1));
 	this->mem->pushStack(v.valuek,v.value);
+	this->esp++;
 	//addVarStack(v.valuek,v.value,opd1);
 }
 
@@ -1043,18 +1076,19 @@ void Interpreter::doInvoke() {
 	string& opd1=code->getOpd1();
 	string& opd2=code->getOpd2();
 	DatValue& v=mem->peekStack();
-
-	if(ebp==0){
-		(this->global_vars)[opd2]=this->esp;
-		this->codes=this->stcz->getScript();
-	}else{
+	this->pc=1;
+	this->ebp=next_ebp;
+	if(mem->fetchStack(ebp-2).value.int_value==0){
+		(this->global_vars)[opd2]=this->ebp-2;
+	}
 		long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
-		AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
+		AbstFunc *f=this->stcz->getFuncLst()[tpi];
 		this->codes=f->getBody();
+		this->local_vars=&(f->getSymInner());
 		if(local_vars->find(opd2)==local_vars->end()){
 			(*local_vars)[opd2]=this->esp-ebp;
 		}
-	}
+
 	this->esp=this->ebp+1;
 }
 

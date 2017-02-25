@@ -25,14 +25,17 @@ int VM::initOptNum(string filename){//map opt to int num
 	}
 	string s;
 	int c1=0;
+	auto m=&(stcz->getOptNum());
 	while(!infile.eof()){
 		s.clear();
 		infile>>s;
-		if(this->stcpool->getOptNum().count(s)>0){
-			cerr<<"optnum file dupl opt"<<s<<endl;
+		//m=new map<string, int>();
+		auto p=m->find("num");
+		if(p!=m->end()){
+			cerr<<"err optnum file opt"<<s<<endl;
 			return -1;
 		}
-		(this->stcpool->getOptNum())[s]=c1++;
+		(*m)[s]=c1++;
 		//cout<<s<<"e"<<endl;
 	}
 	infile.close();
@@ -72,20 +75,20 @@ int VM::attachIO(IOManager* io){
 	return 0;
 }
 int VM::initStaticZone(StaticZone* z){
-	this->stcpool=z;
-	this->stcpool->init();
+	this->stcz=z;
+	this->stcz->init();
 	return 0;
 }
 int VM::runLoadFile(string filename){
 	this->loader->doLoad(filename);
-	this->stcpool->importTypes();
-	this->stcpool->importFuncs(this->loader->getFuncs());
-	this->stcpool->importScript(this->loader->getScript());
+	this->stcz->importTypes();
+	this->stcz->importFuncs(this->loader->getFuncs());
+	this->stcz->importScript(this->loader->getScript());
 	return 0;
 }
 
 int VM::runIntprScript(){
-	this->intpr->doInterpret(this->stcpool,this->mem, this->io);
+	this->intpr->doInterpret(this->stcz,this->mem, this->io);
 
 	return 0;
 }

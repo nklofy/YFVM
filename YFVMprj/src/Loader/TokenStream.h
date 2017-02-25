@@ -16,21 +16,23 @@ class TokenStream {
 public:
 	TokenStream();
 	virtual ~TokenStream();
-	string getNback();//get next line but go back 1
-	string getLine();//move next line and return first string
+	string& getNback();//get next line but go back 1
+	string& getLine();//move next line and return first string
 	int bindFile(string);//bind and read file
 
-	const string& getFilename() const;
-	void setFilename(const string& filename);
+	string& getFilename();
+	void setFilename(string& filename);
 	bool isEnd=false;
 
 private:
 	string filename;
+	ifstream infile;
 	string crt_token;
 	string crt_line;
+	string pre_line;
 	int line_no;
 	int line_tks;
-	bool goback;
+	bool goback=false;
 	list<string> file_data;//read total file to ram and then analyze, but not a good design
 	int goBack1();
 };

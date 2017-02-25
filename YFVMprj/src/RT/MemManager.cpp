@@ -17,7 +17,7 @@ MemManager::~MemManager() {
 }
 
 
-long MemManager::pushStack(ValueK v, RRValue r) {
+void MemManager::pushStack(ValueK v, RRValue r) {
 	DatValue* d=this->stack.push();
 	d->valuek=v;
 	d->value=r;

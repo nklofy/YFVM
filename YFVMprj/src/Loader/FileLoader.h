@@ -14,9 +14,12 @@
 #include <list>
 #include <map>
 #include <vector>
+
+
+#include "IRCode.h"
+#include "RcdFunc.h"
 #include "PckgManager.h"
 #include "TokenStream.h"
-#include "../IR/IR.h"
 
 using namespace std;
 class FileLoader {
@@ -33,6 +36,7 @@ public:
 	string* dcpLine(string);
 
 private:
+	string sysdir="../";
 	PckgManager pckMan;
 	list<RcdFunc*> funcs;
 	vector<IRCode*> script;

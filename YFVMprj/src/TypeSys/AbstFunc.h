@@ -13,15 +13,16 @@
 #include <map>
 #include <vector>
 using namespace std;
+
 #include "AbstType.h"
-#include "../IR/IR.h"
+#include "../Loader/IR.h"
 
 class AbstFunc : public AbstType {
 public:
 	AbstFunc();
 	virtual ~AbstFunc();
 	TypeK getTypeK(){return tfunc;}
-	string getName();
+	string& getName();
 	void setName(string);
 
 	const string& getSig();
@@ -39,6 +40,10 @@ public:
 	void setEntry(long);
 	list<string>& getParNames();
 	list<string>& getParTypes();
+	long getIndex();
+	void setIndex(long index);
+	map<string, long>& getSymInner();
+	void setSymInner(map<string, long>& symInner);
 
 	bool hasNext=false;
 
@@ -47,6 +52,7 @@ private:
 	long entry;
 	string name;
 	string sig;
+	long index;
 	AbstFunc* next;
 	AbstFunc* head;
 	vector<IRCode*>* body;

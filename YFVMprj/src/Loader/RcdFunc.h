@@ -10,7 +10,8 @@
 #include <string>
 #include <list>
 #include <vector>
-#include "IRCode.h"
+
+#include "../Loader/IRCode.h"
 
 using namespace std;
 
