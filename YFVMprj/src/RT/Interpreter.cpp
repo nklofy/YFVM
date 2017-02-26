@@ -139,114 +139,120 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 		case 27:
 			doDec1();
 			break;
-
+		//minus_i
+		case 28:
+			doMinusi();
+			break;
+		case 29:
+			doMinusd();
+			break;
 			//////////////////////
 
 
 		//case "retExp":
-		case 28:
+		case 30:
 			doRetExp();
 			break;
 		//case "ret":
-		case 29:
+		case 31:
 			doRet();
 			break;
 		//case "defFunction":
-		case 30:
+		case 32:
 			doDefFunc();
 			break;
 		//case "end":
-		case 31:
+		case 33:
 			doEnd();
 			break;
 		//case "getFunc":
-		case 32:
+		case 34:
 			doGetFunc();
 			break;
 		//case "pushTypeArg":
-		case 33:
+		case 35:
 			doPushTypeArg();
 			break;
 		//case "pushFuncArg":
-		case 34:
+		case 36:
 			doPushFuncArg();
 			break;
 		//case "invoke":
-		case 35:
+		case 37:
 			doInvoke();
 			break;
 
 			/////////////////////////////
 		//case "defClass":
-		case 36:
+		case 38:
 			doDefClass();
 			break;
 		//case "defInterface":
-		case 37:
+		case 39:
 			doDefIntf();
 			break;
 		//case "extends":
-		case 38:
+		case 40:
 			doExtd();
 			break;
 		//case "impliments":
-		case 39:
+		case 41:
 			doImpl();
 			break;
 		//case "Fields":
-		case 40:
+		case 42:
 			doFields();
 			break;
 		//case "defField":
-		case 41:
+		case 43:
 			doDefFld();
 			break;
 		//case "Methods":
-		case 42:
+		case 44:
 			doMethods();
 			break;
 		//case "defMethod":
-		case 43:
+		case 45:
 			doDefMthd();
 			break;
 		//case "defGnrcPar":
-		case 44:
+		case 46:
 			doDefGnrcPar();
 			break;
 		//case "defFuncPar":
-		case 45:
+		case 47:
 			doDefFuncPar();
 			break;
 		//case "newArr":
-		case 46:
+		case 48:
 			doNewArr();
 			break;
 		//case "newObj":
-		case 47:
+		case 49:
 			doNewObj();
 			break;
 		//case "defLambdaExp":
-		case 48:
+		case 50:
 			doDefLmbdExp();
 			break;
 		//case "getFuncObj":
-		case 49:
+		case 51:
 			doGetFuncObj();
 			break;
 		//case "getMethod":
-		case 50:
+		case 52:
 			doGetMthd();
 			break;
 		//case "getArray":
-		case 51:
+		case 53:
 			doGetArr();
 			break;
 		//case "getField":
-		case 52:
+		case 54:
 			doGetFld();
 			break;
 		//case "getClass":
-		case 53:
+		case 55:
 			doGetClass();
 			break;
 
