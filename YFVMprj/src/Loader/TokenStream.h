@@ -17,6 +17,7 @@ public:
 	TokenStream();
 	virtual ~TokenStream();
 	string& getNback();//get next line but go back 1
+	void goNext();
 	string& getLine();//move next line and return first string
 	int bindFile(string);//bind and read file
 

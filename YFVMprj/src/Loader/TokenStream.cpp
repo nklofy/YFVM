@@ -24,6 +24,10 @@ void TokenStream::setFilename(string& filename) {
 	this->filename = filename;
 }
 
+void TokenStream::goNext() {
+	goback=false;
+}
+
 string& TokenStream::getNback() {
 	if(goback){
 		return pre_line;
@@ -31,6 +35,9 @@ string& TokenStream::getNback() {
 	goback=true;
 	pre_line.clear();
 	getline(infile,pre_line);
+	if(infile.eof()){
+		isEnd=true;
+	}
 	return pre_line;
 }
 
@@ -41,6 +48,9 @@ string& TokenStream::getLine() {
 	}else{
 		crt_line.clear();
 		getline(infile,crt_line);
+		if(infile.eof()){
+			isEnd=true;
+		}
 		return crt_line;
 	}
 }

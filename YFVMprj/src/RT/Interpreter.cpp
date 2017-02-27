@@ -21,9 +21,10 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 	this->mem=mem;
 	this->io=io;
 	this->codes=stcz->getScript();
-	while(true){
+	while(isNotEnd){
 		this->code=((*this->codes)[pc++]);
-		switch(this->stcz->getOptNum()[this->code->getOpt()]){//in future, use ptr array to deal with distribution
+		string& opt=this->code->getOpt();
+		switch(this->stcz->getOptNum()[opt]){//in future, use ptr array to deal with distribution
 		//case "mov":
 		case 0:
 			doMov();
@@ -255,8 +256,14 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 		case 55:
 			doGetClass();
 			break;
+		//end
+		case 56:
+			doPrint();
+			break;
 
 		default:
+			cerr<<"unknown opt: "<<this->code->getOpt()<<" "<<this->code->getOpd1()
+				<<" "<<this->code->getOpd2()<<" "<<this->code->getOpd3()<<endl;
 			break;
 		}
 	}
@@ -895,6 +902,15 @@ void Interpreter::doDec1() {
 	}
 }
 
+void Interpreter::doMinusi() {
+	string& opd1=code->getOpd1();
+
+}
+
+void Interpreter::doMinusd() {
+	string& opd1=code->getOpd1();
+
+}
 void Interpreter::doIf() {
 	string& opd1=code->getOpd1();
 	string& opd2=code->getOpd2();
@@ -1019,6 +1035,10 @@ void Interpreter::loadFunc(AbstFunc* f){
 }
 
 void Interpreter::doEnd() {
+	if(ebp==0){
+		isNotEnd=false;
+		cout<<"finish interpreting"<<endl;
+	}
 }
 
 void Interpreter::doDefGnrcPar() {
@@ -1051,10 +1071,10 @@ void Interpreter::doGetFunc() {
 
 	RRValue r1;
 	r1.int_value=this->ebp;
-	mem->pushStack(vk_int,r1);
+	mem->pushStack(vk_int,r1);//stack layout: ...ebp, pc, ebp(ptr to function), args...
 	this->esp++;
 	RRValue r2;
-	r2.int_value=this->pc;
+	r2.int_value=this->pc+10;
 	mem->pushStack(vk_int,r2);
 	this->esp++;
 	RRValue r3;
@@ -1081,9 +1101,10 @@ void Interpreter::doPushFuncArg() {
 void Interpreter::doInvoke() {
 	string& opd1=code->getOpd1();
 	string& opd2=code->getOpd2();
-	DatValue& v=mem->peekStack();
-	this->pc=1;
 	this->ebp=next_ebp;
+	DatValue& v=mem->fetchStack(this->ebp-1);
+	v.value.int_value=this->pc;
+	this->pc=1;
 	if(mem->fetchStack(ebp-2).value.int_value==0){
 		(this->global_vars)[opd2]=this->ebp-2;
 	}
@@ -1145,3 +1166,10 @@ void Interpreter::doGetFld() {
 
 void Interpreter::doGetClass() {
 }
+
+void Interpreter::doPrint(){
+
+}
+//void Interpreter::doEnd() {
+//
+//}

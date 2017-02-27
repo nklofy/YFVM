@@ -27,6 +27,7 @@ private:
 	long ebp=0;//frame
 	long pc=0;//program counter
 	long next_ebp;
+	bool isNotEnd=true;
 	vector<IRCode*>* codes;
 	IRCode* code;
 	StaticZone* stcz;
@@ -71,6 +72,8 @@ private:
 	void doDivd();
 	void doInc1();
 	void doDec1();
+	void doMinusi();
+	void doMinusd();
 	void doIf();
 	void doWhile();
 	void doGoto();
@@ -101,6 +104,8 @@ private:
 	void doGetArr();
 	void doGetFld();
 	void doGetClass();
+	void doPrint();
+
 };
 
 #endif /* SRC_INTERPRETER_H_ */

@@ -1,20 +1,8 @@
 89597046
 test1
-defFunction f int(int) global
-defFuncPar int a
-load_i %2 0
-GT %1 a %2
-if %1 5 8
-load_i %3 0
-retExp int %3
-goto 11
-load_i %5 1
-minusnull %4 %5
-retExp int %4
-end
-load_i %6 5
-getFunc f int(int) global
-pushFuncArg %6
-invoke int %7
-mov int a %7
+load_i %1 1
+mov int a %1
+mov int b a
+load_i %2 2
+mov int b %2
 end

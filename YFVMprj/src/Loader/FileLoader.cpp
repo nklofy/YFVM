@@ -62,12 +62,15 @@ int FileLoader::loadTypes(TokenStream *ts){
 }
 
 int FileLoader::loadFuncs(TokenStream *ts){
-	string s=ts->getLine();
+	string s=ts->getNback();
 	string* ss=dcpLine(s);
+	if(ss[0]=="defFunction"){
+		ts->goNext();
+	}
 	while(ss[0]=="defFunction"){
-		if(ts->isEnd){
-			cerr<<"error parse fucntion "<<ts->getFilename();return -1;
-		}
+		//if(ts->isEnd){
+		//	cerr<<"error parse fucntion "<<ts->getFilename();return -1;
+		//}
 		//parse func name and signature
 		RcdFunc* func=new RcdFunc();
 		func->setName(ss[1]);
@@ -79,12 +82,15 @@ int FileLoader::loadFuncs(TokenStream *ts){
 			func->getBody().push_back(new IRCode(s));
 			s=ts->getLine();
 		}
-
-		this->funcs.push_back(func);
-		if(ts->isEnd){
-			return 0;
+		if(s=="end"){
+			func->getBody().push_back(new IRCode(s));
 		}
-		if(ts->getNback()!="defFunction"){
+		this->funcs.push_back(func);
+		s=ts->getNback();
+		string* ss=dcpLine(s);
+		if(ss[0]=="defFunction"){
+			ts->goNext();
+		}else{
 			return 0;
 		}
 	}
@@ -99,9 +105,13 @@ int FileLoader::loadScript(TokenStream *ts){
 			script.push_back(new IRCode(s));
 			s=ts->getLine();
 		}
-		if(ts->isEnd){
-			cerr<<"error no end flag "<<ts->getFilename()<<endl;return -1;
+		if(s=="end"){
+			script.push_back(new IRCode(s));
+			return 0;
 		}
+		//if(ts->isEnd){
+		//	cerr<<"error no end flag "<<ts->getFilename()<<endl;return -1;
+		//}
 	return 0;
 }
 string* FileLoader::dcpLine(string s){
