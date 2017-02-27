@@ -33,7 +33,7 @@ DatValue& MemStack::fetch(long index) {
 }
 
 DatValue& MemStack::peak() {
-	DatValue* p=(DatValue*)(this->real_bottom+width*top);
+	DatValue* p=(DatValue*)(this->real_bottom+width*(top-1));
 	return (*p);
 }
 
@@ -43,15 +43,15 @@ DatValue* MemStack::push() {
 			cerr<<"not enough space for stack extending"<<endl;return NULL;
 		}
 	}
-	this->top++;
 	T_element* p=this->real_bottom+width*top;
 	DatValue* pv=new(p) DatValue;
+	this->top++;
 	return pv;
 }
 
 DatValue& MemStack::pop() {
-	DatValue* p=(DatValue*)(this->real_bottom+width*top);
-	this->top--;
+	DatValue* p=(DatValue*)(this->real_bottom+width*(--top));
+	//this->top--;
 	return (*p);
 }
 

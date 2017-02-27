@@ -21,6 +21,10 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 	this->mem=mem;
 	this->io=io;
 	this->codes=stcz->getScript();
+	RRValue v;
+	v.int_value=0;
+	this->mem->pushStack(vk_int,v);
+	//this->esp++;
 	while(isNotEnd){
 		this->code=((*this->codes)[pc++]);
 		string& opt=this->code->getOpt();
@@ -414,7 +418,6 @@ void Interpreter::doLoads() {
 	v.ptr_value=addr;
 	mem->pushStack(vk_ptr,v);
 	this->esp++;
-
 	if(ebp==0){
 		(this->global_vars)[opd1]=esp;
 	}else{
@@ -424,6 +427,7 @@ void Interpreter::doLoads() {
 			(*local_vars)[opd1]=esp-ebp;
 		//}
 	}
+
 }
 
 void Interpreter::doLoadc() {
@@ -469,6 +473,7 @@ int Interpreter::doCmp(){
 	long a3=getSbAddr(opd3);
 	DatValue& v2=mem->fetchStack(a2);
 	DatValue& v3=mem->fetchStack(a3);
+	doPrintStack();
 	if(v2.valuek==vk_ptr&&v3.valuek==vk_ptr){
 		//long p2=v2.value.ptr_value;
 		//long p3=v3.value.ptr_value;
@@ -492,19 +497,19 @@ int Interpreter::doCmp(){
 int Interpreter::cmp2Value(DatValue& v2, DatValue& v3) {//0 EQ, 1 larger, -1 less
 
 	if(v2.valuek==vk_int&&v3.valuek==vk_int){
-		int r2=v2.value.int_value,r3=v3.value.int_value;
+		long r2=v2.value.int_value,r3=v3.value.int_value;
 		if(r2<r3) return -1;
 		else if(r2==r3) return 0;
 		else return 1;
 	}else if(v2.valuek==vk_int&&v3.valuek==vk_double){
-		int r2=v2.value.int_value;
+		long r2=v2.value.int_value;
 		double r3=v3.value.double_value;
 		if(r2<r3) return -1;
 		else if(r2==r3) return 0;
 		else return 1;
 	}else if(v2.valuek==vk_double&&v3.valuek==vk_int){
 		double r2=v2.value.double_value;
-		int r3=v3.value.int_value;
+		long r3=v3.value.int_value;
 		if(r2<r3) return -1;
 		else if(r2==r3) return 0;
 		else return 1;
@@ -961,13 +966,14 @@ void Interpreter::doGoto() {
 void Interpreter::doRetExp() {
 	string& opd1=code->getOpd1();
 	string& opd2=code->getOpd2();
-	DatValue& oldv=mem->fetchStack(this->getSbAddr(opd2));
+	long a=this->getSbAddr(opd2);
+	DatValue& oldv=mem->fetchStack(a);
 	ValueK k=oldv.valuek;
 	RRValue v=oldv.value;
 	this->esp=this->ebp-3;
 	this->pc=mem->fetchStack(ebp-1).value.int_value;//return address
 	this->ebp=mem->fetchStack(ebp-2).value.int_value;
-	this->mem->setStackTop(esp);
+	this->mem->setStackTop(esp+1);
 	this->mem->pushStack(k,v);
 	this->esp++;
 	if(ebp==0){
@@ -979,6 +985,7 @@ void Interpreter::doRetExp() {
 		AbstFunc *f=this->stcz->getFuncLst()[tpi];
 		this->codes=f->getBody();
 		this->local_vars=&(f->getSymInner());
+		(*this->local_vars)[opd2]=this->esp;
 	}
 }
 
@@ -987,7 +994,7 @@ void Interpreter::doRet() {
 	this->esp=this->ebp-3;
 	this->pc=mem->fetchStack(ebp-1).value.int_value;//return address
 	this->ebp=mem->fetchStack(ebp-2).value.int_value;
-	this->mem->setStackTop(esp);
+	this->mem->setStackTop(esp+1);
 	RRValue v;
 	v.int_value=0;
 	this->mem->pushStack(vk_int,v);
@@ -1001,6 +1008,7 @@ void Interpreter::doRet() {
 		AbstFunc *f=this->stcz->getFuncLst()[tpi];
 		this->codes=f->getBody();
 		this->local_vars=&(f->getSymInner());
+		//(this->local_vars)[opd2]=this->esp;
 	}
 }
 
@@ -1046,7 +1054,9 @@ void Interpreter::doDefGnrcPar() {
 
 void Interpreter::doDefFuncPar() {
 	string& opd2=this->code->getOpd2();
-	(*local_vars)[opd2]=esp++;
+	//this->esp++;
+	(*local_vars)[opd2]=esp-ebp;
+	//mem->setStackTop(mem->getStackTop()+1);
 }
 
 
@@ -1074,7 +1084,7 @@ void Interpreter::doGetFunc() {
 	mem->pushStack(vk_int,r1);//stack layout: ...ebp, pc, ebp(ptr to function), args...
 	this->esp++;
 	RRValue r2;
-	r2.int_value=this->pc+10;
+	r2.int_value=this->pc;
 	mem->pushStack(vk_int,r2);
 	this->esp++;
 	RRValue r3;
@@ -1095,7 +1105,7 @@ void Interpreter::doPushFuncArg() {
 	DatValue& v=mem->fetchStack(this->getSbAddr(opd1));
 	this->mem->pushStack(v.valuek,v.value);
 	this->esp++;
-	//addVarStack(v.valuek,v.value,opd1);
+	doPrintStack();
 }
 
 void Interpreter::doInvoke() {
@@ -1107,16 +1117,26 @@ void Interpreter::doInvoke() {
 	this->pc=1;
 	if(mem->fetchStack(ebp-2).value.int_value==0){
 		(this->global_vars)[opd2]=this->ebp-2;
-	}
-		long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
-		AbstFunc *f=this->stcz->getFuncLst()[tpi];
-		this->codes=f->getBody();
-		this->local_vars=&(f->getSymInner());
-		if(local_vars->find(opd2)==local_vars->end()){
-			(*local_vars)[opd2]=this->esp-ebp;
+	}else{
+		long last_ebp=mem->fetchStack(ebp-2).value.int_value;
+		long fi=(mem->fetchStack(last_ebp)).value.int_value;
+		AbstFunc *f=this->stcz->getFuncLst()[fi];
+		if(f->getSymInner().find(opd2)==f->getSymInner().end()){
+			f->getSymInner()[opd2]=this->ebp-2-last_ebp;
 		}
+	}
+	long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
+	AbstFunc *f=this->stcz->getFuncLst()[tpi];
+	this->codes=f->getBody();
+	this->local_vars=&(f->getSymInner());
+	//if(local_vars->find(opd2)==local_vars->end()){
+	//	(*local_vars)[opd2]=this->esp-ebp;
+	//}
 
-	this->esp=this->ebp+1;
+	//this->esp=this->ebp;
+	//mem->setStackTop(esp+1);
+	doPrintStack();
+
 }
 
 void Interpreter::doDefClass() {
@@ -1168,7 +1188,24 @@ void Interpreter::doGetClass() {
 }
 
 void Interpreter::doPrint(){
+	string& opd1=this->code->getOpd1();
+	//cout<<opd1<<endl;
+	DatValue& v=mem->fetchStack((this->getSbAddr(opd1)));
+	if(v.valuek==vk_int){
+		cout<<"print: "<<opd1<<" = "<<v.value.int_value<<endl;
+	}else if(v.valuek==vk_double){
+		cout<<"print: "<<opd1<<" = "<<v.value.double_value<<endl;
+	}else{
+		cout<<"print: "<<opd1<<" = "<<v.value.ptr_value<<endl;
+	}
+}
 
+void Interpreter::doPrintStack() {
+	long t=mem->getStackTop();
+	for(long i=0;i<t;i++){
+		cout<<mem->fetchStack(i).value.int_value<<" ";
+	}
+	cout<<endl;
 }
 //void Interpreter::doEnd() {
 //

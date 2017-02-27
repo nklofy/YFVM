@@ -105,7 +105,7 @@ private:
 	void doGetFld();
 	void doGetClass();
 	void doPrint();
-
+	void doPrintStack();
 };
 
 #endif /* SRC_INTERPRETER_H_ */
