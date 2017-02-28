@@ -376,6 +376,11 @@ void Interpreter::movNew(string& opd1, string& opd2){
 
 void Interpreter::doLoadi() {
 	string& opd1=code->getOpd1();
+	//if(ebp==0&&this->global_vars.find(opd1)!=global_vars.end()){
+	//	return;
+	//}else if(ebp!=0&&this->local_vars->find(opd1)!=local_vars->end()){
+	//	return;
+	//}
 	long vi=stol(code->getOpd2());
 	RRValue v;
 	v.int_value=vi;
@@ -394,6 +399,11 @@ void Interpreter::doLoadi() {
 
 void Interpreter::doLoadd() {
 	string& opd1=code->getOpd1();
+	if(ebp==0&&this->global_vars.find(opd1)!=global_vars.end()){
+		return;
+	}else if(ebp!=0&&this->local_vars->find(opd1)!=local_vars->end()){
+		return;
+	}
 	double vd=stod(code->getOpd2());
 	RRValue v;
 	v.double_value=vd;
@@ -411,8 +421,13 @@ void Interpreter::doLoadd() {
 }
 
 void Interpreter::doLoads() {
-	string& opd2=code->getOpd2();
 	string& opd1=code->getOpd1();
+	if(ebp==0&&this->global_vars.find(opd1)!=global_vars.end()){
+		return;
+	}else if(ebp!=0&&this->local_vars->find(opd1)!=local_vars->end()){
+		return;
+	}
+	string& opd2=code->getOpd2();
 	long addr=mem->allocStr(opd2.size());
 	mem->cpyStr(addr,opd2);
 	RRValue v;
@@ -433,6 +448,11 @@ void Interpreter::doLoads() {
 
 void Interpreter::doLoadc() {
 	string& opd1=code->getOpd1();
+	if(ebp==0&&this->global_vars.find(opd1)!=global_vars.end()){
+		return;
+	}else if(ebp!=0&&this->local_vars->find(opd1)!=local_vars->end()){
+		return;
+	}
 	long vi=(code->getOpd2()).at(0);
 	RRValue v;
 	v.int_value=vi;
@@ -451,6 +471,11 @@ void Interpreter::doLoadc() {
 
 void Interpreter::doLoadb() {
 	string& opd1=code->getOpd1();
+	if(ebp==0&&this->global_vars.find(opd1)!=global_vars.end()){
+		return;
+	}else if(ebp!=0&&this->local_vars->find(opd1)!=local_vars->end()){
+		return;
+	}
 	long vi=code->getOpd2()=="true"?1:0;
 	RRValue v;
 	v.int_value=vi;
@@ -526,7 +551,7 @@ int Interpreter::cmp2Value(DatValue& v2, DatValue& v3) {//0 EQ, 1 larger, -1 les
 }
 
 long Interpreter::getSbAddr(string& name) {
-	int addr=-1;
+	long addr=-1;
 	if(ebp==0){
 		addr=this->global_vars[name];
 		return addr;
@@ -542,6 +567,17 @@ long Interpreter::getSbAddr(string& name) {
 }
 
 void Interpreter::addVarStack(ValueK k,RRValue& v,string& name){
+/*	if(ebp==0&&this->global_vars.find(name)!=global_vars.end()){
+		DatValue& r=mem->fetchStack(global_vars[name]);
+		r.valuek=k;
+		r.value=v;
+		return;
+	}else if(ebp!=0&&this->local_vars->find(name)!=local_vars->end()){
+		DatValue& r=mem->fetchStack(ebp+(*local_vars)[name]);
+		r.valuek=k;
+		r.value=v;
+		return;
+	}*/
 	mem->pushStack(k,v);
 	this->esp++;
 	if(ebp==0){
@@ -953,7 +989,8 @@ void Interpreter::doWhile() {	//actually, the same as if stmt. but keeping while
 		this->pc=a3;
 	}else if(p==1){
 		this->pc=a2;
-	}
+	}else
+		this->pc=a2;
 }
 
 void Interpreter::doGoto() {
