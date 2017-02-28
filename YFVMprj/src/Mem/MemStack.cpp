@@ -24,6 +24,8 @@ MemStack::~MemStack() {
 
 int MemStack::setTop(long nt) {
 	this->top=nt;
+	if(top>2*org_height&&top<capacity/4)
+		shrink();
 	return 0;
 }
 
@@ -78,11 +80,9 @@ long MemStack::getTop() {
 }
 
 int MemStack::shrink() {
-	double newc=(double)capacity*(double)width/ext_ratio;	//new capacity
+	double newc=(double)capacity/ext_ratio;	//new capacity
 	this->capacity=newc;
-	T_element* newp=new T_element[capacity*width];	//new bottom
-	memcpy(newp,this->real_bottom, width*(top+1));
-	this->real_bottom=newp;
-	this->real_top=newp+width*this->capacity;
+	realloc(this->real_bottom,width*capacity);	//new bottom
+	this->real_top=real_bottom+width*capacity;
 	return 0;
 }

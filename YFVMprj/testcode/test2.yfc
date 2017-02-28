@@ -1,0 +1,77 @@
+89597046
+test2
+defFunction fact int(int) global
+defFuncPar int a
+load_i %2 1
+EQ %1 a %2
+if %1 5 8
+load_i %3 1
+retExp int %3
+goto 15
+load_i %6 1
+sub_i %5 a %6
+getFunc fact int(int) global
+pushFuncArg %5
+invoke int %7
+mul_i %4 a %7
+retExp int %4
+end
+defFunction fib int(int) global
+defFuncPar int a
+load_i %9 3
+LT %8 a %9
+if %8 5 8
+load_i %10 1
+retExp int %10
+goto 20
+load_i %13 1
+sub_i %12 a %13
+getFunc fib int(int) global
+pushFuncArg %12
+invoke int %14
+load_i %16 2
+sub_i %15 a %16
+getFunc fib int(int) global
+pushFuncArg %15
+invoke int %17
+add_i %11 %14 %17
+retExp int %11
+end
+defFunction sum int(int) global
+defFuncPar int a
+load_i %19 0
+EQ %18 a %19
+if %18 5 8
+load_i %20 0
+retExp int %20
+goto 15
+load_i %23 1
+sub_i %22 a %23
+getFunc sum int(int) global
+pushFuncArg %22
+invoke int %24
+add_i %21 a %24
+retExp int %21
+end
+defFunction sum1 int(int) global
+defFuncPar int a
+load_i %25 0
+mov int sum %25
+load_i %27 0
+GT %26 a %27
+while %26 7 12
+add_i %28 sum a
+mov int sum %28
+mov int %29 a
+dec_1 a
+goto 4
+retExp int sum
+end
+load_i %30 100000
+mov int a %30
+getFunc sum int(int) global
+pushFuncArg a
+invoke int %31
+mov int b %31
+VM_print b
+end
