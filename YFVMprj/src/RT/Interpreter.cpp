@@ -26,6 +26,7 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 	this->mem->pushStack(vk_int,v);
 	//this->esp++;
 	while(isNotEnd){
+		//doPrintStack();
 		this->code=((*this->codes)[pc++]);
 		string& opt=this->code->getOpt();
 		switch(this->stcz->getOptNum()[opt]){//in future, use ptr array to deal with distribution
@@ -473,7 +474,6 @@ int Interpreter::doCmp(){
 	long a3=getSbAddr(opd3);
 	DatValue& v2=mem->fetchStack(a2);
 	DatValue& v3=mem->fetchStack(a3);
-	doPrintStack();
 	if(v2.valuek==vk_ptr&&v3.valuek==vk_ptr){
 		//long p2=v2.value.ptr_value;
 		//long p3=v3.value.ptr_value;
@@ -977,16 +977,17 @@ void Interpreter::doRetExp() {
 	this->mem->pushStack(k,v);
 	this->esp++;
 	if(ebp==0){
-		(this->global_vars)[opd2]=this->esp;
+		//(this->global_vars)[opd2]=this->esp;
 		this->codes=this->stcz->getScript();
 		this->local_vars=NULL;
 	}else{
 		long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
 		AbstFunc *f=this->stcz->getFuncLst()[tpi];
 		this->codes=f->getBody();
-		this->local_vars=&(f->getSymInner());
-		(*this->local_vars)[opd2]=this->esp;
+		//this->local_vars=&(f->getSymInner());
+		//(*this->local_vars)[opd2]=this->esp;
 	}
+	//doPrintStack();
 }
 
 void Interpreter::doRet() {
@@ -1054,7 +1055,7 @@ void Interpreter::doDefGnrcPar() {
 
 void Interpreter::doDefFuncPar() {
 	string& opd2=this->code->getOpd2();
-	//this->esp++;
+	this->esp++;
 	(*local_vars)[opd2]=esp-ebp;
 	//mem->setStackTop(mem->getStackTop()+1);
 }
@@ -1105,7 +1106,7 @@ void Interpreter::doPushFuncArg() {
 	DatValue& v=mem->fetchStack(this->getSbAddr(opd1));
 	this->mem->pushStack(v.valuek,v.value);
 	this->esp++;
-	doPrintStack();
+	//doPrintStack();
 }
 
 void Interpreter::doInvoke() {
@@ -1133,9 +1134,9 @@ void Interpreter::doInvoke() {
 	//	(*local_vars)[opd2]=this->esp-ebp;
 	//}
 
-	//this->esp=this->ebp;
+	this->esp=this->ebp;
 	//mem->setStackTop(esp+1);
-	doPrintStack();
+	//doPrintStack();
 
 }
 
@@ -1206,6 +1207,7 @@ void Interpreter::doPrintStack() {
 		cout<<mem->fetchStack(i).value.int_value<<" ";
 	}
 	cout<<endl;
+	cout<<"pc "<<pc<<" esp "<<esp<<" ebp "<<ebp<<endl;
 }
 //void Interpreter::doEnd() {
 //
