@@ -54,4 +54,4 @@ getMethod
 getArray
 getField
 getClass
-CSprint
+VM_print

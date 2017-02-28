@@ -17,7 +17,7 @@ MemManager::~MemManager() {
 }
 
 
-void MemManager::pushStack(ValueK v, RRValue r) {
+void MemManager::pushStack(ValueK v, RRValue& r) {
 	DatValue* d=this->stack.push();
 	d->valuek=v;
 	d->value=r;
@@ -35,9 +35,9 @@ DatValue& MemManager::fetchStack(long i) {
 	return this->stack.fetch(i);
 }
 
-int MemManager::modifyStack(long a, DatValue& v) {
-	return -1;
-}
+//int MemManager::modifyStack(long a, DatValue& v) {
+//	return -1;
+//}
 
 int MemManager::setStackTop(long top) {
 	if(top>stack.getTop())

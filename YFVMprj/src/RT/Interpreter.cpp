@@ -26,7 +26,7 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 	this->mem->pushStack(vk_int,v);
 	//this->esp++;
 	while(isNotEnd){
-		doPrintStack();
+		//doPrintStack();
 		this->code=((*this->codes)[pc++]);
 		string& opt=this->code->getOpt();
 		switch(this->stcz->getOptNum()[opt]){//in future, use ptr array to deal with distribution
@@ -263,7 +263,7 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 			break;
 		//end
 		case 56:
-			doPrint();
+			doVMPrint();
 			break;
 
 		default:
@@ -280,88 +280,49 @@ void Interpreter::doMov() {
 	string& opd2=code->getOpd2();
 	string& opd3=code->getOpd3();
 	//AbstType* type1=(stcz->getTypeLst())[stcz->getTypeTbl()[opd1]];
-	long addr2;
-	long addr3;
-
-	if(ebp==0){
-		if(global_vars.find(opd2)==global_vars.end()){
-				movNew(opd1,opd2);
-		}
-		addr2=global_vars[opd2];
-		addr3=global_vars[opd3];
-	}else{
-		if(local_vars->find(opd2)==local_vars->end()){
-				movNew(opd1,opd2);
-		}
-		//get addr2 from opd2
-		if(local_vars->find(opd2)!=local_vars->end()){
-			addr2=(*(((this->local_vars))))[opd2]+this->ebp;
-		}else if(global_vars.find(opd2)!=global_vars.end()){
-			addr2=global_vars[opd2];
+	long addr2=getSbAddr(opd2);
+	long addr3=getSbAddr(opd3);
+	if(addr2==-1){	//not find name in symbol-table
+		movNew(opd1,opd2);
+		addr2=esp;
+	}else if(addr2>esp){	//find name, but not in stack
+		RRValue v;
+		if(opd1=="double"){
+			mem->pushStack(vk_double,v);
+		}else if(opd1=="int"||opd1=="bool"||opd1=="char"){
+			mem->pushStack(vk_int,v);
+		}else if(opd1=="string"){
+			mem->pushStack(vk_ptr,v);
 		}else{
-			cerr<<"not find symbol name "<<opd2<<endl;
-			return;
+			mem->pushStack(vk_ptr,v);
 		}
-		//get addr3 from opd3
-		if((this->local_vars)->find(opd3)!=local_vars->end()){
-			addr3=(*((this->local_vars)))[opd3]+this->ebp;
-		}else if(this->global_vars.find(opd3)!=global_vars.end()){
-			addr3=this->global_vars[opd3];
-		}else{
-			cerr<<"not find symbol name "<<opd3<<endl;return;
-		}
+		addr2=++esp;
 	}
-	DatValue& r2=mem->fetchStack(addr2);
 	DatValue& r3=mem->fetchStack(addr3);
+	DatValue& r2=mem->fetchStack(addr2);
+	if(r2.valuek==vk_ptr){
+		//r2=
+	}
+	if(r3.valuek==vk_ptr){
+		//r3=
+	}
 	//deal with type auto conversion and l/r value
-	if(r3.valuek==vk_double&&opd1!="double"){	//mov int a b
+	if(r3.valuek==vk_double&&opd1=="int"){
+		//mov int a b
 		long mv=(long)r3.value.double_value;
-		if(r2.valuek==vk_ptr){
-		//	long addr2=r2.value.ptr_value;
-		//	InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
-		//	p->value.value.int_value=mv;
-		}else{
-			r2.value.int_value=mv;
-		}
-	}else if(opd1=="double"&&r3.valuek!=vk_double){	//mov double a b
-		double mv=(double)r3.value.int_value;
-		if(r2.valuek==vk_ptr){
-		//	long addr2=r2.value.ptr_value;
-		//	InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
-		//	p->value.value.double_value=mv;
-		}else{
-			r2.value.double_value=mv;
-		}
-	}else if(opd1=="string"&&r3.valuek!=vk_ptr){
-		string tgs;
-		if(r3.valuek==vk_int){
-			tgs=to_string(r3.value.int_value);
-		}else if(r3.valuek==vk_double){
-			tgs=to_string(r3.value.double_value);
-		}
-		//new string obj
-		//set r2's ptr
-		long addr=mem->allocStr(tgs.size());
-		mem->cpyStr(addr,tgs);
-		if(r2.valuek==vk_ptr){
-			//long addr2=r2.value.ptr_value;
-			//InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
-			//p->value.value.ptr_value=addr;
-		}else{
-			r2.value.ptr_value=addr;
-		}
-	}else{	//ptr assign to ptr
-		if(r2.valuek==vk_ptr){
-			//long addr2=r2.value.ptr_value;
-			//InstBasic* p=(InstBasic*)mem->fetchObj(addr2);
-			//p->value.value=r3.value;
-		}else{
-			r2.value=r3.value;
-		}
+		r2.value.int_value=mv;
+	}else if(r3.valuek==vk_int&&opd1=="double"){
+		double mv=r3.value.int_value;
+		r2.value.double_value=mv;
+	}
+	else if(opd1=="string"){
+
+	}else{
+		r2.value=r3.value;
 	}
 }
 
-void Interpreter::movNew(string& opd1, string& opd2){
+void Interpreter::movNew(string& opd1, string& opd2){	//mov to a addr never used
 	RRValue v;
 	if(opd1=="double"){
 		addVarStack(vk_double,v,opd2);
@@ -374,13 +335,34 @@ void Interpreter::movNew(string& opd1, string& opd2){
 	}
 }
 
+void Interpreter::addVarStack(ValueK k,RRValue& v,string& name){
+	mem->pushStack(k,v);
+	this->esp++;
+	if(ebp==0){
+		(this->global_vars)[name]=esp;
+	}else{
+		(*local_vars)[name]=esp-ebp;
+	}
+}
+
+void Interpreter::writeVarStack(ValueK k,RRValue& v,string& name){
+	long addr;
+	if(ebp==0){
+		addr=global_vars[name];
+	}else{
+		addr=ebp+(*local_vars)[name];
+	}
+	DatValue& nv=mem->fetchStack(addr);
+	nv.valuek=k;
+	nv.value=v;
+}
+
 void Interpreter::doLoadi() {
 	string& opd1=code->getOpd1();
-	//if(ebp==0&&this->global_vars.find(opd1)!=global_vars.end()){
-	//	return;
-	//}else if(ebp!=0&&this->local_vars->find(opd1)!=local_vars->end()){
-	//	return;
-	//}
+	long addr=getSbAddr(opd1);
+	if(addr!=-1&&addr<esp){
+		return;
+	}
 	long vi=stol(code->getOpd2());
 	RRValue v;
 	v.int_value=vi;
@@ -389,19 +371,14 @@ void Interpreter::doLoadi() {
 	if(ebp==0){
 		(this->global_vars)[opd1]=esp;
 	}else{
-		//long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
-		///AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
-		//if(this->local_vars->find(opd1)==local_vars->end()){
-			(*local_vars)[opd1]=esp-ebp;
-		//}
+		(*local_vars)[opd1]=esp-ebp;
 	}
 }
 
 void Interpreter::doLoadd() {
 	string& opd1=code->getOpd1();
-	if(ebp==0&&this->global_vars.find(opd1)!=global_vars.end()){
-		return;
-	}else if(ebp!=0&&this->local_vars->find(opd1)!=local_vars->end()){
+	long addr=getSbAddr(opd1);
+	if(addr!=-1&&addr<esp){
 		return;
 	}
 	double vd=stod(code->getOpd2());
@@ -412,19 +389,14 @@ void Interpreter::doLoadd() {
 	if(ebp==0){
 		(this->global_vars)[opd1]=esp;
 	}else{
-		//long tpi=mem->fetchStack(ebp).value.int_value;
-		//AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
-		//if((this->local_vars)->find(opd1)==local_vars->end()){
-			(*this->local_vars)[opd1]=esp-ebp;
-		//}
+		(*this->local_vars)[opd1]=esp-ebp;
 	}
 }
 
 void Interpreter::doLoads() {
 	string& opd1=code->getOpd1();
-	if(ebp==0&&this->global_vars.find(opd1)!=global_vars.end()){
-		return;
-	}else if(ebp!=0&&this->local_vars->find(opd1)!=local_vars->end()){
+	long addr1=getSbAddr(opd1);
+	if(addr1!=-1&&addr1<esp){
 		return;
 	}
 	string& opd2=code->getOpd2();
@@ -437,20 +409,15 @@ void Interpreter::doLoads() {
 	if(ebp==0){
 		(this->global_vars)[opd1]=esp;
 	}else{
-		//long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
-		//AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
-		//if(local_vars->find(opd1)==local_vars->end()){
-			(*local_vars)[opd1]=esp-ebp;
-		//}
+		(*local_vars)[opd1]=esp-ebp;
 	}
 
 }
 
 void Interpreter::doLoadc() {
 	string& opd1=code->getOpd1();
-	if(ebp==0&&this->global_vars.find(opd1)!=global_vars.end()){
-		return;
-	}else if(ebp!=0&&this->local_vars->find(opd1)!=local_vars->end()){
+	long addr=getSbAddr(opd1);
+	if(addr!=-1&&addr<esp){
 		return;
 	}
 	long vi=(code->getOpd2()).at(0);
@@ -461,19 +428,14 @@ void Interpreter::doLoadc() {
 	if(ebp==0){
 		(this->global_vars)[opd1]=esp;
 	}else{
-		//long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
-		//AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
-		//if(local_vars->find(opd1)==local_vars->end()){
-			(*local_vars)[opd1]=esp-ebp;
-		//}
+		(*local_vars)[opd1]=esp-ebp;
 	}
 }
 
 void Interpreter::doLoadb() {
 	string& opd1=code->getOpd1();
-	if(ebp==0&&this->global_vars.find(opd1)!=global_vars.end()){
-		return;
-	}else if(ebp!=0&&this->local_vars->find(opd1)!=local_vars->end()){
+	long addr=getSbAddr(opd1);
+	if(addr!=-1&&addr<esp){
 		return;
 	}
 	long vi=code->getOpd2()=="true"?1:0;
@@ -484,11 +446,7 @@ void Interpreter::doLoadb() {
 	if(ebp==0){
 		(this->global_vars)[opd1]=esp;
 	}else{
-		//long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
-		//AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
-		//if(local_vars->find(opd1)==local_vars->end()){
-			(*local_vars)[opd1]=esp-ebp;
-		//}
+		(*local_vars)[opd1]=esp-ebp;
 	}
 }
 
@@ -499,24 +457,13 @@ int Interpreter::doCmp(){
 	long a3=getSbAddr(opd3);
 	DatValue& v2=mem->fetchStack(a2);
 	DatValue& v3=mem->fetchStack(a3);
-	if(v2.valuek==vk_ptr&&v3.valuek==vk_ptr){
-		//long p2=v2.value.ptr_value;
-		//long p3=v3.value.ptr_value;
-		//DatValue& v4=mem->fetchObj(p2);
-		//DatValue& v5=mem->fetchObj(p3);
-		//return cmp2Value(v4,v5);
-	}else if(v2.valuek==vk_ptr){
-		//long p2=v2.value.ptr_value;
-		//DatValue& v4=mem->fetchObj(p2);
-		//return cmp2Value(v4,v3);
-	}else if(v3.valuek==vk_ptr){
-		//long p3=v3.value.ptr_value;
-		//DatValue& v5=mem->fetchObj(p3);
-		//return cmp2Value(v2,v5);
-	}else{
-		return cmp2Value(v2,v3);
+	if(v2.valuek==vk_ptr){
+
 	}
-	return 0;
+	if(v3.valuek==vk_ptr){
+
+	}
+	return cmp2Value(v2,v3);
 }
 
 int Interpreter::cmp2Value(DatValue& v2, DatValue& v3) {//0 EQ, 1 larger, -1 less
@@ -551,44 +498,23 @@ int Interpreter::cmp2Value(DatValue& v2, DatValue& v3) {//0 EQ, 1 larger, -1 les
 }
 
 long Interpreter::getSbAddr(string& name) {
-	long addr=-1;
+	long addr=-1;	//-1 means not find symbol
 	if(ebp==0){
-		addr=this->global_vars[name];
-		return addr;
+		if(global_vars.find(name)==global_vars.end()){
+			return -1;
+		}else{
+			addr=this->global_vars[name];
+			return addr;
+		}
 	}
 	if(local_vars->find(name)!=local_vars->end()){
 		addr=(*((this->local_vars)))[name]+this->ebp;
 	}else if(this->global_vars.find(name)!=global_vars.end()){
 		addr=this->global_vars[name];
 	}else{
-		cerr<<"not find symbol name "<<name<<endl;
+		//cerr<<"not find symbol name "<<name<<endl;
 	}
 	return addr;
-}
-
-void Interpreter::addVarStack(ValueK k,RRValue& v,string& name){
-/*	if(ebp==0&&this->global_vars.find(name)!=global_vars.end()){
-		DatValue& r=mem->fetchStack(global_vars[name]);
-		r.valuek=k;
-		r.value=v;
-		return;
-	}else if(ebp!=0&&this->local_vars->find(name)!=local_vars->end()){
-		DatValue& r=mem->fetchStack(ebp+(*local_vars)[name]);
-		r.valuek=k;
-		r.value=v;
-		return;
-	}*/
-	mem->pushStack(k,v);
-	this->esp++;
-	if(ebp==0){
-		(this->global_vars)[name]=esp;
-	}else{
-		//long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
-		//AbstFunc *f=dynamic_cast<AbstFunc*>((this->stcz->getTypeLst())[tpi]);
-		if(((this->local_vars))->find(name)==local_vars->end()){
-			(*local_vars)[name]=esp-ebp;
-		}
-	}
 }
 
 void Interpreter::doGT() {
@@ -1225,16 +1151,16 @@ void Interpreter::doGetFld() {
 void Interpreter::doGetClass() {
 }
 
-void Interpreter::doPrint(){
+void Interpreter::doVMPrint(){
 	string& opd1=this->code->getOpd1();
 	//cout<<opd1<<endl;
 	DatValue& v=mem->fetchStack((this->getSbAddr(opd1)));
 	if(v.valuek==vk_int){
-		cout<<"print: "<<opd1<<" = "<<v.value.int_value<<endl;
+		cout<<"VM print: "<<opd1<<" = "<<v.value.int_value<<endl;
 	}else if(v.valuek==vk_double){
-		cout<<"print: "<<opd1<<" = "<<v.value.double_value<<endl;
+		cout<<"VM print: "<<opd1<<" = "<<v.value.double_value<<endl;
 	}else{
-		cout<<"print: "<<opd1<<" = "<<v.value.ptr_value<<endl;
+		cout<<"VM print: "<<opd1<<" = "<<v.value.ptr_value<<endl;
 	}
 }
 

@@ -16,11 +16,11 @@ public:
 	virtual ~MemManager();
 
 	//stack operation
-	void pushStack(ValueK,RRValue);
+	void pushStack(ValueK,RRValue&);
 	DatValue& popStack();
 	DatValue& peekStack();
 	DatValue& fetchStack(long);
-	int modifyStack(long, DatValue&);
+	//int modifyStack(long, DatValue&);
 	int setStackTop(long);
 	long getStackTop();
 

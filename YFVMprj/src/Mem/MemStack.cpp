@@ -6,7 +6,7 @@
  */
 
 #include "MemStack.h"
-
+#include <climits>
 int MemStack::width=sizeof(DatValue)/sizeof(T_element);
 int MemStack::cwidth=sizeof(T_element);
 int MemStack::org_height=1024;

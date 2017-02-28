@@ -88,6 +88,7 @@ int VM::runLoadFile(string filename){
 }
 
 int VM::runIntprScript(){
+	cout<<"start running interpreter"<<endl;
 	this->intpr->doInterpret(this->stcz,this->mem, this->io);
 
 	return 0;

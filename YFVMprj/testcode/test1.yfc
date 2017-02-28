@@ -67,11 +67,11 @@ dec_1 a
 goto 4
 retExp int sum
 end
-load_i %30 5
+load_i %30 30
 mov int a %30
-getFunc sum1 int(int) global
+getFunc fib int(int) global
 pushFuncArg a
 invoke int %31
 mov int b %31
-CSprint b
+VM_print b
 end

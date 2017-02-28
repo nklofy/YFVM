@@ -47,9 +47,10 @@ private:
 	void doLoadb();
 	int doCmp();
 	void movNew(string&, string&);
+	void writeVarStack(ValueK, RRValue&, string&);
+	void addVarStack(ValueK, RRValue&, string&);
 	int cmp2Value(DatValue&,DatValue&);
 	long getSbAddr(string&);
-	void addVarStack(ValueK, RRValue&, string&);
 	void doGT();
 	void doLT();
 	void doGE();
@@ -104,7 +105,7 @@ private:
 	void doGetArr();
 	void doGetFld();
 	void doGetClass();
-	void doPrint();
+	void doVMPrint();
 	void doPrintStack();
 };
 
