@@ -87,7 +87,7 @@ int FileLoader::loadFuncs(TokenStream *ts){
 		}
 		this->funcs.push_back(func);
 		s=ts->getNback();
-		string* ss=dcpLine(s);
+		ss=dcpLine(s);
 		if(ss[0]=="defFunction"){
 			ts->goNext();
 		}else{
@@ -120,7 +120,7 @@ string* FileLoader::dcpLine(string s){
 	int i=0;
 	while(p1!=string::npos&&i<4){
 		ss[i++]=s.substr(p0,p1-p0);
-		p0=p1;
+		p0=p1+1;
 		p1=s.find(' ',p0);
 	}
 	return ss;

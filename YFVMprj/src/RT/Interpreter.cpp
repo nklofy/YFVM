@@ -26,7 +26,7 @@ int Interpreter::doInterpret(StaticZone* stcz, MemManager* mem, IOManager* io) {
 	this->mem->pushStack(vk_int,v);
 	//this->esp++;
 	while(isNotEnd){
-		//doPrintStack();
+		doPrintStack();
 		this->code=((*this->codes)[pc++]);
 		string& opt=this->code->getOpt();
 		switch(this->stcz->getOptNum()[opt]){//in future, use ptr array to deal with distribution
