@@ -9,11 +9,11 @@
 #define SRC_TYPESYS_TYPESYS_H_
 
 
-#include "AbstArray.h"
-#include "AbstBasic.h"
-#include "AbstClass.h"
-#include "AbstFunc.h"
 #include "AbstType.h"
+#include "AbTypeArray.h"
+#include "AbTypeBasic.h"
+#include "AbTypeClass.h"
+#include "AbTypeFunc.h"
 #include "InstArray.h"
 #include "InstBasic.h"
 #include "InstObj.h"

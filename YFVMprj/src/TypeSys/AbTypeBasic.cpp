@@ -1,18 +1,18 @@
 /*
- * TArray.cpp
+ * TBasic.cpp
  *
  *  Created on: Jan 20, 2017
  *      Author: luyunfei
  */
 
-#include "AbstArray.h"
+#include "AbTypeBasic.h"
 
-AbstArray::AbstArray() {
+AbTypeBasic::AbTypeBasic() {
 	// TODO Auto-generated constructor stub
 
 }
 
-AbstArray::~AbstArray() {
+AbTypeBasic::~AbTypeBasic() {
 	// TODO Auto-generated destructor stub
 }
 

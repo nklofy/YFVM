@@ -5,8 +5,8 @@
  *      Author: luyunfei
  */
 
-#ifndef SRC_TYPESYS_ABSTFUNC_H_
-#define SRC_TYPESYS_ABSTFUNC_H_
+#ifndef SRC_TYPESYS_ABTYPEFUNC_H_
+#define SRC_TYPESYS_ABTYPEFUNC_H_
 #include <list>
 #include <string>
 #include <set>
@@ -17,10 +17,10 @@ using namespace std;
 #include "AbstType.h"
 #include "../Loader/IR.h"
 
-class AbstFunc : public AbstType {
+class AbTypeFunc : public AbstType {
 public:
-	AbstFunc();
-	virtual ~AbstFunc();
+	AbTypeFunc();
+	virtual ~AbTypeFunc();
 	TypeK getTypeK(){return tfunc;}
 	string& getName();
 	void setName(string);
@@ -33,8 +33,8 @@ public:
 	void setBody(vector<IRCode*>*);
 	bool isMthd=false;
 	bool isOverload=false;
-	void addNext(AbstFunc*);
-	AbstFunc* getNext();
+	void addNext(AbTypeFunc*);
+	AbTypeFunc* getNext();
 
 	long getEntry();
 	void setEntry(long);
@@ -53,8 +53,8 @@ private:
 	string name;
 	string sig;
 	long index;
-	AbstFunc* next;
-	AbstFunc* head;
+	AbTypeFunc* next;
+	AbTypeFunc* head;
 	vector<IRCode*>* body;
 	//RcdFunc* r_func;
 	//AbstGnrc* gnrc_pars;
@@ -64,4 +64,4 @@ private:
 	map<string,long> sym_outer;//decide while executing
 };
 
-#endif /* SRC_TYPESYS_ABSTFUNC_H_ */
+#endif /* SRC_TYPESYS_ABTYPEFUNC_H_ */

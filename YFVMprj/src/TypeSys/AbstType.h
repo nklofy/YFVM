@@ -20,17 +20,7 @@ public:
 	AbstType();
 	virtual ~AbstType();
 	virtual TypeK getTypeK(){return ttype;}
-	long getSize();
-	long setSize();
-	bool isIsDummy() const;
-	void setIsDummy(bool isDummy);
-	bool isIsGnrc() const;
-	void setIsGnrc(bool isGnrc);
-
-private:
-	long size;//size of instance of this type
-	bool isGnrc;
-	bool isDummy;
+	virtual long getSize();
 };
 
 #endif /* SRC_TYPESYS_ABSTTYPE_H_ */

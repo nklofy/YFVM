@@ -5,14 +5,14 @@
  *      Author: luyunfei
  */
 
-#include "AbstGnrc.h"
+#include "AbTypeGnrc.h"
 
-AbstGnrc::AbstGnrc() {
+AbTypeGnrc::AbTypeGnrc() {
 	// TODO Auto-generated constructor stub
 
 }
 
-AbstGnrc::~AbstGnrc() {
+AbTypeGnrc::~AbTypeGnrc() {
 	// TODO Auto-generated destructor stub
 }
 

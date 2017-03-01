@@ -36,8 +36,8 @@ private:
 	enum{scp_glb,scp_func,scp_mthd} name_scope;
 	map<string,long> global_vars;
 	map<string,long>* local_vars;//point to function's local vars
-	AbstFunc* crt_func;//point to function type each time pushing a frame in stack
-	AbstClass* crt_cls;//point to class method belonging if crt function is method
+	AbTypeFunc* crt_func;//point to function type each time pushing a frame in stack
+	AbTypeClass* crt_cls;//point to class method belonging if crt function is method
 
 	void doMov();
 	void doLoadi();
@@ -81,7 +81,7 @@ private:
 	void doRetExp();
 	void doRet();
 	void doDefFunc();
-	void loadFunc(AbstFunc*);
+	void loadFunc(AbTypeFunc*);
 	void doEnd();
 	void doDefGnrcPar();
 	void doDefFuncPar();

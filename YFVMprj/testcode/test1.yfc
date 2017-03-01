@@ -5,15 +5,19 @@ Fields 1
 defField b:int
 Methods 1
 defMethod f int()
-load_i %1 3
-retExp int %1
+retExp int b
 end
-newObj A %2
-mov A a %2
-getField %3 a b
-mov int b %3
+defClass B global
+extends 1
+A
+Methods 1
+defMethod g int()
+load_i %3 1
+retExp int %3
+end
+newObj A %1
+mov A a %1
 getMethod f int() a
-invoke int %4
-mov int c %4
-VM_print b
+invoke int %2
+mov int c %2
 end
