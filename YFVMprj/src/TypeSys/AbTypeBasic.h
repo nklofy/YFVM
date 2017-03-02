@@ -25,8 +25,7 @@ public:
 	virtual ~AbTypeBasic();
 	TypeK getTypeK(){return tbasic;}
 	TBasicK getTBasicK();
-	long getSize(){return sizeof(InstBasic)+datwidth;}
-	long getDatAddr(){return sizeof(InstBasic);}
+	long getSize(){return sizeof(InstBasic);}
 private:
 
 };

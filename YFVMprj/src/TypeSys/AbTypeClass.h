@@ -16,7 +16,7 @@
 
 using namespace std;
 
-const int datwidth=sizeof(DatValue);
+
 
 class ClsField{
 public:
@@ -35,7 +35,7 @@ public:
 	AbTypeClass();
 	virtual ~AbTypeClass();
 	TypeK getTypeK(){return tclass;}
-	long getSize(){return sizeof(InstObj)+(methods_n+fields_n)*datwidth;}
+	long getSize(){return sizeof(InstObj)+fields_n*AbstType::datwidth;}
 	//map<string,ClsField*>& getFields();
 	//map<string,ClsMethod*>& getMethods();
 	//const AbstGnrc* getGnrcPars() const;

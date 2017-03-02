@@ -15,3 +15,5 @@ AbstType::AbstType() {
 AbstType::~AbstType() {
 	// TODO Auto-generated destructor stub
 }
+
+const int AbstType::datwidth=sizeof(DatValue);
