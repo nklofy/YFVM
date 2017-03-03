@@ -13,11 +13,11 @@
 #include "../TypeSys/TypeSys.h"
 
 using namespace std;
-typedef char T_element;
 
 class MemStack {
 public:
-	static int width;
+	typedef char T_element;
+	static int width;//basic width of stack node in memory
 	static int cwidth;
 	static int org_height;
 	static double ext_ratio;

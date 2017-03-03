@@ -30,8 +30,8 @@ public:
 	long callocObj(long,long);
 	long reallocObj(long,long);
 	int freeHObj(long);
-	long allocStr(long);
-	int cpyStr(long,string&);
+	//long allocStr(long);
+	//int cpyStr(long,string&);
 	int cpyMem(long,long);
 	int modifyObj(long,DatValue&);
 	int initObj(long);

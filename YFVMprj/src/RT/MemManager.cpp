@@ -50,8 +50,11 @@ long MemManager::getStackTop() {
 	return stack.getTop();
 }
 
+/*
 long MemManager::allocStr(long longInt) {
 }
+int MemManager::cpyStr(long longInt, string& allocator) {
+}*/
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 InstVar* MemManager::fetchObj(long longInt) {
@@ -69,8 +72,6 @@ long MemManager::reallocObj(long longInt, long longInt1) {
 int MemManager::freeHObj(long longInt) {
 }
 
-int MemManager::cpyStr(long longInt, string& allocator) {
-}
 
 int MemManager::cpyMem(long longInt, long longInt1) {
 }
