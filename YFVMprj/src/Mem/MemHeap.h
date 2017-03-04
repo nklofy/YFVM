@@ -9,6 +9,8 @@
 #define SRC_MEM_MEMHEAP_H_
 
 #include <string>
+#include <list>
+
 #include "../TypeSys/TypeSys.h"
 #include "GCAlgo.h"
 
@@ -18,10 +20,13 @@ class MemHeap {
 friend GCAlgo;
 public:
 
-	//typedef char T_element;
-	typedef char T_grid;
-	//static int width;
-	static double ext_ratio;
+	static double block_ext;
+	static double block_ext1;
+	static double eden_cpr;
+	static double eden_cpr1;
+	static double svr_cpr;
+	static double
+
 	static long max_long;
 
 	MemHeap();
@@ -31,31 +36,25 @@ public:
 	long mallocStr(string&);
 	long mallocArray(long,long);
 
-	int freeObj(long);
-	int freeArray(long);
-
 private:
-	GCAlgo gcer;
-	int GC();//total 80%, run GC,
-	void** blocks;
-	long block_begin;	//begin of available block
-	long block_end;	//end of available block
-	long* block_ptrB;	//begin ptr of each block
-	long* block_ptrE;	//end ptr of each block
-	long block_size=0XFFFF;//65k, actually 500k
-	long block_count=8;
-	char* block_info;	//0 empty, 1b in using, 10b full, 000b eden, 100b survivor
-	void* older;
-	long older_size=0XFFFFF;//1M, actually 8m
-	double block_u_ratio;
-	double older_u_ratio;
-	long* stack_stab;
-	long* older_stab;
-	long** block_stab;
-	int resetBlockSize(long);
-	int resetBlockCount(long);
-	int resetOlderSize(long);
+	GCAlgo GCer;
+	MemBlock eden;	//eden generation
+	MemBlock svr0;	//survivor generation
+	MemBlock svr1;
+	MemOlder older;	//older generation
 
+	long block_size=0XFFFF;//65k, actually 500k
+	long eden_size=0X4FFFF;//256k,actually 2M
+	long svr_size=0X2FFFF;//128k,actually 1M
+	long older_size=0XFFFFF;//1M, actually 8m
+	long addr_begin=0;
+	long addr_end=0;
+	long bigObj_size;
+	int doGC();
+	int doFullGC();
+	int extendEden();
+	int extendSvr();
+	int extendOlder();
 };
 
 #endif /* SRC_MEM_MEMHEAP_H_ */

@@ -11,7 +11,7 @@ int MemStack::width=sizeof(DatValue)/sizeof(T_element);
 int MemStack::cwidth=sizeof(T_element);
 int MemStack::org_height=1024;
 double MemStack::ext_ratio=2;
-long MemStack::max_long=LONG_MAX;
+long MemStack::max_long=block_ext_ratio1;
 
 MemStack::MemStack() : bottom(0),top(0),capacity(org_height) {
 	real_bottom=(T_element*)malloc(capacity*width);

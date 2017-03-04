@@ -1,19 +1,17 @@
 /*
- * TType.cpp
+ * MemBlock.cpp
  *
- *  Created on: Jan 20, 2017
+ *  Created on: Mar 4, 2017
  *      Author: luyunfei
  */
 
-#include "AbstType.h"
+#include "MemBlock.h"
 
-AbstType::AbstType() {
+MemBlock::MemBlock() {
 	// TODO Auto-generated constructor stub
 
 }
 
-AbstType::~AbstType() {
+MemBlock::~MemBlock() {
 	// TODO Auto-generated destructor stub
 }
-
-

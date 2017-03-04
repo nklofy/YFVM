@@ -1,19 +1,17 @@
 /*
- * TType.cpp
+ * MemOlder.cpp
  *
- *  Created on: Jan 20, 2017
+ *  Created on: Mar 4, 2017
  *      Author: luyunfei
  */
 
-#include "AbstType.h"
+#include "MemOlder.h"
 
-AbstType::AbstType() {
+MemOlder::MemOlder() {
 	// TODO Auto-generated constructor stub
 
 }
 
-AbstType::~AbstType() {
+MemOlder::~MemOlder() {
 	// TODO Auto-generated destructor stub
 }
-
-

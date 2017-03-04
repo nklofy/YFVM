@@ -21,7 +21,6 @@ public:
 	virtual ~AbstType();
 	virtual TypeK getTypeK(){return ttype;}
 	virtual long getSize();
-	static const int datwidth;
 };
 
 #endif /* SRC_TYPESYS_ABSTTYPE_H_ */
