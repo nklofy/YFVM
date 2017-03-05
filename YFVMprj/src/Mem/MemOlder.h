@@ -16,7 +16,7 @@ public:
 	int initSize(long);
 	long cpyObj(long,long);	//source addr, size, copy from other block
 	long pushObj(long);	//type, malloc new obj
-	int markAllObj();
+	//int markAllObj();
 	int markObj(long,char);	//addr, sign
 	long getFreeSize();
 	long getUsageRate();
