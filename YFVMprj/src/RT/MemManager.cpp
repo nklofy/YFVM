@@ -82,5 +82,10 @@ int MemManager::modifyObj(long longInt, DatValue&) {
 int MemManager::initObj(long longInt) {
 }
 
+int MemManager::setStcz(StaticZone* stcz) {
+	heap.setStcz(stcz);
+	stack.setStcz(stcz);
+}
+
 long MemManager::getSizeHp() {
 }

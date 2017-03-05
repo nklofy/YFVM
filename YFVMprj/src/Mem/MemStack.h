@@ -33,9 +33,10 @@ public:
 	int modify(long,DatValue&);
 	int setTop(long);
 	long getTop();
+	void setStcz(StaticZone*);
 
 private:
-
+	StaticZone* stcz;
 	long bottom;	//0
 	long top;	//from 0 to max_N, index of element
 	long capacity;

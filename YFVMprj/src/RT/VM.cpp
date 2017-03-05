@@ -66,7 +66,7 @@ int VM::attachIntpr(Interpreter* intpr){
 
 int VM::attachMem(MemManager* mem){
 	this->mem=mem;
-
+	mem->setVM(this);
 	return 0;
 }
 

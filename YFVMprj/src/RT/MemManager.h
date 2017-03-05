@@ -14,7 +14,7 @@ class MemManager {
 public:
 	MemManager();
 	virtual ~MemManager();
-
+	int setStcz(StaticZone*);
 	//stack operation
 	void pushStack(ValueK,RRValue&);
 	DatValue& popStack();

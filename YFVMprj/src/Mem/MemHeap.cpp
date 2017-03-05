@@ -98,10 +98,13 @@ int MemHeap::markMBlock(MemBlock& block){
 	//mark 1, then search memset, visiting 2, visited 3
 	list<long>& list=block.getMemSet();
 	char* marktb=block.getMarkTable();
-	for(int i=block.getAddrBegin();i<block.getAddrEnd();i++){
-		if(block.getMarkAddr(i)==1){
-			markObj2(i);
-		}
+	for(auto p=list.iterator;p<list.end();p++){
+		long addr1=*p;
+		InstVar* v=(InstVar*)fetchObj(addr1);
+		long ti=v->getType();
+		AbstType* t=stcz->getTypeLst()[ti];
+
+
 	}
 
 }
@@ -136,6 +139,11 @@ long MemHeap::compactMBlock(){
 
 int MemHeap::extendEden(double r){
 
+}
+
+
+void MemHeap::setStcz(StaticZone* stcz) {
+this->stcz = stcz;
 }
 
 int MemHeap::extendSvr(double r){

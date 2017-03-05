@@ -27,10 +27,13 @@ public:
 	virtual ~MemHeap();
 	int init();
 	long mallocObj(long);
+	void* fetchObj(long);
 	long mallocStr(string&);
 	long mallocArray(long,long);
+	void setStcz(StaticZone* stcz);
 
 private:
+	StaticZone* stcz;
 	GCAlgo GCer;
 	MemBlock eden;	//eden generation
 	MemBlock* crt_svr=new MemBlock;	//survivor generation
