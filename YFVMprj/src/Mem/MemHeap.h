@@ -32,9 +32,11 @@ public:
 	long mallocStr(string&);
 	long mallocArray(long,long);
 	void setStcz(StaticZone* stcz);
+	void setStack(MemStack* stack);
 
 private:
 	StaticZone* stcz;
+	MemStack* stack;
 	GCAlgo GCer;
 	MemBlock eden;	//eden generation
 	MemBlock* crt_svr=new MemBlock;	//survivor generation
@@ -48,14 +50,14 @@ private:
 	//long addr_end=0;
 
 	int doGC();
-	int markMBlock(MemBlock&);
+	//int markMBlock(MemBlock&);
 	int markObj2(long);
 	int markObj3(long);
 	long cpyMBlock(MemBlock&, MemBlock&);
 	long cpyObj(long,MemBlock&, MemBlock&, MemOlder&);
 	int doFullGC();
-	int markAllObj();
-	long sweepAllObj();
+	//int markAllObj();
+	//long sweepAllObj();
 	long compactOlder();
 	int extendEden(double);
 	int extendSvr(double);
@@ -80,11 +82,6 @@ public:
 	static long max_Mem;
 	static long max_singleMem;
 	static long bigObj_size;
-	//copy eden to survivor, free <0.5, *2
-	//copy svr to svr, if free <1/4, svr *2, free>7/8, svr*0.5
-	//if older is full do mark-sweep full GC
-	//cpr >3/4, older *2
-	//cpr >1/2, do mark-compact GC
 };
 
 #endif /* SRC_MEM_MEMHEAP_H_ */

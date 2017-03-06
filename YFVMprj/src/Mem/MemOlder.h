@@ -32,8 +32,13 @@ public:
 	list<long[2]>& getFreeList();
 	char* getMarkTable();
 	void* getAddrPtr(long);
+	char getMarkAddr(long);//get mark of obj on addr
+	void setMarkTable(char* markTable);
+	list<long>& getMemSet();
+	void updateFreeList();//free list, max free, free size
 
 private:
+	list<long> mem_set;
 	void* block_ptr;
 	long free_begin;
 	long addr_begin;

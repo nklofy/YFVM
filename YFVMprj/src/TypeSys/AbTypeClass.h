@@ -45,15 +45,13 @@ public:
 	long getMthdN2I(string&,string&);//name to index
 	long getFldI2A(long);	//index to relative addr of field
 	long getMthI2A(long);	//index to relative addr of method
-	long *getChildren();
-	long getChildrenN();
+	list<long>& getChildren();
 
 private:
 	//AbstGnrc* gnrc_pars;
 	long fields_n;
 	long methods_n;
-	long children_n;
-	long* children;
+	list<long> children;
 	unordered_map<string,ClsField*> fields;
 	unordered_map<string,ClsMethod*> methods;
 };

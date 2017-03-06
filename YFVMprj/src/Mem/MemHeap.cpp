@@ -88,6 +88,7 @@ int MemHeap::doGC() {
 	MemBlock* tsvr=crt_svr;
 	crt_svr=next_svr;
 	next_svr=tsvr;
+	return 0;
 }
 
 long MemHeap::cpyMBlock(MemBlock& block, MemBlock& next){
@@ -105,12 +106,12 @@ long MemHeap::cpyMBlock(MemBlock& block, MemBlock& next){
 
 long MemHeap::cpyObj(long addr, MemBlock& block, MemBlock& next, MemOlder& older){
 	//check cpy mark, cpy obj, mov free ptr, change fowarding ptr, cpy children of fwd ptr
-	char m=block.getMarkAddr(addr);
+	char m=block.getMarkAddr(addr);	//1 new obj, 2 visiting, 3 visited, 0 garbage
 	InstVar* var=(InstVar*)fetchObj(addr);
 
 	long freead=next.getFreeBegin();
 	long newad=freead;
-	if(m==1){
+	if(m==1||m==3){
 		block.markObj(addr,2);
 		AbstType* type=stcz->getTypeFromList(var->getType());
 		if(type->getTypeK()==tclass){
@@ -134,8 +135,8 @@ long MemHeap::cpyObj(long addr, MemBlock& block, MemBlock& next, MemOlder& older
 			}
 			freead=next.cpyObj(block.getAddrPtr(addr),tcl->getSize());
 			var->setFwdPtr(freead);
-			for(int i=0;i<tcl->getChildrenN();i++){
-				long childad=((RRValue*)fetchObj(newad+tcl->getFldI2A(tcl->getChildren()[i])))->ptr_value;
+			for(auto child:tcl->getChildren()){
+				long childad=((RRValue*)fetchObj(newad+tcl->getFldI2A(child)))->ptr_value;
 				cpyObj(childad,block,next,older);
 			}
 			block.markObj(addr,3);
@@ -150,13 +151,19 @@ long MemHeap::cpyObj(long addr, MemBlock& block, MemBlock& next, MemOlder& older
 }
 
 int MemHeap::doFullGC() {
-	//if older full, do mark-sweep full GC
-	//still cannot insert, do compact
-
+	//mark all obj, set forward ptr, set ptr, mov obj
+	for(int i=0;i<stack->getTop();i++){
+		DatValue& v=stack->fetch(i);
+		if(v.valuek==vk_ptr){
+			markObj2(v.value.ptr_value);//mark and memset
+		}
+	}
+	older.updateFreeList();
+	return 0;
 }
-
+/*
 int MemHeap::markMBlock(MemBlock& block){
-/*	long ti=v->getType();
+	long ti=v->getType();
 	AbstType* t=stcz->getTypeLst()[ti];
 	if(t->getTypeK()==tclass){
 		AbTypeClass* t1=(AbTypeClass*) t;
@@ -165,9 +172,9 @@ int MemHeap::markMBlock(MemBlock& block){
 			int addri=t1->getFldAddr(fi);
 			*p=cpyObj(addr1+addri,block,next);
 		}
-	}*/
+	}
 
-}
+}*/
 
 int  MemHeap::markObj2(long){
 
@@ -176,17 +183,21 @@ int  MemHeap::markObj2(long){
 int  MemHeap::markObj3(long){
 
 }
-
+/*
 int MemHeap::markAllObj(){
 
 }
 
 long MemHeap::sweepAllObj(){
 
-}
+}*/
 
 long MemHeap::compactOlder(){
+	for(long addr=older.getAddrBegin();addr<older.getAddrEnd();addr++){
+		if(older.getMarkAddr(addr)==3){
 
+		}
+	}
 }
 
 int MemHeap::extendEden(double r){
@@ -205,6 +216,7 @@ void* MemHeap::fetchObj(long longInt) {
 int MemHeap::extendSvr(double r){
 
 }
+
 
 int MemHeap::extendOlder(double double1) {
 }
