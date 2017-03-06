@@ -11,6 +11,7 @@
 #include <string>
 #include <set>
 #include <map>
+#include <unordered_map>
 #include <vector>
 using namespace std;
 
@@ -42,8 +43,8 @@ public:
 	list<string>& getParTypes();
 	long getIndex();
 	void setIndex(long index);
-	map<string, long>& getSymInner();
-	void setSymInner(map<string, long>& symInner);
+	unordered_map<string, long>& getSymInner();
+	void setSymInner(unordered_map<string, long>& symInner);
 
 	bool hasNext=false;
 
@@ -60,8 +61,8 @@ private:
 	//AbstGnrc* gnrc_pars;
 	list<string> parnames;
 	list<string> partypes;
-	map<string,long> sym_inner;//define while loading
-	map<string,long> sym_outer;//decide while executing
+	unordered_map<string,long> sym_inner;//define while loading
+	unordered_map<string,long> sym_outer;//decide while executing
 };
 
 #endif /* SRC_TYPESYS_ABTYPEFUNC_H_ */

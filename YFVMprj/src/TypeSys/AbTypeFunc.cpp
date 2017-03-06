@@ -69,10 +69,10 @@ void AbTypeFunc::setIndex(long index) {
 	this->index = index;
 }
 
-map<string, long>& AbTypeFunc::getSymInner() {
+unordered_map<string, long>& AbTypeFunc::getSymInner() {
 	return sym_inner;
 }
 
-void AbTypeFunc::setSymInner(map<string, long>& symInner) {
+void AbTypeFunc::setSymInner(unordered_map<string, long>& symInner) {
 	sym_inner = symInner;
 }

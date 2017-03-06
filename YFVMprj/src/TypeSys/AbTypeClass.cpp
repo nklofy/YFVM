@@ -15,3 +15,10 @@ AbTypeClass::AbTypeClass() {
 AbTypeClass::~AbTypeClass() {
 	// TODO Auto-generated destructor stub
 }
+long *AbTypeClass::getChildren() {
+	return children;
+}
+
+long AbTypeClass::getChildrenN() {
+	return children_n;
+}

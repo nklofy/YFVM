@@ -394,7 +394,7 @@ void Interpreter::doLoadd() {
 }
 
 void Interpreter::doLoads() {
-	string& opd1=code->getOpd1();
+/*	string& opd1=code->getOpd1();
 	long addr1=getSbAddr(opd1);
 	if(addr1!=-1&&addr1<esp){
 		return;
@@ -410,7 +410,7 @@ void Interpreter::doLoads() {
 		(this->global_vars)[opd1]=esp;
 	}else{
 		(*local_vars)[opd1]=esp-ebp;
-	}
+	}*/
 
 }
 

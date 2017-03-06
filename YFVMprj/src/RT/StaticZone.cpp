@@ -92,7 +92,7 @@ vector<IRCode*>* StaticZone::getScript() {
 	return codes;
 }
 
-map<string, long>& StaticZone::getFuncTbl() {
+unordered_map<string, long>& StaticZone::getFuncTbl() {
 	return func_tbl;
 }
 
@@ -104,12 +104,18 @@ vector<AbTypeFunc*>& StaticZone::getFuncList() {
 	return func_list;
 }
 
-map<string, int>& StaticZone::getOptNum() {
+unordered_map<string, int>& StaticZone::getOptNum() {
 	return optnum;
 }
 
-map<string, long>& StaticZone::getTypeTbl() {
+unordered_map<string, long>& StaticZone::getTypeTbl() {
 	return type_tbl;
+}
+
+AbstType* StaticZone::getTypeFromList(long longInt) {
+}
+
+AbTypeFunc* StaticZone::getFuncFromList(long longInt) {
 }
 
 vector<AbstType*>& StaticZone::getTypeLst() {

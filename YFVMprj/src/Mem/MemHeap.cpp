@@ -73,8 +73,6 @@ long MemHeap::mallocArray(long size, long count) {
 int MemHeap::doGC() {
 	//copy eden to survivor, if cpr>0.5, eden*4, >0.2 eden*2
 	//copy svr to svr, if free <1/2, svr *2, cpr<0.1, svr*0.5
-	markMBlock(eden);
-	markMBlock(*crt_svr);
 	long size1=cpyMBlock(eden,*next_svr);
 	if(size1>eden_size*eden_thresh1){
 		extendEden(eden_ext1);
@@ -90,38 +88,92 @@ int MemHeap::doGC() {
 	MemBlock* tsvr=crt_svr;
 	crt_svr=next_svr;
 	next_svr=tsvr;
-
-
 }
 
-int MemHeap::markMBlock(MemBlock& block){
-	//mark 1, then search memset, visiting 2, visited 3
+long MemHeap::cpyMBlock(MemBlock& block, MemBlock& next){
 	list<long>& list=block.getMemSet();
 	char* marktb=block.getMarkTable();
 	for(auto p=list.iterator;p<list.end();p++){
 		long addr1=*p;
-		InstVar* v=(InstVar*)fetchObj(addr1);
-		long ti=v->getType();
-		AbstType* t=stcz->getTypeLst()[ti];
-
-
+		RRValue* v=(RRValue*)fetchObj(addr1);
+		long addr2=v->ptr_value;
+		long newad=cpyObj(addr2, block, next, older);
+		if(newad!=-1)
+			v->ptr_value=newad;
 	}
-
-}
-void markObj2(long){
-
-}void markObj3(long){
-
 }
 
-long MemHeap::cpyMBlock(MemBlock& block, MemBlock& next){
+long MemHeap::cpyObj(long addr, MemBlock& block, MemBlock& next, MemOlder& older){
+	//check cpy mark, cpy obj, mov free ptr, change fowarding ptr, cpy children of fwd ptr
+	char m=block.getMarkAddr(addr);
+	InstVar* var=(InstVar*)fetchObj(addr);
 
+	long freead=next.getFreeBegin();
+	long newad=freead;
+	if(m==1){
+		block.markObj(addr,2);
+		AbstType* type=stcz->getTypeFromList(var->getType());
+		if(type->getTypeK()==tclass){
+			AbTypeClass* tcl=(AbTypeClass*)type;
+			if(var->getObjAge()>older_age){
+				//cpy Obj to Older
+				if(older.getFreeSize()<tcl->getSize()){
+					extendOlder(older_ext0);
+				}
+				if(older.getMaxFree()>tcl->getSize()){
+					doFullGC();
+				}
+				if(older.getMaxFree()>tcl->getSize()){
+					compactOlder();
+				}
+				newad=older.cpyObj(block.getAddrPtr(addr),tcl->getSize());
+			}
+			if(next.getAddrEnd()-freead<tcl->getSize()){
+				svr_size*=svr_ext0;
+				next.extend(svr_size);
+			}
+			freead=next.cpyObj(block.getAddrPtr(addr),tcl->getSize());
+			var->setFwdPtr(freead);
+			for(int i=0;i<tcl->getChildrenN();i++){
+				long childad=((RRValue*)fetchObj(newad+tcl->getFldI2A(tcl->getChildren()[i])))->ptr_value;
+				cpyObj(childad,block,next,older);
+			}
+			block.markObj(addr,3);
+		}else if(type->getTypeK()==tarray){
+
+		}else{
+			cerr<<"error GC cpy obj "<<addr<<"'s type "<<var->getType()<<endl;
+		}
+	}else
+		newad=var->getFwdPtr();
+	return newad;
 }
 
 int MemHeap::doFullGC() {
 	//if older full, do mark-sweep full GC
-	//free <1/2, older *2
 	//still cannot insert, do compact
+
+}
+
+int MemHeap::markMBlock(MemBlock& block){
+/*	long ti=v->getType();
+	AbstType* t=stcz->getTypeLst()[ti];
+	if(t->getTypeK()==tclass){
+		AbTypeClass* t1=(AbTypeClass*) t;
+		for(int i=0;i<t1->getChildrenN();i++){
+			int fi=t1->getChildren()[i];
+			int addri=t1->getFldAddr(fi);
+			*p=cpyObj(addr1+addri,block,next);
+		}
+	}*/
+
+}
+
+int  MemHeap::markObj2(long){
+
+}
+
+int  MemHeap::markObj3(long){
 
 }
 
@@ -133,7 +185,7 @@ long MemHeap::sweepAllObj(){
 
 }
 
-long MemHeap::compactMBlock(){
+long MemHeap::compactOlder(){
 
 }
 
@@ -143,9 +195,16 @@ int MemHeap::extendEden(double r){
 
 
 void MemHeap::setStcz(StaticZone* stcz) {
-this->stcz = stcz;
+	this->stcz = stcz;
 }
+
+void* MemHeap::fetchObj(long longInt) {
+}
+
 
 int MemHeap::extendSvr(double r){
 
+}
+
+int MemHeap::extendOlder(double double1) {
 }

@@ -13,7 +13,8 @@
 
 #include "../TypeSys/TypeSys.h"
 #include "GCAlgo.h"
-
+#include "MemBlock.h"
+#include "MemOlder.h"
 using namespace std;
 
 class MemHeap {
@@ -48,11 +49,14 @@ private:
 
 	int doGC();
 	int markMBlock(MemBlock&);
+	int markObj2(long);
+	int markObj3(long);
 	long cpyMBlock(MemBlock&, MemBlock&);
+	long cpyObj(long,MemBlock&, MemBlock&, MemOlder&);
 	int doFullGC();
 	int markAllObj();
 	long sweepAllObj();
-	long compactMBlock();
+	long compactOlder();
 	int extendEden(double);
 	int extendSvr(double);
 	int extendOlder(double);
@@ -60,14 +64,18 @@ private:
 public:
 	static double eden_thresh1;
 	static double eden_thresh2;
+	static double eden_ext0;
 	static double eden_ext1;
 	static double eden_ext2;
 	static double svr_thresh1;
 	static double svr_thresh2;
+	static double svr_ext0;
 	static double svr_ext1;
 	static double svr_ext2;
+	static long older_age;
 	static double older_thresh1;
 	static double older_thresh2;
+	static double older_ext0;
 	static double older_ext1;
 	static long max_Mem;
 	static long max_singleMem;

@@ -9,6 +9,7 @@
 #define SRC_TYPESYS_ABTYPECLASS_H_
 
 #include <map>
+#include <unordered_map>
 
 #include "AbstType.h"
 #include "InstObj.h"
@@ -35,20 +36,25 @@ public:
 	AbTypeClass();
 	virtual ~AbTypeClass();
 	TypeK getTypeK(){return tclass;}
-	long getSize(){return sizeof(InstObj)+fields_n*AbstType::datwidth;}
+	long getSize(){return sizeof(InstObj)+fields_n*AbstType::RWidth;}
 	//map<string,ClsField*>& getFields();
 	//map<string,ClsMethod*>& getMethods();
 	//const AbstGnrc* getGnrcPars() const;
 	//void setGnrcPars(const AbstGnrc* gnrcPars);
-	long getFldIndex(string&);
-	long getMthdIndex(string&,string&);
-	long getFldAddr(string&);	//relative addr of field
-	long getMthdAddr(string&,string&);	//relative addr of method
+	long getFldN2I(string&);//name to index
+	long getMthdN2I(string&,string&);//name to index
+	long getFldI2A(long);	//index to relative addr of field
+	long getMthI2A(long);	//index to relative addr of method
+	long *getChildren();
+	long getChildrenN();
+
 private:
 	//AbstGnrc* gnrc_pars;
 	long fields_n;
 	long methods_n;
-	map<string,ClsField*> fields;
-	map<string,ClsMethod*> methods;
+	long children_n;
+	long* children;
+	unordered_map<string,ClsField*> fields;
+	unordered_map<string,ClsMethod*> methods;
 };
 #endif /* SRC_TYPESYS_ABTYPECLASS_H_ */

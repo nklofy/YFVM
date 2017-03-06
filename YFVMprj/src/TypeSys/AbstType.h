@@ -17,6 +17,8 @@ enum TypeK{tbasic, tclass, tfunc, tgnrc, tarray, ttype, tdummy};
 
 class AbstType {
 public:
+	static long RWidth;
+	static long VWidth;
 	AbstType();
 	virtual ~AbstType();
 	virtual TypeK getTypeK(){return ttype;}

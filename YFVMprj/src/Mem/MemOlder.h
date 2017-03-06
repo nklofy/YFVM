@@ -14,11 +14,13 @@ public:
 	MemOlder();
 	virtual ~MemOlder();
 	int initSize(long);
-	long cpyObj(long,long);	//source addr, size, copy from other block
+	long cpyObj(void*,long);	//source, size, copy from other block
 	long pushObj(long);	//type, malloc new obj
 	//int markAllObj();
 	int markObj(long,char);	//addr, sign
 	long getFreeSize();
+	long getMaxFree();
+	long getBestFree(long);
 	long getUsageRate();
 	long extend(long);
 	long getAddrBegin() ;

@@ -14,7 +14,7 @@ public:
 	MemBlock();
 	virtual ~MemBlock();
 	int initSize(long);
-	long cpyObj(long,long);	//source addr, size, copy from other block
+	long cpyObj(void*,long);	//source, size, copy from other block
 	long pushObj(long);	//type, malloc new obj
 	//int markAllObj();
 	int markObj(long,char);	//addr, sign
@@ -28,7 +28,7 @@ public:
 	long getCapacity();
 	long getFreeBegin() ;
 	char* getMarkTable();
-	char getMarkAddr(long);
+	char getMarkAddr(long);//get mark of obj on addr
 	void setMarkTable(char* markTable);
 	list<long>& getMemSet() ;
 	void* getAddrPtr(long) ;
