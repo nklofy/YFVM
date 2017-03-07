@@ -30,11 +30,13 @@ public:
 	char* getMarkTable();
 	char getMarkAddr(long);//get mark of obj on addr
 	void setMarkTable(char* markTable);
-	list<long>& getMemSet();
+	//list<long>& getMemSet();
 	void* getAddrPtr(long);
+	//int ZeroMemSet();
+	int ZeroMarkTbl();
 
 private:
-	list<long> mem_set;
+	//list<long> mem_set;
 	void* block_ptr;
 	long free_begin;
 	long addr_begin;

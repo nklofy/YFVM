@@ -7,7 +7,10 @@
 
 #include "MemHeap.h"
 
-
+long MemHeap::block_size=0XFFFF;
+long MemHeap::eden_size=0X4FFFF;
+long MemHeap::svr_size=0X4FFFF;
+long MemHeap::older_size=0XFFFFF;
 double MemHeap::eden_thresh1=0.5;
 double MemHeap::eden_thresh2=0.2;
 double MemHeap::eden_ext0=4;
@@ -110,6 +113,8 @@ long MemHeap::cpyMBlock(MemBlock& block, MemBlock& next){
 
 long MemHeap::cpyObj(long addr, MemBlock& block, MemBlock& next, MemOlder& older){
 	//check cpy mark, cpy obj, mov free ptr, change fowarding ptr, cpy children of fwd ptr
+	next.ZeroMarkTbl();
+	next.ZeroMemSet();
 	char m=block.getMarkAddr(addr);	//1 new obj, 2 visiting, 3 visited, 0 garbage
 	InstVar* var=(InstVar*)fetchObj(addr);
 
@@ -120,6 +125,8 @@ long MemHeap::cpyObj(long addr, MemBlock& block, MemBlock& next, MemOlder& older
 		AbstType* type=stcz->getTypeFromList(var->getType());
 		if(type->getTypeK()==tbasic){
 			//
+
+
 		}else if(type->getTypeK()==tclass){
 			AbTypeClass* tcl=(AbTypeClass*)type;
 			if(var->getObjAge()>older_age){
@@ -134,12 +141,15 @@ long MemHeap::cpyObj(long addr, MemBlock& block, MemBlock& next, MemOlder& older
 					compactOlder();
 				}
 				newad=older.cpyObj(block.getAddrPtr(addr),tcl->getSize());
+				next.mem_set
+
 			}
 			if(next.getAddrEnd()-freead<tcl->getSize()){
 				svr_size*=svr_ext0;
 				next.extend(svr_size);
 			}
 			freead=next.cpyObj(block.getAddrPtr(addr),tcl->getSize());
+			///////////////////////////////
 			var->setFwdPtr(freead);
 			for(auto child:tcl->getChildren()){
 				long childad=((RRValue*)fetchObj(newad+tcl->getFldI2A(child)))->ptr_value;
@@ -158,6 +168,11 @@ long MemHeap::cpyObj(long addr, MemBlock& block, MemBlock& next, MemOlder& older
 
 int MemHeap::doFullGC() {
 	//mark all obj, set forward ptr, set ptr, mov obj
+	eden.ZeroMemSet();
+	eden.ZeroMarkTbl();
+	crt_svr->ZeroMemSet();
+	crt_svr->ZeroMarkTbl();
+	older.ZeroMarkTbl();
 	for(int i=0;i<stack->getTop();i++){
 		DatValue& v=stack->fetch(i);
 		if(v.valuek==vk_ptr){
@@ -169,25 +184,32 @@ int MemHeap::doFullGC() {
 }
 /*
 int MemHeap::markMBlock(MemBlock& block){
-	long ti=v->getType();
-	AbstType* t=stcz->getTypeLst()[ti];
-	if(t->getTypeK()==tclass){
-		AbTypeClass* t1=(AbTypeClass*) t;
-		for(int i=0;i<t1->getChildrenN();i++){
-			int fi=t1->getChildren()[i];
-			int addri=t1->getFldAddr(fi);
-			*p=cpyObj(addr1+addri,block,next);
-		}
-	}
+
+
 
 }*/
-int MemHeap::markObj(long sr, long addr){
-	InstVar* var=(InstVar*)fetchObj(addr);
+int MemHeap::markObj(long addr1, long addr2){	//memset, marktable
+	InstVar* var=(InstVar*)fetchObj(addr2);
 	if(var->getType()==tclass){
-		char c=markObj2(addr,2);
+		char c=markObj2(addr2,2);
 		if(c==1){
+			eden.
+		}else if(c==2){
 
 		}
+		/*
+		 * long ti=((InstVar*)fetchObj(addr2))->getType();
+			AbstType* t=stcz->getTypeLst()[ti];
+			if(t->getTypeK()==tbasic){
+
+			}else if(t->getTypeK()==tclass){
+				AbTypeClass* t1=(AbTypeClass*) t;
+				for(auto child:t1->getChildren()){
+					long childad=((RRValue*)fetchObj(addr2+t1->getFldI2A(child)))->ptr_value;
+					markObj(addr2,childad);
+				}
+			}
+		 */
 	}
 }
 

@@ -42,10 +42,8 @@ private:
 	MemBlock* crt_svr=new MemBlock;	//survivor generation
 	MemBlock* next_svr=new MemBlock;
 	MemOlder older;	//older generation
-	long block_size=0XFFFF;//65k, actually 500k
-	long eden_size=0X4FFFF;//256k,actually 2M
-	long svr_size=0X4FFFF;//256k,actually 2M
-	long older_size=0XFFFFF;//1M, actually 8m
+	list<long> mem_set;
+
 	//long addr_begin=0;
 	//long addr_end=0;
 
@@ -65,6 +63,10 @@ private:
 	int extendOlder(double);
 
 public:
+	static long block_size=0XFFFF;//65k, actually 500k
+	static long eden_size=0X4FFFF;//256k,actually 2M
+	static long svr_size=0X4FFFF;//256k,actually 2M
+	static long older_size=0XFFFFF;//1M, actually 8m
 	static double eden_thresh1;
 	static double eden_thresh2;
 	static double eden_ext0;
