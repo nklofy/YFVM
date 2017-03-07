@@ -9,9 +9,12 @@
 #define SRC_MEMMANAGER_H_
 #include "../Mem/Memory.h"
 #include "../TypeSys/TypeSys.h"
+#include <climits>
 
 class MemManager {
 public:
+	static long max_Mem;
+	static long max_singleMem;
 	MemManager();
 	virtual ~MemManager();
 	int setStcz(StaticZone*);

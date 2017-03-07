@@ -7,6 +7,8 @@
 
 #include "MemManager.h"
 
+long MemManager::max_Mem=LONG_MAX;
+long MemManager::max_singleMem=0XFFFFFFFFFFFF;
 MemManager::MemManager() {
 	// TODO Auto-generated constructor stub
 

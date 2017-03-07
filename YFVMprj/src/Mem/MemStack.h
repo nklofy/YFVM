@@ -21,7 +21,7 @@ public:
 	static int cwidth;
 	static int org_height;
 	static double ext_ratio;
-	static long max_long;
+	static long max_capacity;
 
 	MemStack();
 	virtual ~MemStack();

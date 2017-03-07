@@ -11,7 +11,7 @@ int MemStack::width=sizeof(DatValue)/sizeof(T_element);
 int MemStack::cwidth=sizeof(T_element);
 int MemStack::org_height=1024;
 double MemStack::ext_ratio=2;
-long MemStack::max_long=LONG_MAX;
+long MemStack::max_capacity=MemManager::max_singleMem;
 
 
 MemStack::MemStack() : bottom(0),top(0),capacity(org_height) {
@@ -63,7 +63,7 @@ int MemStack::modify(long addr,DatValue& e){
 }
 int MemStack::extend() {
 	double newc=ext_ratio*capacity;	//new capacity
-	if(newc*width*sizeof(T_element)>=this->max_long){
+	if(newc*width*sizeof(T_element)>=this->max_capacity){
 		cerr<<"fail extend stack"<<endl;
 		return -1;
 	}

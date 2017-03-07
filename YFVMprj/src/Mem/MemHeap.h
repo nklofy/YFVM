@@ -51,8 +51,9 @@ private:
 
 	int doGC();
 	//int markMBlock(MemBlock&);
-	int markObj2(long);
-	int markObj3(long);
+	int markObj(long, long);
+	int markObj2(long, char);
+	//int markObj3(long);
 	long cpyMBlock(MemBlock&, MemBlock&);
 	long cpyObj(long,MemBlock&, MemBlock&, MemOlder&);
 	int doFullGC();
@@ -79,8 +80,6 @@ public:
 	static double older_thresh2;
 	static double older_ext0;
 	static double older_ext1;
-	static long max_Mem;
-	static long max_singleMem;
 	static long bigObj_size;
 };
 

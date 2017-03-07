@@ -7,20 +7,24 @@
 
 #include "MemHeap.h"
 
-#include <climits>
-/*
-static double eden_thresh1;
-	static double eden_thresh2;
-	static double eden_ext1;
-	static double eden_ext2;
-	static double svr_thresh1;
-	static double svr_thresh2;
-	static double svr_ext1;
-	static double svr_ext2;
-	static double older_thresh1;
-	static double older_thresh2;
-	static double older_ext1;
-*/
+
+double MemHeap::eden_thresh1=0.5;
+double MemHeap::eden_thresh2=0.2;
+double MemHeap::eden_ext0=4;
+double MemHeap::eden_ext1=4;
+double MemHeap::eden_ext2=2;
+double MemHeap::svr_thresh1=0.5;
+double MemHeap::svr_thresh2=0.1;
+double MemHeap::svr_ext0=4;
+double MemHeap::svr_ext1=2;
+double MemHeap::svr_ext2=0.5;
+long MemHeap::older_age=8;
+double MemHeap::older_thresh1;
+double MemHeap::older_thresh2;
+double MemHeap::older_ext0=2;
+double MemHeap::older_ext1;
+long MemHeap::bigObj_size=1024;
+
 MemHeap::MemHeap() {
 	// TODO Auto-generated constructor stub
 
@@ -36,13 +40,13 @@ int MemHeap::init() {
 	crt_svr->initSize(svr_size);
 	next_svr->initSize(svr_size);
 	older.initSize(older_size);
-	eden.setAddrBegin(max_singleMem);
+	eden.setAddrBegin(MemManager::max_singleMem);
 	eden.setAddrEnd(eden_size+eden.getAddrBegin());
-	next_svr->setAddrBegin(max_singleMem*2);
+	next_svr->setAddrBegin(MemManager::max_singleMem*2);
 	next_svr->setAddrEnd(svr_size+next_svr->getAddrBegin());
-	crt_svr->setAddrBegin(max_singleMem*3);
+	crt_svr->setAddrBegin(MemManager::max_singleMem*3);
 	crt_svr->setAddrEnd(crt_svr->getAddrBegin()+svr_size);
-	older.setAddrBegin(max_singleMem*4);
+	older.setAddrBegin(MemManager::max_singleMem*4);
 	older.setAddrEnd(older.getAddrBegin()+older_size);
 	//addr_begin=0;
 	//addr_end=older.getAddrEnd();
@@ -114,7 +118,9 @@ long MemHeap::cpyObj(long addr, MemBlock& block, MemBlock& next, MemOlder& older
 	if(m==1||m==3){
 		block.markObj(addr,2);
 		AbstType* type=stcz->getTypeFromList(var->getType());
-		if(type->getTypeK()==tclass){
+		if(type->getTypeK()==tbasic){
+			//
+		}else if(type->getTypeK()==tclass){
 			AbTypeClass* tcl=(AbTypeClass*)type;
 			if(var->getObjAge()>older_age){
 				//cpy Obj to Older
@@ -155,7 +161,7 @@ int MemHeap::doFullGC() {
 	for(int i=0;i<stack->getTop();i++){
 		DatValue& v=stack->fetch(i);
 		if(v.valuek==vk_ptr){
-			markObj2(v.value.ptr_value);//mark and memset
+			markObj(i, v.value.ptr_value);//mark and memset
 		}
 	}
 	older.updateFreeList();
@@ -175,14 +181,34 @@ int MemHeap::markMBlock(MemBlock& block){
 	}
 
 }*/
+int MemHeap::markObj(long sr, long addr){
+	InstVar* var=(InstVar*)fetchObj(addr);
+	if(var->getType()==tclass){
+		char c=markObj2(addr,2);
+		if(c==1){
 
-int  MemHeap::markObj2(long){
-
+		}
+	}
 }
 
-int  MemHeap::markObj3(long){
-
+int  MemHeap::markObj2(long addr,char c){
+	if(addr<eden.getAddrBegin()){
+			eden.markObj(addr,c);
+			return 0;
+	}else if(addr<eden.getAddrEnd()){
+		eden.markObj(addr,c);
+		return 1;
+	}else if(addr<crt_svr->getAddrEnd()){
+		crt_svr->markObj(addr,c);
+		return 2;
+	}else if(addr<older.getAddrEnd()){
+		eden.markObj(addr,c);
+		return 3;
+	}
+	cerr<<"error illegal addr "<<addr<<endl;
+	return 0;
 }
+
 /*
 int MemHeap::markAllObj(){
 
