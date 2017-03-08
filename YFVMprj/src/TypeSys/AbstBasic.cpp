@@ -1,17 +1,18 @@
 /*
- * TClass.cpp
+ * TBasic.cpp
  *
  *  Created on: Jan 20, 2017
  *      Author: luyunfei
  */
 
-#include "AbTypeClass.h"
+#include "AbstBasic.h"
 
-AbTypeClass::AbTypeClass() {
+AbstBasic::AbstBasic() {
 	// TODO Auto-generated constructor stub
 
 }
 
-AbTypeClass::~AbTypeClass() {
+AbstBasic::~AbstBasic() {
 	// TODO Auto-generated destructor stub
 }
+

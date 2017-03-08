@@ -7,8 +7,6 @@
 
 #include "MemManager.h"
 
-long MemManager::max_Mem=LONG_MAX;
-long MemManager::max_singleMem=0XFFFFFFFFFFFF;
 MemManager::MemManager() {
 	// TODO Auto-generated constructor stub
 
@@ -52,13 +50,9 @@ long MemManager::getStackTop() {
 	return stack.getTop();
 }
 
-/*
 long MemManager::allocStr(long longInt) {
 }
-int MemManager::cpyStr(long longInt, string& allocator) {
-}*/
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 InstVar* MemManager::fetchObj(long longInt) {
 }
 
@@ -74,6 +68,8 @@ long MemManager::reallocObj(long longInt, long longInt1) {
 int MemManager::freeHObj(long longInt) {
 }
 
+int MemManager::cpyStr(long longInt, string& allocator) {
+}
 
 int MemManager::cpyMem(long longInt, long longInt1) {
 }
@@ -82,11 +78,6 @@ int MemManager::modifyObj(long longInt, DatValue&) {
 }
 
 int MemManager::initObj(long longInt) {
-}
-
-int MemManager::setStcz(StaticZone* stcz) {
-	heap.setStcz(stcz);
-	stack.setStcz(stcz);
 }
 
 long MemManager::getSizeHp() {

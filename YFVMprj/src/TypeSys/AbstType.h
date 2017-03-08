@@ -17,12 +17,20 @@ enum TypeK{tbasic, tclass, tfunc, tgnrc, tarray, ttype, tdummy};
 
 class AbstType {
 public:
-	static long RWidth;
-	static long VWidth;
 	AbstType();
 	virtual ~AbstType();
 	virtual TypeK getTypeK(){return ttype;}
-	virtual long getSize();
+	long getSize();
+	long setSize();
+	bool isIsDummy() const;
+	void setIsDummy(bool isDummy);
+	bool isIsGnrc() const;
+	void setIsGnrc(bool isGnrc);
+
+private:
+	long size;//size of instance of this type
+	bool isGnrc;
+	bool isDummy;
 };
 
 #endif /* SRC_TYPESYS_ABSTTYPE_H_ */

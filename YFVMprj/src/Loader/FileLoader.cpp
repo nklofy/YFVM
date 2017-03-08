@@ -56,39 +56,8 @@ int FileLoader::loadPckg(TokenStream *ts){
 	//package and imports
 	return 0;
 }
-int FileLoader::loadTypes(TokenStream *ts){	//class or interface
-	string s=ts->getNback();
-	string* ss=dcpLine(s);
-	if(ss[0]=="defFunction"){
-		ts->goNext();
-	}
-	while(ss[0]=="defFunction"){
-		//if(ts->isEnd){
-		//	cerr<<"error parse fucntion "<<ts->getFilename();return -1;
-		//}
-		//parse func name and signature
-		RcdFunc* func=new RcdFunc();
-		func->setName(ss[1]);
-		func->setSig(ss[2]);
-		func->setScope(ss[3]);
-		//s=ts->getLine();
-		while(s!="end"){
-			//parse func body
-			func->getBody().push_back(new IRCode(s));
-			s=ts->getLine();
-		}
-		if(s=="end"){
-			func->getBody().push_back(new IRCode(s));
-		}
-		this->funcs.push_back(func);
-		s=ts->getNback();
-		ss=dcpLine(s);
-		if(ss[0]=="defFunction"){
-			ts->goNext();
-		}else{
-			return 0;
-		}
-	}
+int FileLoader::loadTypes(TokenStream *ts){
+	//class or interface
 	return 0;
 }
 

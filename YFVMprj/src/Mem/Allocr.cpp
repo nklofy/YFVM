@@ -1,18 +1,18 @@
 /*
- * TGnrc.cpp
+ * Allocr.cpp
  *
- *  Created on: Jan 23, 2017
+ *  Created on: Nov 19, 2016
  *      Author: luyunfei
  */
 
-#include "AbTypeGnrc.h"
+#include "Allocr.h"
 
-AbTypeGnrc::AbTypeGnrc() {
+Allocr::Allocr() {
 	// TODO Auto-generated constructor stub
 
 }
 
-AbTypeGnrc::~AbTypeGnrc() {
+Allocr::~Allocr() {
 	// TODO Auto-generated destructor stub
 }
 

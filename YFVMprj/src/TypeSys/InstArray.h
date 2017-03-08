@@ -10,7 +10,7 @@
 
 #include "InstVar.h"
 
-class InstArray : public InstVar {	//memory layout: arraytype, coretype, instarray of dims, instarray of data
+class InstArray : public InstVar {
 public:
 	InstArray();
 	virtual ~InstArray();
@@ -18,9 +18,8 @@ public:
 	void setArraySize(long arraySize);
 
 private:
-	long core_type;
-	long dims_n;
-	long total_count;
+	long array_size;
+
 };
 
 #endif /* SRC_TYPESYS_INSTARRAY_H_ */

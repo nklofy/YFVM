@@ -17,9 +17,7 @@ public:
 	void setMark(long mark);
 	long getType() const;
 	void setType(long type);
-	long getFwdPtr();
-	int setFwdPtr(long);
-	long getObjAge();
+
 private:
 	long mark;//header of obj
 	long type;//point to index of obj's type in static pool

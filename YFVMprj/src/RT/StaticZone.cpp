@@ -26,23 +26,23 @@ int StaticZone::init(){
 	//func_list=new vector<AbstFunc*>();
 	//typelist=new vector<AbstType*>();
 	(this->type_tbl)["int"]=this->typelist.size();
-	AbstType* t1=new AbTypeBasic;
+	AbstType* t1=new AbstBasic;
 	this->typelist.push_back(t1);
 
 	(this->type_tbl)["double"]=this->typelist.size();
-	AbstType* t2=new AbTypeBasic;
+	AbstType* t2=new AbstBasic;
 	this->typelist.push_back(t2);
 
 	(this->type_tbl)["bool"]=this->typelist.size();
-	AbstType* t3=new AbTypeBasic;
+	AbstType* t3=new AbstBasic;
 	this->typelist.push_back(t3);
 
 	(this->type_tbl)["char"]=this->typelist.size();
-	AbstType* t4=new AbTypeBasic;
+	AbstType* t4=new AbstBasic;
 	this->typelist.push_back(t4);
 
 	(this->type_tbl)["string"]=this->typelist.size();
-	AbstType* t5=new AbTypeBasic;
+	AbstType* t5=new AbstBasic;
 	this->typelist.push_back(t5);
 
 	return 0;
@@ -53,7 +53,7 @@ int StaticZone::importTypes(){
 int StaticZone::importFuncs(list<RcdFunc*>& funcs){
 	int i=0;
 	for(auto f:funcs){//get all function and load to data zone
-		AbTypeFunc *tf=new AbTypeFunc;
+		AbstFunc *tf=new AbstFunc;
 		tf->setBody(&(f->getBody()));
 		//tf->setFunc(f);
 		tf->setName(f->getName());
@@ -69,7 +69,7 @@ int StaticZone::importFuncs(list<RcdFunc*>& funcs){
 			this->func_tbl[f->getName()]=i;
 		}else{
 			long id=this->func_tbl[f->getName()];
-			AbTypeFunc* f1=this->func_list[id];
+			AbstFunc* f1=this->func_list[id];
 			tf->hasNext=true;
 			tf->addNext(f1);
 			this->func_tbl[f->getName()]=i;
@@ -92,30 +92,24 @@ vector<IRCode*>* StaticZone::getScript() {
 	return codes;
 }
 
-unordered_map<string, long>& StaticZone::getFuncTbl() {
+map<string, long>& StaticZone::getFuncTbl() {
 	return func_tbl;
 }
 
-vector<AbTypeFunc*>& StaticZone::getFuncLst() {
+vector<AbstFunc*>& StaticZone::getFuncLst() {
 	return func_list;
 }
 
-vector<AbTypeFunc*>& StaticZone::getFuncList() {
+vector<AbstFunc*>& StaticZone::getFuncList() {
 	return func_list;
 }
 
-unordered_map<string, int>& StaticZone::getOptNum() {
+map<string, int>& StaticZone::getOptNum() {
 	return optnum;
 }
 
-unordered_map<string, long>& StaticZone::getTypeTbl() {
+map<string, long>& StaticZone::getTypeTbl() {
 	return type_tbl;
-}
-
-AbstType* StaticZone::getTypeFromList(long longInt) {
-}
-
-AbTypeFunc* StaticZone::getFuncFromList(long longInt) {
 }
 
 vector<AbstType*>& StaticZone::getTypeLst() {
