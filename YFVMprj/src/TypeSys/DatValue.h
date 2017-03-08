@@ -19,6 +19,7 @@ struct DatValue {
 	//DatValue();
 	//virtual ~DatValue();
 	ValueK valuek;
+	bool isLeft;
 	//bool isLeft=false;
 	RRValue value;
 

@@ -1,17 +1,18 @@
 /*
- * TClass.cpp
+ * TArray.cpp
  *
  *  Created on: Jan 20, 2017
  *      Author: luyunfei
  */
 
-#include "AbstClass.h"
+#include "AbTypeArray.h"
 
-AbstClass::AbstClass() {
+AbTypeArray::AbTypeArray() {
 	// TODO Auto-generated constructor stub
 
 }
 
-AbstClass::~AbstClass() {
+AbTypeArray::~AbTypeArray() {
 	// TODO Auto-generated destructor stub
 }
+

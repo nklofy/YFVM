@@ -9,12 +9,15 @@
 #define SRC_MEMMANAGER_H_
 #include "../Mem/Memory.h"
 #include "../TypeSys/TypeSys.h"
+#include <climits>
 
 class MemManager {
 public:
+	static long max_Mem;
+	static long max_singleMem;
 	MemManager();
 	virtual ~MemManager();
-
+	int setStcz(StaticZone*);
 	//stack operation
 	void pushStack(ValueK,RRValue&);
 	DatValue& popStack();
@@ -30,8 +33,8 @@ public:
 	long callocObj(long,long);
 	long reallocObj(long,long);
 	int freeHObj(long);
-	long allocStr(long);
-	int cpyStr(long,string&);
+	//long allocStr(long);
+	//int cpyStr(long,string&);
 	int cpyMem(long,long);
 	int modifyObj(long,DatValue&);
 	int initObj(long);

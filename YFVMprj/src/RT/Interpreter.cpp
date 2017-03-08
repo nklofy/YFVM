@@ -394,7 +394,7 @@ void Interpreter::doLoadd() {
 }
 
 void Interpreter::doLoads() {
-	string& opd1=code->getOpd1();
+/*	string& opd1=code->getOpd1();
 	long addr1=getSbAddr(opd1);
 	if(addr1!=-1&&addr1<esp){
 		return;
@@ -410,7 +410,7 @@ void Interpreter::doLoads() {
 		(this->global_vars)[opd1]=esp;
 	}else{
 		(*local_vars)[opd1]=esp-ebp;
-	}
+	}*/
 
 }
 
@@ -945,7 +945,7 @@ void Interpreter::doRetExp() {
 		this->local_vars=NULL;
 	}else{
 		long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
-		AbstFunc *f=this->stcz->getFuncLst()[tpi];
+		AbTypeFunc *f=this->stcz->getFuncLst()[tpi];
 		this->codes=f->getBody();
 		//this->local_vars=&(f->getSymInner());
 		//(*this->local_vars)[opd2]=this->esp;
@@ -969,7 +969,7 @@ void Interpreter::doRet() {
 		this->local_vars=NULL;
 	}else{
 		long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
-		AbstFunc *f=this->stcz->getFuncLst()[tpi];
+		AbTypeFunc *f=this->stcz->getFuncLst()[tpi];
 		this->codes=f->getBody();
 		this->local_vars=&(f->getSymInner());
 		//(this->local_vars)[opd2]=this->esp;
@@ -980,7 +980,7 @@ void Interpreter::doDefFunc() {
 	string& opd1=code->getOpd1();
 	string& opd2=code->getOpd2();
 	string& opd3=code->getOpd3();
-	AbstFunc *tf=new AbstFunc;
+	AbTypeFunc *tf=new AbTypeFunc;
 	tf->setName(opd1);
 	tf->setSig(opd2);
 	long i=(stcz->getFuncList()).size();
@@ -989,7 +989,7 @@ void Interpreter::doDefFunc() {
 	loadFunc(tf);
 }
 
-void Interpreter::loadFunc(AbstFunc* f){
+void Interpreter::loadFunc(AbTypeFunc* f){
 	f->setEntry(stcz->getScript()->size());
 	//bool gono=true;
 	while(true){
@@ -1031,7 +1031,7 @@ void Interpreter::doGetFunc() {
 	auto ftb=stcz->getFuncTbl();
 	auto flt=stcz->getFuncList();
 	long i=ftb[opd1];
-	AbstFunc* f=flt[i];
+	AbTypeFunc* f=flt[i];
 	if(f->isOverload){
 		while(f->hasNext&&f->getSig()!=opd2){
 			f=f->getNext();
@@ -1084,13 +1084,13 @@ void Interpreter::doInvoke() {
 	}else{
 		long last_ebp=mem->fetchStack(ebp-2).value.int_value;
 		long fi=(mem->fetchStack(last_ebp)).value.int_value;
-		AbstFunc *f=this->stcz->getFuncLst()[fi];
+		AbTypeFunc *f=this->stcz->getFuncLst()[fi];
 		if(f->getSymInner().find(opd2)==f->getSymInner().end()){
 			f->getSymInner()[opd2]=this->ebp-2-last_ebp;
 		}
 	}
 	long tpi=mem->fetchStack(ebp).value.int_value;  //link for symbol table
-	AbstFunc *f=this->stcz->getFuncLst()[tpi];
+	AbTypeFunc *f=this->stcz->getFuncLst()[tpi];
 	this->codes=f->getBody();
 	this->local_vars=&(f->getSymInner());
 	//if(local_vars->find(opd2)==local_vars->end()){

@@ -1,18 +1,17 @@
 /*
- * TGnrc.cpp
+ * MemBlock.cpp
  *
- *  Created on: Jan 23, 2017
+ *  Created on: Mar 4, 2017
  *      Author: luyunfei
  */
 
-#include "AbstGnrc.h"
+#include "MemBlock.h"
 
-AbstGnrc::AbstGnrc() {
+MemBlock::MemBlock() {
 	// TODO Auto-generated constructor stub
 
 }
 
-AbstGnrc::~AbstGnrc() {
+MemBlock::~MemBlock() {
 	// TODO Auto-generated destructor stub
 }
-

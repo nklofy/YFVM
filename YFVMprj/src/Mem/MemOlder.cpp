@@ -1,18 +1,17 @@
 /*
- * GC.cpp
+ * MemOlder.cpp
  *
- *  Created on: Nov 17, 2016
+ *  Created on: Mar 4, 2017
  *      Author: luyunfei
  */
 
-#include "GC.h"
+#include "MemOlder.h"
 
-GC::GC() {
+MemOlder::MemOlder() {
 	// TODO Auto-generated constructor stub
 
 }
 
-GC::~GC() {
+MemOlder::~MemOlder() {
 	// TODO Auto-generated destructor stub
 }
-

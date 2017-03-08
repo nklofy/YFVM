@@ -13,15 +13,15 @@
 #include "../TypeSys/TypeSys.h"
 
 using namespace std;
-typedef char T_element;
 
 class MemStack {
 public:
-	static int width;
+	typedef char T_element;
+	static int width;//basic width of stack node in memory
 	static int cwidth;
 	static int org_height;
 	static double ext_ratio;
-	static long max_long;
+	static long max_capacity;
 
 	MemStack();
 	virtual ~MemStack();
@@ -33,9 +33,10 @@ public:
 	int modify(long,DatValue&);
 	int setTop(long);
 	long getTop();
+	void setStcz(StaticZone*);
 
 private:
-
+	StaticZone* stcz;
 	long bottom;	//0
 	long top;	//from 0 to max_N, index of element
 	long capacity;
