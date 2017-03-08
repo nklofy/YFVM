@@ -59,9 +59,9 @@ private:
 	//int markAllObj();
 	//long sweepAllObj();
 	long compactOlder();
-	int extendEden(double);
-	int extendSvr(double);
-	int extendOlder(double);
+	//int extendEden(double);
+	//int extendSvr(double);
+	//int extendOlder(double);
 
 public:
 	static long block_size=0XFFFF;//65k, actually 500k

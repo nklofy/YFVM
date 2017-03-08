@@ -57,7 +57,7 @@ int FileLoader::loadPckg(TokenStream *ts){
 	return 0;
 }
 int FileLoader::loadTypes(TokenStream *ts){	//class or interface
-	string s=ts->getNback();
+/*	string s=ts->getNback();
 	string* ss=dcpLine(s);
 	if(ss[0]=="defFunction"){
 		ts->goNext();
@@ -88,7 +88,7 @@ int FileLoader::loadTypes(TokenStream *ts){	//class or interface
 		}else{
 			return 0;
 		}
-	}
+	}*/
 	return 0;
 }
 

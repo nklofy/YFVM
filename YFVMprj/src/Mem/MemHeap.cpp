@@ -83,14 +83,20 @@ int MemHeap::doGC() {
 	mem_set.merge(mem_set_o);
 	long size1=cpyMBlock(*next_svr);
 	if(size1>eden_size*eden_thresh1){
-		extendEden(eden_ext1);
+		eden_size*=eden_ext1;
+		eden.extend(eden_size);
 	}else if(size1>eden_size*eden_thresh2){
-		extendEden(eden_ext2);
+		eden_size*=eden_ext2;
+		eden.extend(eden_ext2);
 	}
 	if(size1>svr_size*svr_thresh1){
-		extendSvr(svr_ext1);
+		svr_size*=svr_ext1;
+		crt_svr->extend(svr_size);
+		next_svr->extend(svr_size);
 	}else if(size1<svr_size*svr_thresh2){
-		extendSvr(svr_ext2);
+		svr_size*=svr_ext2;
+		crt_svr->extend(svr_size);
+		next_svr->extend(svr_size);
 	}
 	MemBlock* tsvr=crt_svr;
 	crt_svr=next_svr;
@@ -152,7 +158,8 @@ long MemHeap::cpyObj(long addr, MemBlock& block, MemBlock& next, MemOlder& older
 			if(var->getObjAge()>older_age){
 				//cpy Obj to Older
 				if(older.getFreeSize()<tcl->getSize()){
-					extendOlder(older_ext0);
+					older_size*=older_ext0;
+					older.extend(older_size);
 				}
 				if(older.getMaxFree()>tcl->getSize()){
 					doFullGC();
@@ -277,24 +284,19 @@ long MemHeap::compactOlder(){
 	}
 }
 
-int MemHeap::extendEden(double r){
-
-}
-
-
 void MemHeap::setStcz(StaticZone* stcz) {
 	this->stcz = stcz;
 }
 
 void* MemHeap::fetchObj(long addr) {
-
-}
-
-
-int MemHeap::extendSvr(double r){
-
-}
-
-
-int MemHeap::extendOlder(double r) {
+	if(addr>=eden.getAddrBegin()&&addr<eden.getAddrEnd()){
+		return eden.getAddrPtr(addr);
+	}else if(addr>=crt_svr->getAddrBegin()&&addr<crt_svr->getAddrEnd()){
+		return crt_svr->getAddrPtr(addr);
+	}else if(addr>=next_svr->getAddrBegin()&&addr<next_svr->getAddrEnd()){
+		return next_svr->getAddrPtr(addr);
+	}else if(addr>=older.getAddrBegin()&&addr<older.getAddrEnd()){
+		return older.getAddrPtr(addr);
+	}
+	return NULL;
 }
