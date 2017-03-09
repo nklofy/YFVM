@@ -19,17 +19,17 @@ public:
 	//int markAllObj();
 	int markObj(long,char);	//addr, sign
 	long getFreeSize();
-	long getUsage();
+	//long getUsage();
 	long extend(long);
 	long getAddrBegin();
 	void setAddrBegin(long);
 	long getAddrEnd();
 	void setAddrEnd(long);
-	long getCapacity();
+	//long getCapacity();
 	long getFreeBegin() ;
-	char* getMarkTable();
+	//char* getMarkTable();
 	char getMarkAddr(long);//get mark of obj on addr
-	void setMarkTable(char* markTable);
+	//void setMarkTable(char* markTable);
 	//list<long>& getMemSet();
 	void* getAddrPtr(long);
 	//int ZeroMemSet();

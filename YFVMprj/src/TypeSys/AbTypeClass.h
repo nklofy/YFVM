@@ -36,7 +36,7 @@ public:
 	AbTypeClass();
 	virtual ~AbTypeClass();
 	TypeK getTypeK(){return tclass;}
-	long getSize(){return sizeof(InstObj)+fields_n*AbstType::RWidth;}
+	long getSize(){return sizeof(InstObj)+fields_n*AbstType::VWidth;}
 	//map<string,ClsField*>& getFields();
 	//map<string,ClsMethod*>& getMethods();
 	//const AbstGnrc* getGnrcPars() const;

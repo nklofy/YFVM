@@ -12,18 +12,13 @@
 #include <list>
 
 #include "../TypeSys/TypeSys.h"
-#include "GCAlgo.h"
 #include "MemBlock.h"
 #include "MemOlder.h"
 using namespace std;
 
 class MemHeap {
-friend GCAlgo;
 public:
-
-
 	static long max_long;
-
 	MemHeap();
 	virtual ~MemHeap();
 	int init();
@@ -37,7 +32,6 @@ public:
 private:
 	StaticZone* stcz;
 	MemStack* stack;
-	GCAlgo GCer;
 	MemBlock eden;	//eden generation
 	MemBlock* crt_svr=new MemBlock;	//survivor generation
 	MemBlock* next_svr=new MemBlock;

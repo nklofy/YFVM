@@ -20,20 +20,20 @@ public:
 	int markObj(long,char);	//addr, sign
 	long getFreeSize();
 	long getMaxFree();
-	long getBestFree(long);
-	long getUsageRate();
+	long getBestFitFree(long);
+	//long getUsageRate();
 	long extend(long);
 	long getAddrBegin() ;
 	void setAddrBegin(long);
 	long getAddrEnd();
 	void setAddrEnd(long);
-	long getCapacity() ;
-	long getFreeBegin() ;
-	list<long[2]>& getFreeList();
-	char* getMarkTable();
+	//long getCapacity() ;
+	//long getFreeBegin() ;
+	//list<long[2]>& getFreeList();
+	//char* getMarkTable();
 	void* getAddrPtr(long);
 	char getMarkAddr(long);//get mark of obj on addr
-	void setMarkTable(char* markTable);
+	//void setMarkTable(char* markTable);
 	//list<long>& getMemSet();
 	void updateFreeList();//free list, max free, free size
 	//int ZeroMemSet();
@@ -43,12 +43,14 @@ public:
 private:
 	//list<long> mem_set;
 	void* block_ptr;
-	long free_begin;
+	//long free_begin;
 	long addr_begin;
 	long addr_end;
 	long capacity;
 	char* mark_table;
 	list<long[2]> free_list;
+	long free_size;
+	long free_max;
 };
 
 #endif /* SRC_MEM_MEMOLDER_H_ */

@@ -80,6 +80,10 @@ long MemStack::getTop() {
 	return top;
 }
 
+void MemStack::setStcz(StaticZone* stcz) {
+	this->stcz=stcz;
+}
+
 int MemStack::shrink() {
 	double newc=(double)capacity/ext_ratio;	//new capacity
 	this->capacity=newc;

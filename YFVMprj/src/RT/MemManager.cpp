@@ -9,6 +9,8 @@
 
 long MemManager::max_Mem=LONG_MAX;
 long MemManager::max_singleMem=0XFFFFFFFFFFFF;
+long MemManager::VWidth=AbstType::VWidth;
+
 MemManager::MemManager() {
 	// TODO Auto-generated constructor stub
 

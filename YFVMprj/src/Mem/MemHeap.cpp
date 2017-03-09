@@ -177,7 +177,7 @@ long MemHeap::cpyObj(long addr, MemBlock& block, MemBlock& next, MemOlder& older
 			freead=next.cpyObj(block.getAddrPtr(addr),tcl->getSize());//copy and mark table
 			var->setFwdPtr(freead);
 			for(auto child:tcl->getChildren()){
-				long childad=((DatValue*)fetchObj(newad+tcl->getFldI2A(child)))->value.ptr_value;
+				long childad=((RRValue*)fetchObj(newad+tcl->getFldI2A(child)))->ptr_value;
 				cpyObj(childad,block,next,older);
 			}
 			//block.markObj(addr,3);
@@ -232,7 +232,7 @@ int MemHeap::markObj(long addr1, long addr2){	//memset, marktable
 		}
 		AbTypeClass* t1=(AbTypeClass*) type;
 		for(auto child:t1->getChildren()){
-			long childad=((DatValue*)fetchObj(addr2+t1->getFldI2A(child)))->value.ptr_value;
+			long childad=((RRValue*)fetchObj(addr2+t1->getFldI2A(child)))->ptr_value;
 			markObj(addr2,childad);
 		}
 	}else if(type->getTypeK()==tarray){
@@ -272,14 +272,32 @@ long MemHeap::compactOlder(){
 	for(long addr=older.getAddrBegin();addr<older.getAddrEnd();addr++){
 		if(older.getMarkAddr(addr)==3){
 			InstVar* var=fetchObj(addr);
-			//update children's ptr
+			AbstType* type=stcz->getTypeFromList(var->getType());//update children's ptr
+			if(type->getTypeK()==tclass){
+				AbTypeClass* t1=(AbTypeClass*)type;
+				for(auto child:t1->getChildren()){
+					long childad=((RRValue*)fetchObj(addr+t1->getFldI2A(child)))->ptr_value;
+					int whr=whereAddr(childad);
+					if(whr==1||whr==2){//if ptr to eden or crt_svr, update memset
+						mem_set.push_back(var->getFwdPtr());
+					}else if(whr==3){
+						InstVar* var_child=fetchObj(childad);
+						((RRValue*)fetchObj(addr+t1->getFldI2A(child)))->ptr_value=var_child->getFwdPtr();
+					}
+				}
+			}else if(type->getTypeK()==tarray){
+
+			}else{
+
+				continue;
+			}
 		}
 	}
 	for(long addr=older.getAddrBegin();addr<older.getAddrEnd();addr++){
 		if(older.getMarkAddr(addr)==3){
 			InstVar* var=fetchObj(addr);
-			older.cpyObj(fetchObj(addr),var->getFwdPtr());
-			//update memset
+			AbstType* type=stcz->getTypeFromList(var->getType());
+			older.cpyObj(fetchObj(addr),type->getSize());
 		}
 	}
 }

@@ -15,6 +15,7 @@ class MemManager {
 public:
 	static long max_Mem;
 	static long max_singleMem;
+	static long VWidth;
 	MemManager();
 	virtual ~MemManager();
 	int setStcz(StaticZone*);
