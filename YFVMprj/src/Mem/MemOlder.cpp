@@ -7,13 +7,15 @@
 
 #include "MemOlder.h"
 
+
 MemOlder::MemOlder() {
 	// TODO Auto-generated constructor stub
 
 }
 
 MemOlder::~MemOlder() {
-	// TODO Auto-generated destructor stub
+	free(this->block_ptr);
+	delete[] mark_table;
 }
 
 int MemOlder::initSize(long size) {
@@ -24,19 +26,36 @@ int MemOlder::initSize(long size) {
 }
 
 long MemOlder::cpyObj(void* src_ptr, long size) {
-	void* new_ptr=pushObj(size);
-	memcpy(new_ptr,src_ptr,size);
+	long new_ptr=pushObj(size);
+	memcpy(getAddrPtr(new_ptr),src_ptr,size);//update mark table and free list
 	return addr_begin+(new_ptr-block_ptr);
 }
 
 long MemOlder::pushObj(long size) {
-	/////////////
-
-
-
+	//get first fitting
+	long addr=-1;
+	for(list<long[2]>::iterator it=free_list.iterator;it!=free_list.end();){
+		if((*it)[0]-(*it)[1]>size){
+			addr=(*it)[0];
+			(*it)[0]+=size;
+			markObj(addr,1);
+			free_size-=size;
+			return addr;
+		}else if((*it)[0]-(*it)[1]==size){
+			addr=(*it)[0];
+			free_list.erase(it);
+			markObj(addr,1);
+			free_size-=size;
+			return addr;
+		}else{
+			it++;
+		}
+	}
+	return addr;
 }
 
-int MemOlder::markObj(long addr, char c) {
+int MemOlder::markObj(long addr1, char c) {
+	long addr=addr1-addr_begin;
 	long i=addr/4;
 	int clr=addr%4;
 	if(clr==0){
@@ -60,11 +79,22 @@ long MemOlder::getFreeSize() {
 }
 
 long MemOlder::getMaxFree() {
-	return this->free_max;
+	long size=-1;
+	for(list<long[2]>::iterator it=free_list.iterator;it!=free_list.end();it++){
+		if((*it)[0]-(*it)[1]>size){
+			size=(*it)[0]-(*it)[1];
+		}
+	}
+	return size;
 }
 
-long MemOlder::getBestFitFree(long longInt) {///////////
-
+long MemOlder::getFirstFree(long size) {
+	for(list<long[2]>::iterator it=free_list.iterator;it!=free_list.end();it++){
+		if((*it)[0]-(*it)[1]>size){
+			return (*it)[0]-(*it)[1];
+		}
+	}
+	return -1;
 }
 
 long MemOlder::extend(long new_size) {
@@ -92,11 +122,13 @@ void MemOlder::setAddrEnd(long a) {
 	this->addr_end=a;
 }
 
-void* MemOlder::getAddrPtr(long addr) {
+void* MemOlder::getAddrPtr(long addr1) {
+	long addr=addr1-addr_begin;
 	return this->block_ptr+addr-addr_begin;
 }
 
-char MemOlder::getMarkAddr(long addr) {
+char MemOlder::getMarkAddr(long addr1) {
+	long addr=addr1-addr_begin;
 	long i=addr/4;
 	int clr=addr%4;
 	if(clr==0){
@@ -112,15 +144,41 @@ char MemOlder::getMarkAddr(long addr) {
 
 }
 
-void MemOlder::updateFreeList() {///////
-
+void MemOlder::updateFreeList() {
+	long begin=this->addr_begin;
+	long end=this->addr_begin;
+	for(long i=addr_begin;i<addr_end;i++){
+		char c=getMarkAddr(i);
+		if(c==1||c==3){
+			end=i;
+			InstVar* var=(InstVar*) getAddrPtr(i);
+			long size=stcz->getTypeFromList(var->getType())->getSize();
+			if(begin!=end){
+				long f[2]={begin,end};
+				free_list.push_back(f);
+			}
+			begin=end+size;
+		}
+	}
+	if(end<begin){
+		long f[2]={begin,addr_end};
+		free_list.push_back(f);
+	}
 }
 
 int MemOlder::ZeroMarkTbl() {
 	delete[] mark_table;
 	this->mark_table=new char[(addr_end-addr_begin)/4];
+	return 0;
 }
 
-int MemOlder::resetFreeList() {//////////////
-
+int MemOlder::resetFreeList() {
+	free_list.clear();
+	free_size=addr_end-addr_begin;
+	long f[2]={addr_begin, addr_end};
+	free_list.push_back(f);
+	return 0;
 }
+void MemOlder::setStcz(StaticZone* stcz) {
+		this->stcz = stcz;
+	}

@@ -8,6 +8,7 @@
 #ifndef SRC_MEM_MEMOLDER_H_
 #define SRC_MEM_MEMOLDER_H_
 #include <list>
+
 using namespace std;
 class MemOlder {
 public:
@@ -20,7 +21,6 @@ public:
 	int markObj(long,char);	//addr, sign
 	long getFreeSize();
 	long getMaxFree();
-	long getBestFitFree(long);
 	//long getUsageRate();
 	long extend(long);
 	long getAddrBegin() ;
@@ -39,8 +39,11 @@ public:
 	//int ZeroMemSet();
 	int ZeroMarkTbl();
 	int resetFreeList();
+	void setStcz(StaticZone* stcz);
 
 private:
+	StaticZone* stcz;
+	long getFirstFree(long);
 	//list<long> mem_set;
 	void* block_ptr;
 	//long free_begin;
@@ -50,7 +53,7 @@ private:
 	char* mark_table;
 	list<long[2]> free_list;
 	long free_size;
-	long free_max;
+	//long free_max;
 };
 
 #endif /* SRC_MEM_MEMOLDER_H_ */

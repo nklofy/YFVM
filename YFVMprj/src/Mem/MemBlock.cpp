@@ -13,7 +13,7 @@ MemBlock::MemBlock() {
 }
 
 MemBlock::~MemBlock() {
-	free this->block_ptr;
+	free(this->block_ptr);
 	delete[] mark_table;
 }
 
@@ -36,7 +36,8 @@ long MemBlock::pushObj(long size) {
 	return free_begin;
 }
 
-int MemBlock::markObj(long addr, char c) {
+int MemBlock::markObj(long addr1, char c) {
+	long addr=addr1-addr_begin;
 	long i=addr/4;
 	int clr=addr%4;
 	if(clr==0){
@@ -86,7 +87,8 @@ long MemBlock::getFreeBegin() {
 	return free_begin;
 }
 
-char MemBlock::getMarkAddr(long addr) {
+char MemBlock::getMarkAddr(long addr1) {
+	long addr=addr1-addr_begin;
 	long i=addr/4;
 	int clr=addr%4;
 	if(clr==0){

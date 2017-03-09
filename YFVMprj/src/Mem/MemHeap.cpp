@@ -51,14 +51,26 @@ int MemHeap::init() {
 	crt_svr->setAddrEnd(crt_svr->getAddrBegin()+svr_size);
 	older.setAddrBegin(MemManager::max_singleMem*4);
 	older.setAddrEnd(older.getAddrBegin()+older_size);
-	//addr_begin=0;
-	//addr_end=older.getAddrEnd();
+	older.resetFreeList();
+	older.setStcz(stcz);
 
 }
 
 long MemHeap::mallocObj(long size) {
 	if(size>bigObj_size){//big object
+		if(older.getFreeSize()<size){
+			older_size*=older_ext0;
+			older.extend(older_size);
+		}
+		if(older.getMaxFree()<size){
+			doFullGC();
+		}
+		if(older.getMaxFree()<size){
+			compactOlder();
+		}
+
 		return older.pushObj(size);
+
 	}
 	if(size>eden.getFreeSize()){
 		doGC();
@@ -161,10 +173,10 @@ long MemHeap::cpyObj(long addr, MemBlock& block, MemBlock& next, MemOlder& older
 					older_size*=older_ext0;
 					older.extend(older_size);
 				}
-				if(older.getMaxFree()>tcl->getSize()){
+				if(older.getMaxFree()<tcl->getSize()){
 					doFullGC();
 				}
-				if(older.getMaxFree()>tcl->getSize()){
+				if(older.getMaxFree()<tcl->getSize()){
 					compactOlder();
 				}
 				newad=older.cpyObj(block.getAddrPtr(addr),tcl->getSize());//copy and mark table
@@ -235,6 +247,7 @@ int MemHeap::markObj(long addr1, long addr2){	//memset, marktable
 			long childad=((RRValue*)fetchObj(addr2+t1->getFldI2A(child)))->ptr_value;
 			markObj(addr2,childad);
 		}
+		markObjAs(addr2,3);
 	}else if(type->getTypeK()==tarray){
 		//
 	}else{
@@ -250,7 +263,7 @@ int  MemHeap::markObjAs(long addr,char c){
 		crt_svr->markObj(addr,c);
 		return 2;
 	}else if(addr<older.getAddrEnd()){
-		eden.markObj(addr,c);
+		older.markObj(addr,c);
 		return 3;
 	}
 	cerr<<"error illegal addr "<<addr<<endl;
@@ -300,6 +313,7 @@ long MemHeap::compactOlder(){
 			older.cpyObj(fetchObj(addr),type->getSize());
 		}
 	}
+	older.updateFreeList();
 }
 
 void MemHeap::setStcz(StaticZone* stcz) {
