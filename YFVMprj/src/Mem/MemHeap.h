@@ -28,6 +28,7 @@ public:
 	long mallocArray(long,long);
 	void setStcz(StaticZone* stcz);
 	void setStack(MemStack* stack);
+	int cpyMem(long,long);
 
 private:
 	StaticZone* stcz;

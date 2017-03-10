@@ -39,7 +39,7 @@ public:
 	int cpyMem(long,long);
 	int modifyObj(long,DatValue&);
 	int initObj(long);
-	long getSizeHp();
+	long getHpSize();
 private:
 	MemStack stack;//ebp: link for searching; -1: return adress; -2: last frame's ebp; 1: pars
 	MemHeap heap;

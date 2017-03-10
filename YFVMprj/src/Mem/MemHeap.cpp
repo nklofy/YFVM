@@ -270,6 +270,22 @@ int  MemHeap::markObjAs(long addr,char c){
 	return 0;
 }
 
+void MemHeap::setStack(MemStack* stack) {
+	this->stack=stack;
+}
+
+int MemHeap::cpyMem(long addr1, long addr2) {
+	void* ptr=fetchObj(addr1);
+	InstVar* var=(InstVar*)fetchObj(addr2);
+	memcpy(ptr,var,stcz->getTypeFromList(var->getType())->getSize());
+	return 0;
+}
+
+int MemHeap::zeroMemSet() {
+	this->mem_set.clear();
+	return 0;
+}
+
 long MemHeap::compactOlder(){
 	//set forward ptr, set ptr, mov obj
 	this->zeroMemSet();

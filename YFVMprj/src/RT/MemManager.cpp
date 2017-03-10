@@ -61,29 +61,37 @@ int MemManager::cpyStr(long longInt, string& allocator) {
 }*/
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-InstVar* MemManager::fetchObj(long longInt) {
+InstVar* MemManager::fetchObj(long addr) {
+	return (InstVar*)(this->heap.fetchObj(addr));
 }
 
-long MemManager::mallocObj(long longInt) {
+long MemManager::mallocObj(long size) {
+	return this->heap.mallocObj(size);
 }
 
-long MemManager::callocObj(long longInt, long longInt1) {
+long MemManager::callocObj(long size, long count) {
+
 }
 
-long MemManager::reallocObj(long longInt, long longInt1) {
+long MemManager::reallocObj(long size, long new_size) {
+
 }
 
-int MemManager::freeHObj(long longInt) {
+int MemManager::freeHObj(long addr) {
+	return 0;
 }
 
 
-int MemManager::cpyMem(long longInt, long longInt1) {
+int MemManager::cpyMem(long addr1, long addr2) {
+	return heap.cpyMem(addr1,addr2);
 }
 
-int MemManager::modifyObj(long longInt, DatValue&) {
+int MemManager::modifyObj(long addr, DatValue&) {
+	return 0;
 }
 
-int MemManager::initObj(long longInt) {
+int MemManager::initObj(long addr) {
+	return 0;
 }
 
 int MemManager::setStcz(StaticZone* stcz) {
@@ -91,5 +99,7 @@ int MemManager::setStcz(StaticZone* stcz) {
 	stack.setStcz(stcz);
 }
 
-long MemManager::getSizeHp() {
+long MemManager::getHpSize() {
+	return heap.eden_size+heap.svr_size+heap.older_size;
+
 }
